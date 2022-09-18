@@ -6,8 +6,8 @@ import math
 
 # proměnné ##################################################################################
 
-ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 600, 600
-RGB = R, G, B, = 0, 150, 55
+ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 800,800
+RGB = R, G, B, = 255, 0, 255
 
 
 # inicializace aplikace #####################################################################
