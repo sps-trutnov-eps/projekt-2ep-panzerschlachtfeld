@@ -14,6 +14,8 @@ x1 = ROZLISENI_X/2
 y1 = ROZLISENI_Y/2
 r1 = 12
 
+v_y = 0.078
+v_x = 0.078
 
 # inicializace aplikace #####################################################################
 
@@ -38,19 +40,24 @@ while True:
         sys.exit()
         
     #kolize
-    if x1 > ROZLISENI_X:
+    if x1 - r1 > ROZLISENI_X:
         x1 = r1
-    if y1 > ROZLISENI_Y:
+    if y1 - r1 > ROZLISENI_Y:
         y1 = r1
-    if x1 < 0:
+    if x1 + r1 < 0:
         x1 = ROZLISENI_X
-    if y1 < 0:
+    if y1 + r1< 0:
         y1 = ROZLISENI_Y
         
     #pohyb
-    x1 += 0.04
-    y1 += 0.02
-    
+    if stisknuto[pygame.K_UP]:
+        y1 -= v_y
+    if stisknuto[pygame.K_DOWN]:
+        y1 += v_y
+    if stisknuto[pygame.K_RIGHT]:
+        x1 += v_x
+    if stisknuto[pygame.K_LEFT]:
+        x1 -= v_x
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
