@@ -13,7 +13,7 @@ class zed(object):
     global mezery, mezery_y
     def __init__(self, pos):
         zdi.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], mezery , mezery_y +1 )
+        self.rect = pygame.Rect(pos[0], pos[1], mezery +1 , mezery_y +1 )
 
 zdi = []
 
@@ -35,26 +35,93 @@ level = [
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
+level1 = [
+"WWWWWWWWWWWWWWWWWWWW",
+"WH     W        W  W",
+"W        WWWWWWW   W",
+"W   WWWW       W   W",
+"W   W        WWWW  W",
+"W WWW  WWWW        W",
+"W   W     WWW N    W",
+"W   W      W  WWW WW",
+"W   WWW WWW   W W  W",
+"W     W   W   W W  W",
+"WWW   W   WWWWW W  W",
+"W W      WW        W",
+"W W   WWWW   WWW   W",
+"W     W N  W   W   W",
+"WWWWWWWWWWWWWWWWWWWW",
+]
+
+level2 = [
+"WWWWWWWWWWWWWWWWWWWWWWW",
+"WH     W        W   W W",
+"W        WWWWWWW      W",
+"W   WWWW       W      W",
+"W   W        WWWW     W",
+"W WWW  WWWW           W",   
+"W   W     WWW N       W",  
+"W   W      W  WWW W   W",
+"W   WWW WWW   W W     W",
+"W     W   W   W W     W",
+"WWW   W   WWWWW W     W",
+"W W      WW           W",
+"W W   WWWW   WWW    W W",
+"W     W N  W   W      W",
+"WWWWWWWWWWWWWWWWWWWWWWW",
+]
+
+vyber = level2
 
 # pro responzivitu s velikostí okna
-mezery = ROZLISENI_X/len(level[0])
-mezery_y = ROZLISENI_Y/len(level)
-RAD_HRACE = 20
+
 #vykreslování okna H=hrac N=nepřítel W=zed
 x = y = 0
-for radek in level:
-    for element in radek:
-        if element == "W":
-            zed((x, y))
-        if element == "H":
-            hrac1 = (x + mezery/2, y + mezery_y/2)
-        if element == "N":
-            hrac2 = (x + mezery/2, y + mezery_y/2)
-        x += mezery
-    y += mezery_y
-    x = 0
-
-
+if vyber == level:
+    mezery = ROZLISENI_X/len(level[0])
+    mezery_y = ROZLISENI_Y/len(level)
+    RAD_HRACE = 20
+    for radek in level:
+        for element in radek:
+            if element == "W":
+                zed((x, y))
+            if element == "H":
+                hrac1 = (x + mezery/2, y + mezery_y/2)
+            if element == "N":
+                hrac2 = (x + mezery/2, y + mezery_y/2)
+            x += mezery
+        y += mezery_y
+        x = 0
+if vyber == level1:
+    mezery = ROZLISENI_X/len(level1[0])
+    mezery_y = ROZLISENI_Y/len(level1)
+    RAD_HRACE = 20
+    for radek in level1:
+        for element in radek:
+            if element == "W":
+                zed((x, y))
+            if element == "H":
+                hrac1 = (x + mezery/2, y + mezery_y/2)
+            if element == "N":
+                hrac2 = (x + mezery/2, y + mezery_y/2)
+            x += mezery
+        y += mezery_y
+        x = 0
+if vyber == level2:
+    mezery = ROZLISENI_X/len(level2[0])
+    mezery_y = ROZLISENI_Y/len(level2)
+    RAD_HRACE = 20
+    for radek in level2:
+        for element in radek:
+            if element == "W":
+                zed((x, y))
+            if element == "H":
+                hrac1 = (x + mezery/2, y + mezery_y/2)
+            if element == "N":
+                hrac2 = (x + mezery/2, y + mezery_y/2)
+            x += mezery
+        y += mezery_y
+        x = 0
 #TĚLESA/TANKY
 v_y = 0.5
 v_x = 0.5
