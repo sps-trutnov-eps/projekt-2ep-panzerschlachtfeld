@@ -97,7 +97,7 @@ while True:
     
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
+    pygame.draw.circle(okno, (255, 8, 0), hrac2, RAD_HRACE)
     pygame.draw.circle(okno, (0, 200, 0), hrac1, RAD_HRACE)
-    pygame.draw.circle(okno, (0, 200, 0), hrac2, RAD_HRACE)
     pygame.display.flip()
         
