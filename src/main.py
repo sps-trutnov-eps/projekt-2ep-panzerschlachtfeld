@@ -7,7 +7,7 @@ import math
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1100,800
 RGB = R, G, B, = 255, 255, 255
 cerna = 0, 0, 0
-
+poloha = False
 #  ######################################################################################
 class zed(object):
     global mezery, mezery_y
@@ -19,7 +19,7 @@ zdi = []
 
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WH     W        W  W",
+"W H    W        W  W",
 "W        WWWWWWW   W",
 "W   WWWW       W   W",
 "W   W        WWWW  W",
@@ -37,19 +37,19 @@ level = [
 
 level1 = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WH     W        W  W",
+"WN     W        W  W",
 "W        WWWWWWW   W",
 "W   WWWW       W   W",
 "W   W        WWWW  W",
 "W WWW  WWWW        W",
-"W   W     WWW N    W",
+"W   W     WWW      W",
 "W   W      W  WWW WW",
 "W   WWW WWW   W W  W",
 "W     W   W   W W  W",
 "WWW   W   WWWWW W  W",
 "W W      WW        W",
 "W W   WWWW   WWW   W",
-"W     W N  W   W   W",
+"W     W H  W   W   W",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
@@ -60,7 +60,7 @@ level2 = [
 "W   WWWW       W      W",
 "W   W        WWWW     W",
 "W WWW  WWWW           W",   
-"W   W     WWW N       W",  
+"W   W     WWW         W",  
 "W   W      W  WWW W   W",
 "W   WWW WWW   W W     W",
 "W     W   W   W W     W",
@@ -71,7 +71,7 @@ level2 = [
 "WWWWWWWWWWWWWWWWWWWWWWW",
 ]
 
-vyber = level2
+vyber = level1
 
 # pro responzivitu s velikostí okna
 
@@ -86,9 +86,9 @@ if vyber == level:
             if element == "W":
                 zed((x, y))
             if element == "H":
-                hrac1 = (x + mezery/2, y + mezery_y/2)
+                hrac1 = [x + mezery/2, y + mezery_y/2]
             if element == "N":
-                hrac2 = (x + mezery/2, y + mezery_y/2)
+                hrac2 = [x + mezery/2, y + mezery_y/2]
             x += mezery
         y += mezery_y
         x = 0
@@ -101,9 +101,9 @@ if vyber == level1:
             if element == "W":
                 zed((x, y))
             if element == "H":
-                hrac1 = (x + mezery/2, y + mezery_y/2)
+                hrac1 = [x + mezery/2, y + mezery_y/2]
             if element == "N":
-                hrac2 = (x + mezery/2, y + mezery_y/2)
+                hrac2 = [x + mezery/2, y + mezery_y/2]
             x += mezery
         y += mezery_y
         x = 0
@@ -116,15 +116,19 @@ if vyber == level2:
             if element == "W":
                 zed((x, y))
             if element == "H":
-                hrac1 = (x + mezery/2, y + mezery_y/2)
+                hrac1 = [x + mezery/2, y + mezery_y/2]
             if element == "N":
-                hrac2 = (x + mezery/2, y + mezery_y/2)
+                hrac2 = [x + mezery/2, y + mezery_y/2]
             x += mezery
         y += mezery_y
         x = 0
-#TĚLESA/TANKY
+#TĚLESA/TANKY/proměnné
 v_y = 0.5
 v_x = 0.5
+if hrac1[0] < hrac2[0]:
+    poloha = True
+else:
+    poloha = False
 
 # inicializace aplikace #####################################################################
 
@@ -153,7 +157,40 @@ while True:
     
         
     #pohyb
-    
+    if poloha:
+        if stisknuto[pygame.K_UP]:
+            hrac2[1] -= 1
+        if stisknuto[pygame.K_DOWN]:
+            hrac2[1] += 1
+        if stisknuto[pygame.K_LEFT]:
+            hrac2[0] -= 1
+        if stisknuto[pygame.K_RIGHT]:
+            hrac2[0] += 1
+        if stisknuto[pygame.K_w]:
+            hrac1[1] -= 1
+        if stisknuto[pygame.K_s]:
+            hrac1[1] += 1
+        if stisknuto[pygame.K_a]:
+            hrac1[0] -= 1
+        if stisknuto[pygame.K_d]:
+            hrac1[0] += 1
+    else:
+        if stisknuto[pygame.K_UP]:
+            hrac1[1] -= 1
+        if stisknuto[pygame.K_DOWN]:
+            hrac1[1] += 1
+        if stisknuto[pygame.K_LEFT]:
+            hrac1[0] -= 1
+        if stisknuto[pygame.K_RIGHT]:
+            hrac1[0] += 1
+        if stisknuto[pygame.K_w]:
+            hrac2[1] -= 1
+        if stisknuto[pygame.K_s]:
+            hrac2[1] += 1
+        if stisknuto[pygame.K_a]:
+            hrac2[0] -= 1
+        if stisknuto[pygame.K_d]:
+            hrac2[0] += 1
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
