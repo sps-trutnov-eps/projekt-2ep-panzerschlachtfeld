@@ -2,34 +2,29 @@
 
 import pygame, sys
 import math
-from maps import level1
-from maps import level2
-
-
 # proměnné ##################################################################################
 
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1100,800
 RGB = R, G, B, = 255, 255, 255
 cerna = 0, 0, 0
 
-
 #  ######################################################################################
 class zed(object):
     global mezery, mezery_y
     def __init__(self, pos):
         zdi.append(self)
-        self.rect = pygame.Rect(pos[0], pos[1], mezery, mezery_y +1 )
+        self.rect = pygame.Rect(pos[0], pos[1], mezery , mezery_y +1 )
 
 zdi = []
 
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WH     W        W   W",
+"WH     W        W  W",
 "W        WWWWWWW   W",
 "W   WWWW       W   W",
 "W   W        WWWW  W",
 "W WWW  WWWW        W",
-"W   W     WWW      W",
+"W   W     WWW N    W",
 "W   W      W  WWW WW",
 "W   WWW WWW   W W  W",
 "W     W   W   W W  W",
@@ -39,6 +34,7 @@ level = [
 "W     W N  W   W   W",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
+
 
 # pro responzivitu s velikostí okna
 mezery = ROZLISENI_X/len(level[0])
@@ -59,7 +55,6 @@ for radek in level:
     x = 0
 
 
-VELIKOST_RASTRU = 100
 #TĚLESA/TANKY
 v_y = 0.5
 v_x = 0.5
@@ -96,16 +91,8 @@ while True:
     
     okno.fill(RGB)
     
-    #for ctverecek in level1:
-        #pygame.draw.rect(okno, cerna,((ctverecek[1]*VELIKOST_RASTRU,ctverecek[0]*VELIKOST_RASTRU), (100,100)))
-    
-    for ctverecek in level2:
-        pygame.draw.rect(okno, cerna,((ctverecek[1]*VELIKOST_RASTRU,ctverecek[0]*VELIKOST_RASTRU), (100,100)))
-    
-    
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
     pygame.draw.circle(okno, (255, 8, 0), hrac2, RAD_HRACE)
     pygame.draw.circle(okno, (0, 200, 0), hrac1, RAD_HRACE)
     pygame.display.flip()
-        
