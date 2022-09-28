@@ -2,7 +2,7 @@
 
 import pygame, sys
 import math
-
+from maps import level1 
 
 # proměnné ##################################################################################
 
@@ -64,7 +64,7 @@ while True:
     
     okno.fill(RGB)
     
-    for ctverecek in ctverecky:
+    for ctverecek in level1:
         pygame.draw.rect(okno, cerna,((ctverecek[1]*VELIKOST_RASTRU,ctverecek[0]*VELIKOST_RASTRU), (100,100)))
     
     pygame.draw.circle(okno, (205,8,0), (x1,y1), r1)
