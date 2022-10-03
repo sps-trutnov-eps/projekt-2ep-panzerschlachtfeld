@@ -4,11 +4,30 @@ import math
 # proměnné ##################################################################################
 
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1100,800
-RGB = R, G, B, = 255, 255, 255
+RGB = R, G, B, = 0, 0, 0
 poloha = False
 h = 30
 rychlost = 1
+menu = True
 #  ######################################################################################
+
+def menu():
+    global RGB, menu
+    while menu:
+        udalosti = pygame.event.get()
+        for u in udalosti:
+            if u.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        stisknuto = pygame.key.get_pressed()
+        if stisknuto[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+        
+        okno.fill(RGB)
+        
+        pygame.display.update()
+
 class player():
     
     def __init__(self, x, y , h):
@@ -180,7 +199,8 @@ while True:
         pygame.quit()
         sys.exit()    
         
-   #kolize
+   #menu a pod.
+    menu()
         
    #pohyb
     if poloha:
