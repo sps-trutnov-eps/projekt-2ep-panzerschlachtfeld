@@ -2,7 +2,7 @@
 import pygame, sys, math, random
 # proměnné ##################################################################################
 
-ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1100,800
+ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 255,255,255
 poloha = False
 h = 30
@@ -314,4 +314,6 @@ while True:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
+    clockobject = pygame.time.Clock()
+    clockobject.tick(100)
     pygame.display.update()
