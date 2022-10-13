@@ -107,16 +107,17 @@ level1 = [
 ]
 
 level2 = [
-"WWWWWWWWWWWWWWWWWWWW",
+"WWWWWWWWW NWWWWWWWWW",
 "W                  W",
+"W  WWW   WW   WWW  W",
+"W  W            W  W",
+"W     WWW  WWW     W",
+"WW  WWWW    WWWW  WW",
+"W     WWW  WWW     W",
+"W  W            W  W",
+"W  WWW   WW   WWW  W",
 "W                  W",
-"W                  W",
-"W                  W",
-"W     HN           W",
-"W                  W",
-"W                  W",
-"W                  W",
-"WWWWWWWWWWWWWWWWWWWW",
+"WWWWWWWWWH WWWWWWWWW",
 ]
 
 # pro responzivitu s velikostí okna
