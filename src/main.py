@@ -11,9 +11,9 @@ MENU = True
 Done = False
 bila = 255,255,255
 cerna = 0,0,0
-mapa1_pozadi = pygame.image.load("C:\Desktop\PVA\projekt-2ep-t02\doc\mapa-1.png")
-mapa2_pozadi = pygame.image.load("./doc/mapa-2.png")
-mapa3_pozadi = pygame.image.load("./doc/mapa-3.png") 
+mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
+mapa2_pozadi = pygame.image.load("..\doc\mapa-2.png")
+mapa3_pozadi = pygame.image.load("..\doc\mapa-3.png") 
 ##############################
 
 pygame.font.init()
@@ -240,6 +240,11 @@ while True:
         if aktivni_obrazovka == menu_vyberu:
             okno.blit(hl_nadpis2, hl_nadpis2Rect)
             okno.blit(nadpis_close, nadpis_closeRect)
+            
+            okno.blit(mapa1_pozadi, (155, 325))
+            okno.blit(mapa2_pozadi, (460, 325))
+            okno.blit(mapa3_pozadi, (766, 325))
+            
         
         ######vykreslovani
         if Done == True:
@@ -305,7 +310,6 @@ while True:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
-    okno.blit(mapa1_pozadi, (155, 325))
     clockobject = pygame.time.Clock()
     clockobject.tick(100)
     pygame.display.update()
