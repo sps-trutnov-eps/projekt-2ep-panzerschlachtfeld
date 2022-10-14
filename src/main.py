@@ -11,6 +11,9 @@ MENU = True
 Done = False
 bila = 255,255,255
 cerna = 0,0,0
+mapa1_pozadi = pygame.image.load("C:\Desktop\PVA\projekt-2ep-t02\doc\mapa-1.png")
+mapa2_pozadi = pygame.image.load("./doc/mapa-2.png")
+mapa3_pozadi = pygame.image.load("./doc/mapa-3.png") 
 ##############################
 
 pygame.font.init()
@@ -25,9 +28,10 @@ cl_hl2 = ((375, 440), (375, 100), (0,0,0), "text")
 cl_hl3 = ((375, 620), (375, 100), (0,0,0), "text")
 
 np2 = ((200, 40), (700,100), (0,0,0), "text" )
-cl_v1 = ((375, 180), (375, 100), (0,190,0), "text")
-cl_v2 = ((375, 360), (375, 100), (0,190,0), "text")
-cl_v3 = ((375, 540), (375, 100), (0,190,0), "text")
+cl_v1 = ((155, 325), (150, 150), (0,0,0), "text")
+cl_v2 = ((460, 325), (150, 150), (0,0,0), "text")
+cl_v3 = ((765, 325), (150, 150), (0,0
+                                  ,0), "text")
 
 cl_exit = ((925, 725), (150, 50), (0,0,0), "text")
 
@@ -301,6 +305,7 @@ while True:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
+    okno.blit(mapa1_pozadi, (155, 325))
     clockobject = pygame.time.Clock()
     clockobject.tick(100)
     pygame.display.update()
