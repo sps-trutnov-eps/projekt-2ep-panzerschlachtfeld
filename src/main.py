@@ -6,7 +6,7 @@ ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 255,255,255
 poloha = False
 h = 30
-rychlost = 1
+rychlost = 100
 MENU = True
 Done = False
 bila = 255,255,255
@@ -64,7 +64,16 @@ class player():
         # pohyb pro tank
         self.rect.x += dx
         self.rect.y += dy
-
+        
+        if self.rect.x + h > ROZLISENI_X:
+            self.rect.x = ROZLISENI_X - h
+        if self.rect.x < 0:
+            self.rect.x = 0
+        if self.rect.y + h > ROZLISENI_Y:
+            self.rect.y = ROZLISENI_Y - h
+        if self.rect.y < 0:
+            self.rect.y = 0
+            
         for zed in zdi:
             if self.rect.colliderect(zed.rect):
                 if dx > 0: 
@@ -270,38 +279,38 @@ while True:
    #pohyb
     if poloha:
         if stisknuto[pygame.K_UP]:
-            hrac2.pohyb(0,-rychlost)
+            hrac2.pohyb(0,-1)
         if stisknuto[pygame.K_DOWN]:
-            hrac2.pohyb(0, rychlost)
+            hrac2.pohyb(0, 1)
         if stisknuto[pygame.K_LEFT]:
-            hrac2.pohyb(-rychlost, 0)
+            hrac2.pohyb(-1, 0)
         if stisknuto[pygame.K_RIGHT]:
-            hrac2.pohyb(rychlost,0)
+            hrac2.pohyb(1,0)
         if stisknuto[pygame.K_w]:
-            hrac1.pohyb(0,-rychlost)
+            hrac1.pohyb(0,-1)
         if stisknuto[pygame.K_s]:
-            hrac1.pohyb(0,rychlost)
+            hrac1.pohyb(0,1)
         if stisknuto[pygame.K_a]:
-            hrac1.pohyb(-rychlost,0)
+            hrac1.pohyb(-1,0)
         if stisknuto[pygame.K_d]:
-            hrac1.pohyb(rychlost,0)
+            hrac1.pohyb(1,0)
     else:
         if stisknuto[pygame.K_UP]:
-            hrac1.pohyb(0,-rychlost)
+            hrac1.pohyb(0,-1)
         if stisknuto[pygame.K_DOWN]:
-            hrac1.pohyb(0, rychlost)
+            hrac1.pohyb(0, 1)
         if stisknuto[pygame.K_LEFT]:
-            hrac1.pohyb(-rychlost, 0)
+            hrac1.pohyb(-1, 0)
         if stisknuto[pygame.K_RIGHT]:
-            hrac1.pohyb(rychlost,0)
+            hrac1.pohyb(1,0)
         if stisknuto[pygame.K_w]:
-            hrac2.pohyb(0,-rychlost)
+            hrac2.pohyb(0,-1)
         if stisknuto[pygame.K_s]:
-            hrac2.pohyb(0,rychlost)
+            hrac2.pohyb(0,1)
         if stisknuto[pygame.K_a]:
-            hrac2.pohyb(-rychlost,0)
+            hrac2.pohyb(-1,0)
         if stisknuto[pygame.K_d]:
-            hrac2.pohyb(rychlost,0)
+            hrac2.pohyb(1,0)
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
@@ -311,5 +320,5 @@ while True:
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
     clockobject = pygame.time.Clock()
-    clockobject.tick(100)
+    clockobject.tick(rychlost)
     pygame.display.update()
