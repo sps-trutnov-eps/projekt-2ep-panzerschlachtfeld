@@ -30,16 +30,20 @@ cl_hl3 = ((375, 620), (375, 100), (0,0,0), "text")
 np2 = ((200, 40), (700,100), (0,0,0), "text" )
 cl_v1 = ((155, 325), (150, 150), (0,0,0), "text")
 cl_v2 = ((460, 325), (150, 150), (0,0,0), "text")
-cl_v3 = ((765, 325), (150, 150), (0,0
-                                  ,0), "text")
+cl_v3 = ((765, 325), (150, 150), (0,0,0), "text")
 
+np3 = ((200, 40), (700,100), (0,0,0), "text" )
+cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
+                                  
 cl_exit = ((925, 725), (150, 50), (0,0,0), "text")
 
-cl_close = ((25, 725), (150, 50), (0,0,0), "text")
+cl_close1 = ((25, 725), (150, 50), (0,0,0), "text")
+
 
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit)]
-menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close)]
+menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
+menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 190), "Panzerschlachtfeld",()]
 aktivni_obrazovka = hlavni_menu
 #  ######################################################################################   
@@ -184,6 +188,10 @@ while True:
             if cl_exit[0][0] < pygame.mouse.get_pos()[0] < (cl_exit[0][0] + cl_exit[1][0]) and cl_exit[0][1] < pygame.mouse.get_pos()[1] < (cl_exit[0][1] + cl_exit[1][1]) and pygame.mouse.get_pressed()[0] and aktivni_obrazovka == hlavni_menu:
                 pygame.quit()
                 sys.exit()
+            
+            if cl_hl3[0][0] < pygame.mouse.get_pos()[0] < (cl_hl3[0][0] + cl_hl3[1][0]) and cl_hl3[0][1] < pygame.mouse.get_pos()[1] < (cl_hl3[0][1] + cl_hl3[1][1]) and pygame.mouse.get_pressed()[0] and aktivni_obrazovka == hlavni_menu:
+                aktivni_obrazovka = menu_CREDITS
+            
                 
         if aktivni_obrazovka == menu_vyberu:
             if cl_v1[0][0] < pygame.mouse.get_pos()[0] < (cl_v1[0][0] + cl_v1[1][0]) and cl_v1[0][1] < pygame.mouse.get_pos()[1] < (cl_v1[0][1] + cl_v1[1][1]) and pygame.mouse.get_pressed()[0]:
@@ -198,8 +206,13 @@ while True:
                 vyber = levely[2]
                 Done = True
                 MENU = False
-            if cl_close[0][0] < pygame.mouse.get_pos()[0] < (cl_close[0][0] + cl_close[1][0]) and cl_close[0][1] < pygame.mouse.get_pos()[1] < (cl_close[0][1] + cl_close[1][1]) and pygame.mouse.get_pressed()[0]:  
+            if cl_close1[0][0] < pygame.mouse.get_pos()[0] < (cl_close1[0][0] + cl_close1[1][0]) and cl_close1[0][1] < pygame.mouse.get_pos()[1] < (cl_close1[0][1] + cl_close1[1][1]) and pygame.mouse.get_pressed()[0]:  
                 aktivni_obrazovka = hlavni_menu
+        
+        if aktivni_obrazovka == menu_CREDITS:
+            if cl_close2[0][0] < pygame.mouse.get_pos()[0] < (cl_close2[0][0] + cl_close2[1][0]) and cl_close2[0][1] < pygame.mouse.get_pos()[1] < (cl_close2[0][1] + cl_close2[1][1]) and pygame.mouse.get_pressed()[0]:  
+                aktivni_obrazovka = hlavni_menu
+                   
                 
         if aktivni_obrazovka == hlavni_menu:
             hl_nadpis1 = typ_pisma.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
@@ -230,9 +243,20 @@ while True:
             hl_nadpis2Rect = hl_nadpis2.get_rect()
             hl_nadpis2Rect.center = (550, 88)
             
-            nadpis_close = typ_pisma.render('CLOSE', True, bila, cerna)
-            nadpis_closeRect = nadpis_close.get_rect()
-            nadpis_closeRect.center = (100, 750)
+            nadpis_close1 = typ_pisma.render('CLOSE', True, bila, cerna)
+            nadpis_close1Rect = nadpis_close1.get_rect()
+            nadpis_close1Rect.center = (100, 750)
+        
+        if aktivni_obrazovka == menu_CREDITS:
+            hl_nadpis3 = typ_pisma.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
+            hl_nadpis3Rect = hl_nadpis3.get_rect()
+            hl_nadpis3Rect.center = (550, 88)
+            
+            nadpis_close2 = typ_pisma.render('CLOSE', True, bila, cerna)
+            nadpis_close2Rect = nadpis_close2.get_rect()
+            nadpis_close2Rect.center = (100, 750)
+            
+            
             
             
 
@@ -248,11 +272,15 @@ while True:
             
         if aktivni_obrazovka == menu_vyberu:
             okno.blit(hl_nadpis2, hl_nadpis2Rect)
-            okno.blit(nadpis_close, nadpis_closeRect)
+            okno.blit(nadpis_close1, nadpis_close1Rect)
             
             okno.blit(mapa1_pozadi, (155, 325))
             okno.blit(mapa2_pozadi, (460, 325))
             okno.blit(mapa3_pozadi, (766, 325))
+            
+        if aktivni_obrazovka == menu_CREDITS:
+            okno.blit(hl_nadpis3, hl_nadpis3Rect)
+            okno.blit(nadpis_close2, nadpis_close2Rect)
             
         
         ######vykreslovani
