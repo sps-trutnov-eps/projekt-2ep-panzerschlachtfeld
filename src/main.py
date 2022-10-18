@@ -39,12 +39,14 @@ cl_exit = ((925, 725), (150, 50), (0,0,0), "text")
 
 cl_close1 = ((25, 725), (150, 50), (0,0,0), "text")
 
+cl_pin = ((460, 325), (150, 50), (0,0,0), "text")
+
 
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
-pause_menu = [(190, 190, 190), "Panzerschlachtfeld",()]
+pause_menu = [(190, 190, 190), "Panzerschlachtfeld",(np3, cl_exit, cl_pin)]
 aktivni_obrazovka = hlavni_menu
 #  ######################################################################################   
 
@@ -146,7 +148,7 @@ pygame.init()
 pygame.display.set_caption('Panzerschlachtfeld im Labyrinth')
 okno = pygame.display.set_mode(ROZLISENI_OKNA)
 
-
+ingame_menu = False
 while True:
     
 # ovladani aplikace ########################################################################
@@ -255,10 +257,6 @@ while True:
             nadpis_close2 = typ_pisma.render('CLOSE', True, bila, cerna)
             nadpis_close2Rect = nadpis_close2.get_rect()
             nadpis_close2Rect.center = (100, 750)
-            
-            
-            
-            
 
             
     ############################################################################################################################################################################################################   
@@ -302,7 +300,8 @@ while True:
             if hrac1.x < hrac2.x: 
                 poloha = True 
             else: 
-                poloha = False      
+                poloha = False
+            
         pygame.display.update()
    #pohyb
     if poloha:
@@ -339,12 +338,26 @@ while True:
             hrac2.pohyb(-1,0)
         if stisknuto[pygame.K_d]:
             hrac2.pohyb(1,0)
+            
+    #ingame pauza
+     
+        
+        
+        
+        
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
     
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
+        
+    if stisknuto[pygame.K_p] and not ingame_menu:
+        ingame_menu = True
+            
+    if ingame_menu == True:
+        pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
+            
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
     clockobject = pygame.time.Clock()
