@@ -9,7 +9,11 @@ rychlost = 100
 poloha = False
 MENU = True
 Done = False
-ingame_menu = False
+in_game_menu = False
+hra_bezi = True
+p_zmacknuto_pred_tim = False
+#p_zmacknuto = stisknuto[pygame.K_p]
+#p_nezmacknuto = p_zmacknuto
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -259,7 +263,7 @@ while True:
             nadpis_close2Rect.center = (100, 750)
 
             
-    ############################################################################################################################################################################################################   
+    ###############vykreslovani########################################################################################################################################################################   
         
         if aktivni_obrazovka == hlavni_menu:
             okno.blit(nadpis_exit, nadpis_exitRect)
@@ -280,8 +284,6 @@ while True:
             okno.blit(hl_nadpis3, hl_nadpis3Rect)
             okno.blit(nadpis_close2, nadpis_close2Rect)
             
-        
-        ######vykreslovani
         if Done == True:
             mezery = ROZLISENI_X/len(vyber[0])
             mezery_y = ROZLISENI_Y/len(vyber)
@@ -303,7 +305,9 @@ while True:
                 poloha = False
             
         pygame.display.update()
+
    #pohyb
+    stisknuto = pygame.key.get_pressed()
     if poloha:
         if stisknuto[pygame.K_UP]:
             hrac2.pohyb(0,-1)
@@ -339,24 +343,26 @@ while True:
         if stisknuto[pygame.K_d]:
             hrac2.pohyb(1,0)
             
-    #ingame pauza
-     
+    p_zmacknuto_ted = stisknuto[pygame.K_p]
+            
+    #herní logika
+    if p_zmacknuto_pred_tim !=  p_zmacknuto_ted:
+        if p_zmacknuto_ted:
+            in_game_menu = not in_game_menu
         
-        
-        
-        
+            
+    print(p_zmacknuto_ted)
+    p_zmacknuto_pred_tim = p_zmacknuto_ted 
+
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
     
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
-        
-    if stisknuto[pygame.K_p] and not ingame_menu:
-        ingame_menu = True
-
-    if ingame_menu == True:
+    if in_game_menu == True:
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
+        
 
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
