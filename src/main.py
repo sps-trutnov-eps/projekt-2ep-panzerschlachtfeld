@@ -4,11 +4,12 @@ import pygame, sys, math, random
 
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 255,255,255
-poloha = False
 h = 30
 rychlost = 100
+poloha = False
 MENU = True
 Done = False
+ingame_menu = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -28,9 +29,9 @@ cl_hl2 = ((375, 440), (375, 100), (0,0,0), "text")
 cl_hl3 = ((375, 620), (375, 100), (0,0,0), "text")
 
 np2 = ((200, 40), (700,100), (0,0,0), "text" )
-cl_v1 = ((155, 325), (150, 150), (0,0,0), "text")
-cl_v2 = ((460, 325), (150, 150), (0,0,0), "text")
-cl_v3 = ((765, 325), (150, 150), (0,0,0), "text")
+cl_v1 = ((155, 350), (150, 150), (0,0,0), "text")
+cl_v2 = ((460, 350), (150, 150), (0,0,0), "text")
+cl_v3 = ((765, 350), (150, 150), (0,0,0), "text")
 
 np3 = ((200, 40), (700,100), (0,0,0), "text" )
 cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
@@ -148,7 +149,6 @@ pygame.init()
 pygame.display.set_caption('Panzerschlachtfeld im Labyrinth')
 okno = pygame.display.set_mode(ROZLISENI_OKNA)
 
-ingame_menu = False
 while True:
     
 # ovladani aplikace ########################################################################
@@ -272,9 +272,9 @@ while True:
             okno.blit(hl_nadpis2, hl_nadpis2Rect)
             okno.blit(nadpis_close1, nadpis_close1Rect)
             
-            okno.blit(mapa1_pozadi, (155, 325))
-            okno.blit(mapa2_pozadi, (460, 325))
-            okno.blit(mapa3_pozadi, (766, 325))
+            okno.blit(mapa1_pozadi, (155, 350))
+            okno.blit(mapa2_pozadi, (460, 350))
+            okno.blit(mapa3_pozadi, (766, 350))
             
         if aktivni_obrazovka == menu_CREDITS:
             okno.blit(hl_nadpis3, hl_nadpis3Rect)
@@ -354,10 +354,10 @@ while True:
         
     if stisknuto[pygame.K_p] and not ingame_menu:
         ingame_menu = True
-            
+
     if ingame_menu == True:
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
-            
+
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
     clockobject = pygame.time.Clock()
