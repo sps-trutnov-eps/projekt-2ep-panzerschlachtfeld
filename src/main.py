@@ -12,6 +12,7 @@ Done = False
 in_game_menu = False
 hra_bezi = True
 p_zmacknuto_pred_tim = False
+pohyb_tanku = True
 #p_zmacknuto = stisknuto[pygame.K_p]
 #p_nezmacknuto = p_zmacknuto
 bila = 255,255,255
@@ -153,7 +154,7 @@ pygame.init()
 pygame.display.set_caption('Panzerschlachtfeld im Labyrinth')
 okno = pygame.display.set_mode(ROZLISENI_OKNA)
 
-while True:
+while hra_bezi:
     
 # ovladani aplikace ########################################################################
     
@@ -165,7 +166,8 @@ while True:
     stisknuto = pygame.key.get_pressed()
     if stisknuto[pygame.K_ESCAPE]:
         pygame.quit()
-        sys.exit()    
+        sys.exit()
+        
         
    #menu a pod.
     while MENU:
@@ -308,50 +310,55 @@ while True:
 
    #pohyb
     stisknuto = pygame.key.get_pressed()
-    if poloha:
-        if stisknuto[pygame.K_UP]:
-            hrac2.pohyb(0,-1)
-        if stisknuto[pygame.K_DOWN]:
-            hrac2.pohyb(0, 1)
-        if stisknuto[pygame.K_LEFT]:
-            hrac2.pohyb(-1, 0)
-        if stisknuto[pygame.K_RIGHT]:
-            hrac2.pohyb(1,0)
-        if stisknuto[pygame.K_w]:
-            hrac1.pohyb(0,-1)
-        if stisknuto[pygame.K_s]:
-            hrac1.pohyb(0,1)
-        if stisknuto[pygame.K_a]:
-            hrac1.pohyb(-1,0)
-        if stisknuto[pygame.K_d]:
-            hrac1.pohyb(1,0)
-    else:
-        if stisknuto[pygame.K_UP]:
-            hrac1.pohyb(0,-1)
-        if stisknuto[pygame.K_DOWN]:
-            hrac1.pohyb(0, 1)
-        if stisknuto[pygame.K_LEFT]:
-            hrac1.pohyb(-1, 0)
-        if stisknuto[pygame.K_RIGHT]:
-            hrac1.pohyb(1,0)
-        if stisknuto[pygame.K_w]:
-            hrac2.pohyb(0,-1)
-        if stisknuto[pygame.K_s]:
-            hrac2.pohyb(0,1)
-        if stisknuto[pygame.K_a]:
-            hrac2.pohyb(-1,0)
-        if stisknuto[pygame.K_d]:
-            hrac2.pohyb(1,0)
+    if pohyb_tanku:
+        if poloha:
+            if stisknuto[pygame.K_UP]:
+                hrac2.pohyb(0,-1)
+            if stisknuto[pygame.K_DOWN]:
+                hrac2.pohyb(0, 1)
+            if stisknuto[pygame.K_LEFT]:
+                hrac2.pohyb(-1, 0)
+            if stisknuto[pygame.K_RIGHT]:
+                hrac2.pohyb(1,0)
+            if stisknuto[pygame.K_w]:
+                hrac1.pohyb(0,-1)
+            if stisknuto[pygame.K_s]:
+                hrac1.pohyb(0,1)
+            if stisknuto[pygame.K_a]:
+                hrac1.pohyb(-1,0)
+            if stisknuto[pygame.K_d]:
+                hrac1.pohyb(1,0)
+        else:
+            if stisknuto[pygame.K_UP]:
+                hrac1.pohyb(0,-1)
+            if stisknuto[pygame.K_DOWN]:
+                hrac1.pohyb(0, 1)
+            if stisknuto[pygame.K_LEFT]:
+                hrac1.pohyb(-1, 0)
+            if stisknuto[pygame.K_RIGHT]:
+                hrac1.pohyb(1,0)
+            if stisknuto[pygame.K_w]:
+                hrac2.pohyb(0,-1)
+            if stisknuto[pygame.K_s]:
+                hrac2.pohyb(0,1)
+            if stisknuto[pygame.K_a]:
+                hrac2.pohyb(-1,0)
+            if stisknuto[pygame.K_d]:
+                hrac2.pohyb(1,0)
             
     p_zmacknuto_ted = stisknuto[pygame.K_p]
             
     #herní logika
+    if in_game_menu == False:
+        pohyb_tanku = True 
+    else:
+        pohyb_tanku = False
+    
     if p_zmacknuto_pred_tim !=  p_zmacknuto_ted:
         if p_zmacknuto_ted:
             in_game_menu = not in_game_menu
-        
-            
-    print(p_zmacknuto_ted)
+       
+
     p_zmacknuto_pred_tim = p_zmacknuto_ted 
 
 # vykreslovani ##############################################################################
