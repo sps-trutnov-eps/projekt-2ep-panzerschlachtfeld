@@ -28,31 +28,36 @@ typ_pisma = pygame.font.Font('freesansbold.ttf', 25)
 
 
 # cudliky
+#hlavní menu
 np1 = ((200,80), (700,100), (0,0,0), "text" )
 cl_hl1 = ((375, 260), (375, 100), (0,0,0), "text")
 cl_hl2 = ((375, 440), (375, 100), (0,0,0), "text")
 cl_hl3 = ((375, 620), (375, 100), (0,0,0), "text")
+cl_exit1 = ((925, 725), (150, 50), (0,0,0), "text")
 
+#menu výběru
 np2 = ((200, 40), (700,100), (0,0,0), "text" )
+cl_close1 = ((25, 725), (150, 50), (0,0,0), "text")
 cl_v1 = ((155, 350), (150, 150), (0,0,0), "text")
 cl_v2 = ((460, 350), (150, 150), (0,0,0), "text")
 cl_v3 = ((765, 350), (150, 150), (0,0,0), "text")
 
+#menu credits
 np3 = ((200, 40), (700,100), (0,0,0), "text" )
 cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
-                                  
-cl_exit = ((925, 725), (150, 50), (0,0,0), "text")
-
-cl_close1 = ((25, 725), (150, 50), (0,0,0), "text")
-
+ 
+#ingame menu
+np4 = ((200, 40), (700,100), (0,0,0), "text" )
+cl_exit2 = ((300, 100), (150, 50), (0,0,0), "text")
+cl_close3 = ((25, 725), (150, 50), (0,0,0), "text")
 cl_pin = ((460, 325), (150, 50), (0,0,0), "text")
 
 
 # obrazovky menu
-hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit)]
+hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
-pause_menu = [(190, 190, 190), "Panzerschlachtfeld",(np3, cl_exit, cl_pin)]
+pause_menu = [(190, 190, 0), "Panzerschlachtfeld",(np3, cl_exit2, cl_pin, cl_close3)]
 aktivni_obrazovka = hlavni_menu
 #  ######################################################################################   
 
@@ -193,7 +198,7 @@ while hra_bezi:
                 vyber = random.choice(levely)
                 Done = True
                 MENU = False
-            if cl_exit[0][0] < pygame.mouse.get_pos()[0] < (cl_exit[0][0] + cl_exit[1][0]) and cl_exit[0][1] < pygame.mouse.get_pos()[1] < (cl_exit[0][1] + cl_exit[1][1]) and pygame.mouse.get_pressed()[0] and aktivni_obrazovka == hlavni_menu:
+            if cl_exit1[0][0] < pygame.mouse.get_pos()[0] < (cl_exit1[0][0] + cl_exit1[1][0]) and cl_exit1[0][1] < pygame.mouse.get_pos()[1] < (cl_exit1[0][1] + cl_exit1[1][1]) and pygame.mouse.get_pressed()[0] and aktivni_obrazovka == hlavni_menu:
                 pygame.quit()
                 sys.exit()
             
@@ -305,7 +310,13 @@ while hra_bezi:
                 poloha = True 
             else: 
                 poloha = False
-            
+############ 
+        
+        while in_game_menu == True:
+            okno.fill(pause_menu[0])
+            for cudliky in pause_menu[2]:
+                pygame.draw.rect(okno,cudlik[2], (cudlik[0], cudlik[1]))
+    
         pygame.display.update()
 
    #pohyb
@@ -359,14 +370,15 @@ while hra_bezi:
             in_game_menu = not in_game_menu
        
 
-    p_zmacknuto_pred_tim = p_zmacknuto_ted 
-
+    p_zmacknuto_pred_tim = p_zmacknuto_ted
+          
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
     
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
+        
     if in_game_menu == True:
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
         
