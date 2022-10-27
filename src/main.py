@@ -61,27 +61,31 @@ pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_cl
 aktivni_obrazovka = hlavni_menu
 #  ######################################################################################   
 
-class player():
+class player(pygame.sprite.Sprite):
     
     def __init__(self, x, y , h):
+        pygame.sprite.Sprite.__init__(self)
         self.rect = pygame.Rect(x, y, h ,h )
-        self.x = x
-        self.y = y
+        self.rychlost1 = 0 
+        self.rychlost2 = 0
+        self.pohyb = 1
         
-    def pohyb(self, x, y):
-        self.x = x
-        self.y = y
-        if x != 0:
-            self.pohyb_kolize(self.x, 0)
-        if y != 0:
-            self.pohyb_kolize(0, self.y)
-    
-    def pohyb_kolize(self, dx, dy):
+    def update(self):
+        self.rychlost1 = 0
+        self.rychlost2 = 0
+       
+        ##pohyb
+        if stisknuto[pygame.K_UP]:
+            self.rychlost1 += -self.pohyb
+        if stisknuto[pygame.K_DOWN]:
+            self.rychlost1 += self.pohyb
         
-        # pohyb pro tank
-        self.rect.x += dx
-        self.rect.y += dy
+        if stisknuto[pygame.K_w]:
+            self.rychlost2 += -self.pohyb
+        if stisknuto[pygame.K_s]:
+            self.rychlost2 += self.pohyb
         
+        #kolize
         if self.rect.x + h > ROZLISENI_X:
             self.rect.x = ROZLISENI_X - h
         if self.rect.x < 0:
@@ -90,17 +94,49 @@ class player():
             self.rect.y = ROZLISENI_Y - h
         if self.rect.y < 0:
             self.rect.y = 0
-            
+        
+        if pohyb_tanku:
+            if poloha:
+                hrac1.rect.y += hrac1.rychlost1
+                hrac2.rect.y += hrac2.rychlost2
+            else:
+                hrac1.rect.y += hrac1.rychlost2
+                hrac2.rect.y += hrac2.rychlost1
+        else:
+            pass
+        
         for zed in zdi:
-            if self.rect.colliderect(zed.rect):
-                if dx > 0: 
-                    self.rect.right = zed.rect.left
-                if dx < 0:
-                    self.rect.left = zed.rect.right
-                if dy > 0:
-                    self.rect.bottom = zed.rect.top
-                if dy < 0:
-                    self.rect.top = zed.rect.bottom
+            if pygame.Rect.colliderect(hrac1.rect, zed.rect):
+                if poloha:
+                    if self.rychlost1 > 0:
+                        hrac1.rect.bottom = zed.rect.top
+                        self.rychlost1 = 0 
+                    if self.rychlost1 < 0:    
+                        hrac1.rect.top = zed.rect.bottom
+                        self.rychlost1 = 0 
+                else:
+                    if self.rychlost2 > 0:
+                        hrac1.rect.bottom = zed.rect.top
+                        self.rychlost2 = 0 
+                    if self.rychlost2 < 0:    
+                        hrac1.rect.top = zed.rect.bottom
+                        self.rychlost2 = 0
+           
+            if pygame.Rect.colliderect(hrac2.rect, zed.rect):
+                if poloha == False:
+                    if self.rychlost1 > 0:
+                        hrac2.rect.bottom = zed.rect.top
+                        self.rychlost1 = 0 
+                    if self.rychlost1 < 0:    
+                        hrac2.rect.top = zed.rect.bottom
+                        self.rychlost1 = 0 
+                else:
+                    if self.rychlost2 > 0:
+                        hrac2.rect.bottom = zed.rect.top
+                        self.rychlost2 = 0 
+                    if self.rychlost2 < 0:    
+                        hrac2.rect.top = zed.rect.bottom
+                        self.rychlost2 = 0
 
 class zed(object):
     
@@ -158,6 +194,7 @@ pygame.init()
 
 pygame.display.set_caption('Panzerschlachtfeld im Labyrinth')
 okno = pygame.display.set_mode(ROZLISENI_OKNA)
+sprites = pygame.sprite.Group()
 
 while hra_bezi:
     
@@ -307,52 +344,17 @@ while hra_bezi:
                     x += mezery
                 y += mezery_y
                 x = 0
-            if hrac1.x < hrac2.x: 
+            if hrac1.rect.y < hrac2.rect.y: 
                 poloha = True 
             else: 
                 poloha = False
+            sprites.add(hrac1,hrac2)
         pygame.display.update()
         
 ############ 
 
 
    #pohyb
-    stisknuto = pygame.key.get_pressed()
-    if pohyb_tanku:
-        if poloha:
-            if stisknuto[pygame.K_UP]:
-                hrac2.pohyb(0,-1)
-            if stisknuto[pygame.K_DOWN]:
-                hrac2.pohyb(0, 1)
-            if stisknuto[pygame.K_LEFT]:
-                hrac2.pohyb(-1, 0)
-            if stisknuto[pygame.K_RIGHT]:
-                hrac2.pohyb(1,0)
-            if stisknuto[pygame.K_w]:
-                hrac1.pohyb(0,-1)
-            if stisknuto[pygame.K_s]:
-                hrac1.pohyb(0,1)
-            if stisknuto[pygame.K_a]:
-                hrac1.pohyb(-1,0)
-            if stisknuto[pygame.K_d]:
-                hrac1.pohyb(1,0)
-        else:
-            if stisknuto[pygame.K_UP]:
-                hrac1.pohyb(0,-1)
-            if stisknuto[pygame.K_DOWN]:
-                hrac1.pohyb(0, 1)
-            if stisknuto[pygame.K_LEFT]:
-                hrac1.pohyb(-1, 0)
-            if stisknuto[pygame.K_RIGHT]:
-                hrac1.pohyb(1,0)
-            if stisknuto[pygame.K_w]:
-                hrac2.pohyb(0,-1)
-            if stisknuto[pygame.K_s]:
-                hrac2.pohyb(0,1)
-            if stisknuto[pygame.K_a]:
-                hrac2.pohyb(-1,0)
-            if stisknuto[pygame.K_d]:
-                hrac2.pohyb(1,0)
             
     p_zmacknuto_ted = stisknuto[pygame.K_p]
             
@@ -372,10 +374,9 @@ while hra_bezi:
 # vykreslovani ##############################################################################
     
     okno.fill(RGB)
-    
+    sprites.update()
     for zed in zdi:
-        pygame.draw.rect(okno, (0, 0, 0), zed.rect)
-        
+        pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
     
