@@ -47,10 +47,10 @@ np3 = ((200, 40), (700,100), (0,0,0), "text" )
 cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
  
 #ingame menu
-np4 = ((365, 175), (400,75), (100,0,0), "text" )
-cl_exit2 = ((492, 420), (150, 50), (100,0,0), "text")
-cl_close3 = ((340, 580), (150, 50), (100,0,0), "text")
-cl_pin = ((492, 325), (150, 50), (100,0,0), "text")
+np4 = ((365, 175), (400,75), (0,0,0), "text" )
+cl_exit2 = ((492, 420), (150, 50), (0,0,0), "text")
+cl_close3 = ((340, 580), (150, 50), (0,0,0), "text")
+cl_pin = ((492, 325), (150, 50), (0,0,0), "text")
 
 
 # obrazovky menu
@@ -314,10 +314,7 @@ while hra_bezi:
         pygame.display.update()
         
 ############ 
-        
-        
-        
-        
+
 
    #pohyb
     stisknuto = pygame.key.get_pressed()
@@ -379,15 +376,16 @@ while hra_bezi:
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)
         
+    pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
+    pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
+    
     if in_game_menu == True:
+        pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
         
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
-        
-
-    pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
-    pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
+            
     clockobject = pygame.time.Clock()
     clockobject.tick(rychlost)
     pygame.display.update()
