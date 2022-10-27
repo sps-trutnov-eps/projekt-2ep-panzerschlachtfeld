@@ -47,17 +47,17 @@ np3 = ((200, 40), (700,100), (0,0,0), "text" )
 cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
  
 #ingame menu
-np4 = ((200, 40), (700,100), (0,0,0), "text" )
-cl_exit2 = ((300, 100), (150, 50), (0,0,0), "text")
-cl_close3 = ((25, 725), (150, 50), (0,0,0), "text")
-cl_pin = ((460, 325), (150, 50), (0,0,0), "text")
+np4 = ((365, 175), (400,75), (100,0,0), "text" )
+cl_exit2 = ((492, 420), (150, 50), (100,0,0), "text")
+cl_close3 = ((340, 580), (150, 50), (100,0,0), "text")
+cl_pin = ((492, 325), (150, 50), (100,0,0), "text")
 
 
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
-pause_menu = [(190, 190, 0), "Panzerschlachtfeld",(np3, cl_exit2, cl_pin, cl_close3)]
+pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
 aktivni_obrazovka = hlavni_menu
 #  ######################################################################################   
 
@@ -161,6 +161,7 @@ okno = pygame.display.set_mode(ROZLISENI_OKNA)
 
 while hra_bezi:
     
+    
 # ovladani aplikace ########################################################################
     
     udalosti = pygame.event.get()
@@ -188,7 +189,7 @@ while hra_bezi:
         
         okno.fill(aktivni_obrazovka[0])
         for cudlik in aktivni_obrazovka[2]:
-            pygame.draw.rect(okno,cudlik[2], (cudlik[0], cudlik[1]))
+            pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
         
         if aktivni_obrazovka == hlavni_menu:
             if cl_hl1[0][0] < pygame.mouse.get_pos()[0] < (cl_hl1[0][0] + cl_hl1[1][0]) and cl_hl1[0][1] < pygame.mouse.get_pos()[1] < (cl_hl1[0][1] + cl_hl1[1][1]) and pygame.mouse.get_pressed()[0]:
@@ -310,14 +311,13 @@ while hra_bezi:
                 poloha = True 
             else: 
                 poloha = False
+        pygame.display.update()
+        
 ############ 
         
-        while in_game_menu == True:
-            okno.fill(pause_menu[0])
-            for cudliky in pause_menu[2]:
-                pygame.draw.rect(okno,cudlik[2], (cudlik[0], cudlik[1]))
-    
-        pygame.display.update()
+        
+        
+        
 
    #pohyb
     stisknuto = pygame.key.get_pressed()
@@ -381,6 +381,9 @@ while hra_bezi:
         
     if in_game_menu == True:
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
+        
+        for cudlik in pause_menu[2]:
+            pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
         
 
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
