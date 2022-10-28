@@ -379,14 +379,28 @@ while hra_bezi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
-    
-    if in_game_menu == True:
-        pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
-        pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
-        
-        for cudlik in pause_menu[2]:
-            pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+
+# cudliky v pause menu
+    while True:
+        if in_game_menu == True:
+            pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
+            pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
             
+            for cudlik in pause_menu[2]:
+                pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+            
+            if aktivni_obrazovka == pause_menu:
+                if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
+                    pygame.quit()
+                    sys.exit()
+                    
+                if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+                    aktivni_obrazovka = hlavni_menu 
+                  
+                if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
+                    pass
+        
+        
     clockobject = pygame.time.Clock()
     clockobject.tick(rychlost)
     pygame.display.update()
