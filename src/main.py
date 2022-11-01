@@ -13,8 +13,6 @@ in_game_menu = False
 hra_bezi = True
 p_zmacknuto_pred_tim = False
 pohyb_tanku = True
-#p_zmacknuto = stisknuto[pygame.K_p]
-#p_nezmacknuto = p_zmacknuto
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -197,8 +195,7 @@ okno = pygame.display.set_mode(ROZLISENI_OKNA)
 sprites = pygame.sprite.Group()
 
 while hra_bezi:
-    
-    
+
 # ovladani aplikace ########################################################################
     
     udalosti = pygame.event.get()
@@ -351,14 +348,10 @@ while hra_bezi:
             sprites.add(hrac1,hrac2)
         pygame.display.update()
         
-############ 
-
-
-   #pohyb
-            
-    p_zmacknuto_ted = stisknuto[pygame.K_p]
-            
     #herní logika
+        
+    p_zmacknuto_ted = stisknuto[pygame.K_p]   
+
     if in_game_menu == False:
         pohyb_tanku = True 
     else:
@@ -366,9 +359,8 @@ while hra_bezi:
     
     if p_zmacknuto_pred_tim !=  p_zmacknuto_ted:
         if p_zmacknuto_ted:
-            in_game_menu = not in_game_menu
-       
-
+            in_game_menu = not in_game_menu  
+    
     p_zmacknuto_pred_tim = p_zmacknuto_ted
           
 # vykreslovani ##############################################################################
@@ -381,6 +373,7 @@ while hra_bezi:
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
 
 # cudliky v pause menu
+
     if in_game_menu == True:
         pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
@@ -388,16 +381,16 @@ while hra_bezi:
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
         
-        if aktivni_obrazovka == pause_menu:
-            if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
-                pygame.quit()
-                sys.exit()
-                
-            if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
-                aktivni_obrazovka = hlavni_menu 
-              
-            if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
-                pass
+        if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
+            pygame.quit()
+            sys.exit()
+            
+        if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+            aktivni_obrazovka == hlavni_menu
+            print(aktivni_obrazovka)
+          
+        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
+            print("ahoj")
         
         
     clockobject = pygame.time.Clock()
