@@ -385,9 +385,10 @@ while hra_bezi:
             pygame.quit()
             sys.exit()
             
+        aktivni_obrazovka == pause_menu    
         if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
             aktivni_obrazovka == hlavni_menu
-            print(aktivni_obrazovka)
+           
           
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
             print("ahoj")
