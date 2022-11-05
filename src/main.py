@@ -133,7 +133,7 @@ class player(pygame.sprite.Sprite):
                         hrac2.rect.top = zed.rect.bottom
                         self.rychlost2 = 0
 
-class Zed(object):
+class Zed(object): #jakýkoliv objekt s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
         zdi.append(self)
@@ -320,7 +320,7 @@ while True:
             okno.blit(nadpis_close2, nadpis_close2Rect)
         
         if Done == True:
-            #di = []
+            zdi = []
             mezery = ROZLISENI_X/len(vyber[0])
             mezery_y = ROZLISENI_Y/len(vyber)
             x = y = 0
