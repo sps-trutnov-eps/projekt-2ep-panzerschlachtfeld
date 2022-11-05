@@ -23,7 +23,6 @@ pygame.font.init()
 
 typ_pisma = pygame.font.Font('freesansbold.ttf', 25)
 
-
 # cudliky
 #hlavní menu
 np1 = ((200,80), (700,100), (0,0,0), "text" )
@@ -48,7 +47,6 @@ np4 = ((365, 175), (400,75), (0,0,0), "text" )
 cl_exit2 = ((492, 420), (150, 50), (0,0,0), "text")
 cl_close3 = ((340, 580), (150, 50), (0,0,0), "text")
 cl_pin = ((492, 325), (150, 50), (0,0,0), "text")
-
 
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
@@ -135,7 +133,7 @@ class player(pygame.sprite.Sprite):
                         hrac2.rect.top = zed.rect.bottom
                         self.rychlost2 = 0
 
-class zed(object):
+class Zed(object):
     
     def __init__(self, pos):
         zdi.append(self)
@@ -194,7 +192,6 @@ okno = pygame.display.set_mode(ROZLISENI_OKNA)
 sprites = pygame.sprite.Group()
 
 while True:
-
 # ovladani aplikace ########################################################################
     
     udalosti = pygame.event.get()
@@ -264,8 +261,7 @@ while True:
             hl_nadpis1 = typ_pisma.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
             hl_nadpis1Rect = hl_nadpis1.get_rect()
             hl_nadpis1Rect.center = (550, 128)
-            
-
+    
             nadpis_menu1 = typ_pisma.render('vybrat mapu', True, bila, cerna)
             nadpis_menu1Rect = nadpis_menu1.get_rect()
             nadpis_menu1Rect.center = (560, 308)
@@ -301,8 +297,7 @@ while True:
             nadpis_close2 = typ_pisma.render('CLOSE', True, bila, cerna)
             nadpis_close2Rect = nadpis_close2.get_rect()
             nadpis_close2Rect.center = (100, 750)
-
-            
+ 
     ###############vykreslovani########################################################################################################################################################################   
         
         if aktivni_obrazovka == hlavni_menu:
@@ -323,15 +318,16 @@ while True:
         if aktivni_obrazovka == menu_CREDITS:
             okno.blit(hl_nadpis3, hl_nadpis3Rect)
             okno.blit(nadpis_close2, nadpis_close2Rect)
-            
+        
         if Done == True:
+            #di = []
             mezery = ROZLISENI_X/len(vyber[0])
             mezery_y = ROZLISENI_Y/len(vyber)
             x = y = 0
             for radek in vyber:
                 for element in radek:
                     if element == "W":
-                        zed((x, y))
+                        Zed((x, y))
                     if element == "H":
                         hrac1 = player(x + mezery/(h/6),y + mezery_y/(h/6), h)
                     if element == "N":
@@ -372,11 +368,10 @@ while True:
     
 # cudliky v pause menu
 
-    while in_game_menu == True:
+    if in_game_menu == True:
         aktivni_obrazovka = pause_menu
         pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
         pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
-        
         
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
@@ -394,7 +389,6 @@ while True:
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
             print("ahoj")    
 
-        
     clockobject = pygame.time.Clock()
     clockobject.tick(rychlost)
     pygame.display.update()
