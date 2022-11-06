@@ -17,12 +17,12 @@ cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
 mapa2_pozadi = pygame.image.load("..\doc\mapa-2.png")
 mapa3_pozadi = pygame.image.load("..\doc\mapa-3.png") 
-##############################
+#############################################################################################
 
 pygame.font.init()
 
-typ_pisma = pygame.font.Font('freesansbold.ttf', 25)
-typ_pisma_in_game_menu = pygame.font.SysFont('Berlin Sans FB', 26)
+typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 25)
+typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 
 # cudliky
 #hlavní menu
@@ -55,7 +55,7 @@ menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, c
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
 aktivni_obrazovka = hlavni_menu
-#  ######################################################################################   
+#  #################################################################################################   
 
 class player(pygame.sprite.Sprite):
     
@@ -140,6 +140,8 @@ class Zed(object): #jakýkoliv objekt s VELKÝM počátčním písmenem SAMEEEEE
         zdi.append(self)
         self.rect = pygame.Rect(pos[0], pos[1], mezery +1 , mezery_y +1 )
 
+##################################################################################################
+
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
@@ -205,7 +207,7 @@ while True:
         pygame.quit()
         sys.exit()    
         
-   #menu a pod.
+# menu a pod. ###############################################################################
     while MENU:
         udalosti = pygame.event.get()
         for u in udalosti:
@@ -259,43 +261,43 @@ while True:
                 aktivni_obrazovka = hlavni_menu                                
         
         if aktivni_obrazovka == hlavni_menu:
-            hl_nadpis1 = typ_pisma.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
+            hl_nadpis1 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
             hl_nadpis1Rect = hl_nadpis1.get_rect()
             hl_nadpis1Rect.center = (550, 128)
     
-            nadpis_menu1 = typ_pisma.render('vybrat mapu', True, bila, cerna)
+            nadpis_menu1 = typ_pisma_hlavni_menu.render('vybrat mapu', True, bila, cerna)
             nadpis_menu1Rect = nadpis_menu1.get_rect()
             nadpis_menu1Rect.center = (560, 308)
             
             
-            nadpis_menu2 = typ_pisma.render('náhodná mapa', True, bila, cerna)
+            nadpis_menu2 = typ_pisma_hlavni_menu.render('náhodná mapa', True, bila, cerna)
             nadpis_menu2Rect = nadpis_menu2.get_rect()
             nadpis_menu2Rect.center = (560, 488)
             
 
-            nadpis_menu3 = typ_pisma.render('CREDITS', True, bila, cerna)
+            nadpis_menu3 = typ_pisma_hlavni_menu.render('CREDITS', True, bila, cerna)
             nadpis_menu3Rect = nadpis_menu3.get_rect()
             nadpis_menu3Rect.center = (560, 668)
             
-            nadpis_exit = typ_pisma.render('EXIT', True, bila, cerna)
+            nadpis_exit = typ_pisma_hlavni_menu.render('EXIT', True, bila, cerna)
             nadpis_exitRect = nadpis_exit.get_rect()
             nadpis_exitRect.center = (1000, 750)
         
         if aktivni_obrazovka == menu_vyberu:
-            hl_nadpis2 = typ_pisma.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
+            hl_nadpis2 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
             hl_nadpis2Rect = hl_nadpis2.get_rect()
             hl_nadpis2Rect.center = (550, 88)
             
-            nadpis_close1 = typ_pisma.render('CLOSE', True, bila, cerna)
+            nadpis_close1 = typ_pisma_hlavni_menu.render('CLOSE', True, bila, cerna)
             nadpis_close1Rect = nadpis_close1.get_rect()
             nadpis_close1Rect.center = (100, 750)
         
         if aktivni_obrazovka == menu_CREDITS:
-            hl_nadpis3 = typ_pisma.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
+            hl_nadpis3 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
             hl_nadpis3Rect = hl_nadpis3.get_rect()
             hl_nadpis3Rect.center = (550, 88)
             
-            nadpis_close2 = typ_pisma.render('CLOSE', True, bila, cerna)
+            nadpis_close2 = typ_pisma_hlavni_menu.render('CLOSE', True, bila, cerna)
             nadpis_close2Rect = nadpis_close2.get_rect()
             nadpis_close2Rect.center = (100, 750)
  
@@ -343,7 +345,7 @@ while True:
             sprites.add(hrac1,hrac2)
         pygame.display.update()        
         
-    #herní logika
+########## herní logika ################################################################################################
         
     p_zmacknuto_ted = stisknuto[pygame.K_p]   
 
@@ -358,7 +360,7 @@ while True:
     
     p_zmacknuto_pred_tim = p_zmacknuto_ted
           
-# vykreslovani ##############################################################################
+######## vykreslovani ##############################################################################################
 
     okno.fill(RGB)
     sprites.update()
@@ -366,8 +368,10 @@ while True:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
     pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
+    clockobject = pygame.time.Clock()
+    clockobject.tick(rychlost)
     
-# cudliky v pause menu 
+# cudliky v pause menu ################################################################################################ 
 
     if in_game_menu == True:
         aktivni_obrazovka = pause_menu
@@ -392,26 +396,24 @@ while True:
         
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
-        hl_nadpis4Rect.center = (565, 210)
+        hl_nadpis4Rect.center = (565, 213)
         
         nadpis_exit1 = typ_pisma_in_game_menu.render('Exit', True, bila, cerna)
         nadpis_exit1Rect = nadpis_exit1.get_rect()
-        nadpis_exit1Rect.center = (565, 442)
+        nadpis_exit1Rect.center = (565, 445)
         
         nadpis_close3 = typ_pisma_in_game_menu.render('Zpátky do menu', True, bila, cerna)
         nadpis_close3Rect = nadpis_close3.get_rect()
-        nadpis_close3Rect.center = (445, 603)
+        nadpis_close3Rect.center = (445, 605)
         
         nadpis_pin = typ_pisma_in_game_menu.render('Pauza', True, bila, cerna)
         nadpis_pinRect =  nadpis_pin.get_rect()
-        nadpis_pinRect.center = (565, 348)
+        nadpis_pinRect.center = (565, 350)
         
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
         okno.blit(nadpis_exit1, nadpis_exit1Rect)
         okno.blit(nadpis_close3, nadpis_close3Rect)
         okno.blit(nadpis_pin, nadpis_pinRect)
-        
 
-    clockobject = pygame.time.Clock()
-    clockobject.tick(rychlost)
+
     pygame.display.update()
