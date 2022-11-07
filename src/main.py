@@ -12,7 +12,7 @@ Done = False
 in_game_menu = False
 p_zmacknuto_pred_tim = False
 pohyb_tanku = True
-pin = True
+pin = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -351,7 +351,7 @@ while True:
         
 ########## herní logika ################################################################################################
         
-    p_zmacknuto_ted = stisknuto[pygame.K_p]   
+    p_zmacknuto_ted = stisknuto[pygame.K_p]
 
     if in_game_menu == False:
         pohyb_tanku = True 
@@ -363,6 +363,15 @@ while True:
             in_game_menu = not in_game_menu  
     
     p_zmacknuto_pred_tim = p_zmacknuto_ted
+    
+
+    mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]
+    
+    if mys_zmacknuta_pred_tim != mys_zmacknuta_ted:
+        if mys_zmacknuta_ted:
+            pin = not pin
+            
+    mys_zmacknuta_pred_tim = mys_zmacknuta_ted 
           
 ######## vykreslovani ##############################################################################################
 
@@ -394,10 +403,7 @@ while True:
             in_game_menu = False
             Done = False            
             MENU = True
-        
-        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
-            zapis(okno)
-        
+              
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
         hl_nadpis4Rect.center = (565, 213)
@@ -418,7 +424,8 @@ while True:
         okno.blit(nadpis_exit1, nadpis_exit1Rect)
         
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
-            zapis(okno)
+            if pin == True:
+                zapis(okno)
             
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
         okno.blit(nadpis_close3, nadpis_close3Rect)
