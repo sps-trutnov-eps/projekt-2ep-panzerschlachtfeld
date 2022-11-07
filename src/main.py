@@ -1,7 +1,13 @@
 # Začátek Panzerschlachtfeld im Labyrinth ##################################################
 import pygame, sys, math, random
+from os import path
+vec = pygame.math.Vector2
 # proměnné ##################################################################################
 
+PLAYER_SPEED = 300.0
+PLAYER_ROT_SPEED = 250.0
+
+####
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 255,255,255
 h = 30
@@ -74,13 +80,17 @@ def kontrola(okno, pin):
     
     
         
-class player(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y , h):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("..\doc\Tank.png")
-        self.image.set_colorkey(cerna)
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, '../doc')
+        self.player_img = pygame.image.load(path.join(img_folder, "Tank.png")).convert_alpha()
+        self.image = self.player_img
+        
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(cerna)
         self.rect.x = x
         self.rect.y = y
         self.rychlost1 = 0 
@@ -89,87 +99,33 @@ class player(pygame.sprite.Sprite):
         self.y = y
         self.x = x
         
+        ##
+        
+        self.dt = 60/1000
+        self.vel = vec(0, 0)
+        self.pos = vec(x, y)
+        self.rot = 0
+        
     def update(self):
-        self.rychlost1 = 0
-        self.rychlost2 = 0
-       
-        ##pohyb
-        if stisknuto[pygame.K_UP]:
-            self.rychlost1 += -self.pohyb
-        if stisknuto[pygame.K_DOWN]:
-            self.rychlost1 += self.pohyb
-         
-        if stisknuto[pygame.K_w]:
-            self.rychlost2 += -self.pohyb
-        if stisknuto[pygame.K_s]:
-            self.rychlost2 += self.pohyb
+        self.rot_speed = 0
+        self.vel = vec(0, 0)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            self.rot_speed = PLAYER_ROT_SPEED
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            self.rot_speed = -PLAYER_ROT_SPEED
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
+            self.vel = vec(PLAYER_SPEED, 0).rotate(-self.rot)
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         
-        #kolize        
-        if pohyb_tanku:
-            if poloha:
-                hrac1.y += hrac1.rychlost1
-                hrac2.y += hrac2.rychlost2
-            else:
-                hrac1.y += hrac1.rychlost2
-                hrac2.y += hrac2.rychlost1
-            
-        else:
-            pass
-        
-        if self.x + self.rect.w > ROZLISENI_X or self.rect.x + self.rect.w > ROZLISENI_X:
-            self.x = ROZLISENI_X - self.rect.w
-            self.rect.x = ROZLISENI_X - self.rect.w
-        if self.x < 0 or self.rect.x < 0:
-            self.x = 0
-            self.rect.x = 0
-        if self.y + self.rect.h > ROZLISENI_Y or self.rect.y + self.rect.h > ROZLISENI_Y :
-            self.y = ROZLISENI_Y - self.rect.h
-            self.rect.y = ROZLISENI_Y - self.rect.h
-        if self.y < 0 or self.rect.y < 0:
-            self.y = 0
-            self.rect.y = 0
-        
-        for zed in zdi:
-            if pygame.Rect.colliderect(hrac1.rect, zed.rect):
-                if poloha:
-                    if self.rychlost1 > 0:
-                        hrac1.rect.bottom = zed.rect.top
-                        self.y = self.rect.y
-                        self.rychlost1 = 0 
-                    if self.rychlost1 < 0:    
-                        hrac1.rect.top = zed.rect.bottom
-                        self.y = self.rect.y
-                        self.rychlost1 = 0 
-                else:
-                    if self.rychlost2 > 0:
-                        hrac1.rect.bottom = zed.rect.top
-                        self.y = self.rect.y
-                        self.rychlost2 = 0 
-                    if self.rychlost2 < 0:    
-                        hrac1.rect.top = zed.rect.bottom
-                        self.y = self.rect.y
-                        self.rychlost2 = 0
-           
-            if pygame.Rect.colliderect(hrac2.rect, zed.rect):
-                if poloha == False:
-                    if self.rychlost1 > 0:
-                        hrac2.rect.bottom = zed.rect.top
-                        self.y = self.rect.y
-                        self.rychlost1 = 0 
-                    if self.rychlost1 < 0:    
-                        hrac2.rect.top = zed.rect.bottom
-                        self.y = self.rect.y
-                        self.rychlost1 = 0 
-                else:
-                    if self.rychlost2 > 0:
-                        hrac2.rect.bottom = zed.rect.top
-                        self.y = self.rect.y
-                        self.rychlost2 = 0 
-                    if self.rychlost2 < 0:    
-                        hrac2.rect.top = zed.rect.bottom
-                        self.y = self.rect.y
-                        self.rychlost2 = 0
-            self.rect.y = self.y
+        self.rot = (self.rot + self.rot_speed * self.dt) % 360
+        self.image = pygame.transform.rotate(self.player_img, self.rot)
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(cerna)
+        self.rect.center = self.pos
+        self.pos += self.vel * self.dt
+
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
@@ -369,9 +325,9 @@ while True:
                     if element == "W":
                         Zed((x, y))
                     if element == "H":
-                        hrac1 = player(x + mezery/(h/6),y + mezery_y/(h/6), h)
+                        hrac1 = Player(x + mezery/(h/6),y + mezery_y/(h/6), h)
                     if element == "N":
-                        hrac2 = player(x + mezery/(h/6),y + mezery_y/(h/6), h)
+                        hrac2 = Player(x + mezery/(h/6),y + mezery_y/(h/6), h)
                     x += mezery
                 y += mezery_y
                 x = 0
