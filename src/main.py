@@ -154,7 +154,8 @@ class Player(pygame.sprite.Sprite):
             pass
         
         self.rect = self.image.get_rect()
-        self.image.set_colorkey(cerna)
+        hrac1.image.set_colorkey(cerna)
+        hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
        
@@ -170,14 +171,14 @@ class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEE
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WWW       N      WWW",
+"WWW       H      WWW",
 "WW       WW       WW",
 "W   W  WWWWWW  W   W",
 "W WWW          WWW W",
 "W WWW          WWW W",
 "W   W  WWWWWW  W   W",
 "WW       WW       WW",
-"WWW      H       WWW",
+"WWW      N       WWW",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
