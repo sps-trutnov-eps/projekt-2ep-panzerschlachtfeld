@@ -82,26 +82,23 @@ def kontrola(okno, pin):
         
 class Player(pygame.sprite.Sprite):
     
-    def __init__(self, x, y , h):
+    def __init__(self, x, y):
+        #šablona
         pygame.sprite.Sprite.__init__(self)
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, '../doc')
         self.player_img = pygame.image.load(path.join(img_folder, "Tank.png")).convert_alpha()
         self.image = self.player_img
-        
         self.rect = self.image.get_rect()
         self.image.set_colorkey(cerna)
+        
+        #pro vnější kód
         self.rect.x = x
         self.rect.y = y
+             
+        #pro loop, kolizi apod#
         self.rychlost1 = 0 
         self.rychlost2 = 0
-        self.pohyb = PLAYER_SPEED
-        self.otaceni = PLAYER_ROT_SPEED 
-        self.y = y
-        self.x = x
-        
-        ##
-        
         self.dt = 60/100000
         self.vel = vec(0, 0)
         self.pos = vec(x, y)
@@ -117,18 +114,18 @@ class Player(pygame.sprite.Sprite):
        
         ##pohyb
         if stisknuto[pygame.K_UP]:
-            self.rychlost1 += -self.pohyb
+            self.rychlost1 += -PLAYER_SPEED
         if stisknuto[pygame.K_DOWN]:
-            self.rychlost1 += self.pohyb
+            self.rychlost1 += PLAYER_SPEED/2
         if stisknuto[pygame.K_LEFT]:
             self.rot_speed1 = PLAYER_ROT_SPEED
         if stisknuto[pygame.K_RIGHT]:
             self.rot_speed1 = -PLAYER_ROT_SPEED
          
         if stisknuto[pygame.K_w]:
-            self.rychlost2 += -self.pohyb
+            self.rychlost2 += -PLAYER_SPEED
         if stisknuto[pygame.K_s]:
-            self.rychlost2 += self.pohyb
+            self.rychlost2 += PLAYER_SPEED/2
         if stisknuto[pygame.K_a]:
             self.rot_speed2 = PLAYER_ROT_SPEED
         if stisknuto[pygame.K_d]:
@@ -171,20 +168,20 @@ class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEE
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WWW       H      WWW",
+"WWW       N      WWW",
 "WW       WW       WW",
 "W   W  WWWWWW  W   W",
 "W WWW          WWW W",
 "W WWW          WWW W",
 "W   W  WWWWWW  W   W",
 "WW       WW       WW",
-"WWW      N       WWW",
+"WWW      H       WWW",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
 level1 = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WW    W   H   W    W",
+"WW    W   N   W    W",
 "W  W             W W",
 "W  W  WWWWWWWWW  W W",
 "W  W      W      W W",
@@ -192,7 +189,7 @@ level1 = [
 "W  W      W      W W",
 "W  W  WWWWWWWWW  W W",
 "W  W             W W",
-"WW    W   N   W    W",
+"WW    W   H   W    W",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
@@ -358,9 +355,9 @@ while True:
                     if element == "W":
                         Zed((x, y))
                     if element == "H":
-                        hrac1 = Player(x + mezery/(h/6),y + mezery_y/(h/6), h)
+                        hrac1 = Player(x + mezery/(h/15),y + mezery/(h/21.8))
                     if element == "N":
-                        hrac2 = Player(x + mezery/(h/6),y + mezery_y/(h/6), h)
+                        hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8))
                     x += mezery
                 y += mezery_y
                 x = 0
