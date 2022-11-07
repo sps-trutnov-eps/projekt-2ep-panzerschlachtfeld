@@ -66,7 +66,7 @@ def zobraz_okno(okno, pin):
 
 def zapis(okno, pin):
     soubor = open("pin.csv", "w", encoding = "utf-8")
-    soubor.write int((pin_kod))
+    soubor.write(int((pin_kod)))
     soubor.close()
     
 def kontrola(okno, pin):
@@ -78,10 +78,16 @@ class player(pygame.sprite.Sprite):
     
     def __init__(self, x, y , h):
         pygame.sprite.Sprite.__init__(self)
-        self.rect = pygame.Rect(x, y, h ,h )
+        self.image = pygame.image.load("..\doc\Tank.png")
+        self.image.set_colorkey(cerna)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
         self.rychlost1 = 0 
         self.rychlost2 = 0
-        self.pohyb = 1
+        self.pohyb = 0.1
+        self.y = y
+        self.x = x
         
     def update(self):
         self.rychlost1 = 0
@@ -92,64 +98,78 @@ class player(pygame.sprite.Sprite):
             self.rychlost1 += -self.pohyb
         if stisknuto[pygame.K_DOWN]:
             self.rychlost1 += self.pohyb
-        
+         
         if stisknuto[pygame.K_w]:
             self.rychlost2 += -self.pohyb
         if stisknuto[pygame.K_s]:
             self.rychlost2 += self.pohyb
         
-        #kolize
-        if self.rect.x + h > ROZLISENI_X:
-            self.rect.x = ROZLISENI_X - h
-        if self.rect.x < 0:
-            self.rect.x = 0
-        if self.rect.y + h > ROZLISENI_Y:
-            self.rect.y = ROZLISENI_Y - h
-        if self.rect.y < 0:
-            self.rect.y = 0
-        
+        #kolize        
         if pohyb_tanku:
             if poloha:
-                hrac1.rect.y += hrac1.rychlost1
-                hrac2.rect.y += hrac2.rychlost2
+                hrac1.y += hrac1.rychlost1
+                hrac2.y += hrac2.rychlost2
             else:
-                hrac1.rect.y += hrac1.rychlost2
-                hrac2.rect.y += hrac2.rychlost1
+                hrac1.y += hrac1.rychlost2
+                hrac2.y += hrac2.rychlost1
+            
         else:
             pass
+        
+        if self.x + self.rect.w > ROZLISENI_X or self.rect.x + self.rect.w > ROZLISENI_X:
+            self.x = ROZLISENI_X - self.rect.w
+            self.rect.x = ROZLISENI_X - self.rect.w
+        if self.x < 0 or self.rect.x < 0:
+            self.x = 0
+            self.rect.x = 0
+        if self.y + self.rect.h > ROZLISENI_Y or self.rect.y + self.rect.h > ROZLISENI_Y :
+            self.y = ROZLISENI_Y - self.rect.h
+            self.rect.y = ROZLISENI_Y - self.rect.h
+        if self.y < 0 or self.rect.y < 0:
+            self.y = 0
+            self.rect.y = 0
         
         for zed in zdi:
             if pygame.Rect.colliderect(hrac1.rect, zed.rect):
                 if poloha:
                     if self.rychlost1 > 0:
                         hrac1.rect.bottom = zed.rect.top
+                        self.y = self.rect.y
                         self.rychlost1 = 0 
                     if self.rychlost1 < 0:    
                         hrac1.rect.top = zed.rect.bottom
+                        self.y = self.rect.y
                         self.rychlost1 = 0 
                 else:
                     if self.rychlost2 > 0:
                         hrac1.rect.bottom = zed.rect.top
+                        self.y = self.rect.y
                         self.rychlost2 = 0 
                     if self.rychlost2 < 0:    
                         hrac1.rect.top = zed.rect.bottom
+                        self.y = self.rect.y
                         self.rychlost2 = 0
            
             if pygame.Rect.colliderect(hrac2.rect, zed.rect):
                 if poloha == False:
                     if self.rychlost1 > 0:
                         hrac2.rect.bottom = zed.rect.top
+                        self.y = self.rect.y
                         self.rychlost1 = 0 
                     if self.rychlost1 < 0:    
                         hrac2.rect.top = zed.rect.bottom
+                        self.y = self.rect.y
                         self.rychlost1 = 0 
                 else:
                     if self.rychlost2 > 0:
                         hrac2.rect.bottom = zed.rect.top
+                        self.y = self.rect.y
                         self.rychlost2 = 0 
                     if self.rychlost2 < 0:    
                         hrac2.rect.top = zed.rect.bottom
+                        self.y = self.rect.y
                         self.rychlost2 = 0
+            self.rect.y = self.y
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
@@ -392,10 +412,7 @@ while True:
     sprites.update()
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
-    pygame.draw.rect(okno, (255, 8, 0), hrac2.rect)
-    pygame.draw.rect(okno, (0, 200, 0), hrac1.rect)
-    clockobject = pygame.time.Clock()
-    clockobject.tick(rychlost)
+    sprites.draw(okno)
     
 # cudliky v pause menu ################################################################################################ 
     
