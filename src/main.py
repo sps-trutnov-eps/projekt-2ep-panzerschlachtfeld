@@ -9,10 +9,11 @@ rychlost = 100
 poloha = False
 MENU = True
 Done = False
+pohyb_tanku = True
 in_game_menu = False
 p_zmacknuto_pred_tim = False
-pohyb_tanku = True
 pin = False
+mys_zmacknuta_pred_tim = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -58,8 +59,20 @@ pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_cl
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
-def zapis(okno):
+pin_kod = []
+
+def zobraz_okno(okno, pin):
     pygame.draw.rect(okno, (230, 230, 230), ((370,290), (400,250)))
+
+def zapis(okno, pin):
+    soubor = open("pin.csv", "w", encoding = "utf-8")
+    soubor.write int((pin_kod))
+    soubor.close()
+    
+def kontrola(okno, pin):
+    pass
+    
+    
         
 class player(pygame.sprite.Sprite):
     
@@ -364,14 +377,14 @@ while True:
     
     p_zmacknuto_pred_tim = p_zmacknuto_ted
     
-
     mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]
-    
+        
     if mys_zmacknuta_pred_tim != mys_zmacknuta_ted:
         if mys_zmacknuta_ted:
             pin = not pin
-            
-    mys_zmacknuta_pred_tim = mys_zmacknuta_ted 
+        
+    mys_zmacknuta_pred_tim = mys_zmacknuta_ted
+    
           
 ######## vykreslovani ##############################################################################################
 
@@ -385,11 +398,11 @@ while True:
     clockobject.tick(rychlost)
     
 # cudliky v pause menu ################################################################################################ 
-
+    
     if in_game_menu == True:
         aktivni_obrazovka = pause_menu
         pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
-        pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500)))
+        pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500))) 
         
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
@@ -423,9 +436,8 @@ while True:
         okno.blit(nadpis_pin, nadpis_pinRect)
         okno.blit(nadpis_exit1, nadpis_exit1Rect)
         
-        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
-            if pin == True:
-                zapis(okno)
+        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
+            zobraz_okno(okno, pin)
             
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
         okno.blit(nadpis_close3, nadpis_close3Rect)
