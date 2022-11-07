@@ -105,12 +105,14 @@ class Player(pygame.sprite.Sprite):
         self.dt = 60/100000
         self.vel = vec(0, 0)
         self.pos = vec(x, y)
-        self.rot = 0
+        self.rot1 = 180
+        self.rot2 = 0
         
     def update(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
-        self.rot_speed = 0
+        self.rot_speed1 = 0
+        self.rot_speed2 = 0
         self.vel = vec(0, 0)
        
         ##pohyb
@@ -119,33 +121,38 @@ class Player(pygame.sprite.Sprite):
         if stisknuto[pygame.K_DOWN]:
             self.rychlost1 += self.pohyb
         if stisknuto[pygame.K_LEFT]:
-            self.rot_speed = PLAYER_ROT_SPEED
+            self.rot_speed1 = PLAYER_ROT_SPEED
         if stisknuto[pygame.K_RIGHT]:
-            self.rot_speed = -PLAYER_ROT_SPEED
+            self.rot_speed1 = -PLAYER_ROT_SPEED
          
         if stisknuto[pygame.K_w]:
             self.rychlost2 += -self.pohyb
         if stisknuto[pygame.K_s]:
             self.rychlost2 += self.pohyb
         if stisknuto[pygame.K_a]:
-            self.rot_speed = PLAYER_ROT_SPEED
+            self.rot_speed2 = PLAYER_ROT_SPEED
         if stisknuto[pygame.K_d]:
-            self.rot_speed = -PLAYER_ROT_SPEED
+            self.rot_speed2 = -PLAYER_ROT_SPEED
+        
+        self.rot1 = (self.rot1 + self.rot_speed1 * self.dt) % 360
+        self.rot2 = (self.rot2 + self.rot_speed2 * self.dt) % 360
         
         #kolize        
         if pohyb_tanku:
             if poloha:
-                hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot)
-                hrac2.vel = vec(0, hrac2.rychlost2).rotate(-self.rot)
+                hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot1)
+                hrac1.image = pygame.transform.rotate(self.player_img, self.rot1)
+                hrac2.vel = vec(0, hrac2.rychlost2).rotate(-self.rot2)
+                hrac2.image = pygame.transform.rotate(self.player_img, self.rot2)
             else:
-                hrac1.vel = vec(0, hrac1.rychlost2).rotate(-self.rot)
-                hrac2.vel = vec(0, hrac2.rychlost1).rotate(-self.rot)
+                hrac1.vel = vec(0, hrac1.rychlost2).rotate(-self.rot2)
+                hrac1.image = pygame.transform.rotate(self.player_img, self.rot2)
+                hrac2.vel = vec(0, hrac2.rychlost1).rotate(-self.rot1)
+                hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
             
         else:
             pass
         
-        self.rot = (self.rot + self.rot_speed * self.dt) % 360
-        self.image = pygame.transform.rotate(self.player_img, self.rot)
         self.rect = self.image.get_rect()
         self.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
