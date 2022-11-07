@@ -12,6 +12,7 @@ Done = False
 in_game_menu = False
 p_zmacknuto_pred_tim = False
 pohyb_tanku = True
+pin = True
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -55,8 +56,11 @@ menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, c
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
 aktivni_obrazovka = hlavni_menu
-#  #################################################################################################   
+#  #################################################################################################
 
+def zapis(okno):
+    pygame.draw.rect(okno, (230, 230, 230), ((370,290), (400,250)))
+        
 class player(pygame.sprite.Sprite):
     
     def __init__(self, x, y , h):
@@ -134,7 +138,7 @@ class player(pygame.sprite.Sprite):
                         hrac2.rect.top = zed.rect.bottom
                         self.rychlost2 = 0
 
-class Zed(object): #jakýkoliv objekt s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
+class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
         zdi.append(self)
@@ -265,12 +269,12 @@ while True:
             hl_nadpis1Rect = hl_nadpis1.get_rect()
             hl_nadpis1Rect.center = (550, 128)
     
-            nadpis_menu1 = typ_pisma_hlavni_menu.render('vybrat mapu', True, bila, cerna)
+            nadpis_menu1 = typ_pisma_hlavni_menu.render('Vybrat mapu', True, bila, cerna)
             nadpis_menu1Rect = nadpis_menu1.get_rect()
             nadpis_menu1Rect.center = (560, 308)
             
             
-            nadpis_menu2 = typ_pisma_hlavni_menu.render('náhodná mapa', True, bila, cerna)
+            nadpis_menu2 = typ_pisma_hlavni_menu.render('Náhodná mapa', True, bila, cerna)
             nadpis_menu2Rect = nadpis_menu2.get_rect()
             nadpis_menu2Rect.center = (560, 488)
             
@@ -392,7 +396,7 @@ while True:
             MENU = True
         
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
-            pass
+            zapis(okno)
         
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
@@ -410,10 +414,14 @@ while True:
         nadpis_pinRect =  nadpis_pin.get_rect()
         nadpis_pinRect.center = (565, 350)
         
-        okno.blit(hl_nadpis4, hl_nadpis4Rect)
-        okno.blit(nadpis_exit1, nadpis_exit1Rect)
-        okno.blit(nadpis_close3, nadpis_close3Rect)
         okno.blit(nadpis_pin, nadpis_pinRect)
+        okno.blit(nadpis_exit1, nadpis_exit1Rect)
+        
+        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:    
+            zapis(okno)
+            
+        okno.blit(hl_nadpis4, hl_nadpis4Rect)
+        okno.blit(nadpis_close3, nadpis_close3Rect)
 
 
     pygame.display.update()
