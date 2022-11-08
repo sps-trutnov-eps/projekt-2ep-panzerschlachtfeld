@@ -9,7 +9,7 @@ PLAYER_ROT_SPEED = 250.0
 
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
-RGB = R, G, B, = 255,255,255
+RGB = R, G, B, = 100, 145, 84
 h = 30
 rychlost = 100
 poloha = False
@@ -19,7 +19,6 @@ pohyb_tanku = True
 in_game_menu = False
 p_zmacknuto_pred_tim = False
 pin = False
-mys_zmacknuta_pred_tim = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -31,6 +30,7 @@ pygame.font.init()
 
 typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 25)
 typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
+typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 
 # cudliky
 #hlavní menu
@@ -52,34 +52,31 @@ np3 = ((200, 40), (700,100), (0,0,0), "text" )
 cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
  
 #ingame menu
-np4 = ((365, 175), (400,75), (0,0,0), "text" )
-cl_exit2 = ((492, 420), (150, 50), (0,0,0), "text")
-cl_close3 = ((340, 580), (210, 50), (0,0,0), "text")
-cl_pin = ((492, 325), (150, 50), (0,0,0), "text")
+np4 = ((55, 20), (400, 75), (0,0,0), "text" )
+cl_exit2 = ((190, 250), (150, 50), (0,0,0), "text")
+cl_close3 = ((55, 420), (210, 50), (0,0,0), "text")
+cl_pin = ((190, 150), (150, 50), (0,0,0), "text")
+
+#pin menu
+cl_ok = ((780, 525), (150, 50), (0,0,0), "text")
+pindik = ((325, 250), (0, 0), (0,0,0), "text")
 
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
+pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_ok, pindik)] 
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
-pin_kod = []
-
-def zobraz_okno(okno, pin):
-    pygame.draw.rect(okno, (230, 230, 230), ((370,290), (400,250)))
-
-def zapis(okno, pin):
-    soubor = open("pin.csv", "w", encoding = "utf-8")
-    soubor.write(int((pin_kod)))
-    soubor.close()
-    
+def zobraz_okno(okno):
+    pygame.draw.rect(okno, (200, 20, 20), ((365,195), (610,410)))
+    pygame.draw.rect(okno, (170, 170, 170), ((370,200), (600,400)))
+   
 def kontrola(okno, pin):
-    pass
-    
-    
-        
+    pass    
+
 class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y):
@@ -382,15 +379,6 @@ while True:
             in_game_menu = not in_game_menu  
     
     p_zmacknuto_pred_tim = p_zmacknuto_ted
-    
-    mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]
-        
-    if mys_zmacknuta_pred_tim != mys_zmacknuta_ted:
-        if mys_zmacknuta_ted:
-            pin = not pin
-        
-    mys_zmacknuta_pred_tim = mys_zmacknuta_ted
-    
           
 ######## vykreslovani ##############################################################################################
 
@@ -404,8 +392,8 @@ while True:
     
     if in_game_menu == True:
         aktivni_obrazovka = pause_menu
-        pygame.draw.rect(okno, (200, 0, 0), ((305,140), (520,520)))
-        pygame.draw.rect(okno, (190, 190, 190), ((315,150), (500,500))) 
+        pygame.draw.rect(okno, (200, 0, 0), ((0,0), (520,520)))
+        pygame.draw.rect(okno, (190, 190, 190), ((10,10), (500,500)))
         
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
@@ -422,28 +410,47 @@ while True:
               
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
-        hl_nadpis4Rect.center = (565, 213)
+        hl_nadpis4Rect.center = (255, 55)
         
         nadpis_exit1 = typ_pisma_in_game_menu.render('Exit', True, bila, cerna)
         nadpis_exit1Rect = nadpis_exit1.get_rect()
-        nadpis_exit1Rect.center = (565, 445)
+        nadpis_exit1Rect.center = (265, 275)
         
         nadpis_close3 = typ_pisma_in_game_menu.render('Zpátky do menu', True, bila, cerna)
         nadpis_close3Rect = nadpis_close3.get_rect()
-        nadpis_close3Rect.center = (445, 605)
+        nadpis_close3Rect.center = (160, 445)
         
         nadpis_pin = typ_pisma_in_game_menu.render('Pauza', True, bila, cerna)
         nadpis_pinRect =  nadpis_pin.get_rect()
-        nadpis_pinRect.center = (565, 350)
+        nadpis_pinRect.center = (265, 175)
         
         okno.blit(nadpis_pin, nadpis_pinRect)
         okno.blit(nadpis_exit1, nadpis_exit1Rect)
-        
-        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
-            zobraz_okno(okno, pin)
-            
-        okno.blit(hl_nadpis4, hl_nadpis4Rect)
         okno.blit(nadpis_close3, nadpis_close3Rect)
-
+        okno.blit(hl_nadpis4, hl_nadpis4Rect)
+        
+        pin_kod = [1,2,4,5]
+        mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
+        if pin == True:
+            aktivni_obrazovka = pin_menu
+            zobraz_okno(okno)
+            for cudlik in pin_menu[2]:
+                pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
+            #if cl_ok[0][0] < pygame.mouse.get_pos()[0] < (cl_ok[0][0] + cl_ok[1][0]) and cl_ok[0][1] < pygame.mouse.get_pos()[1] < (cl_ok[0][1] + cl_ok[1][1]) and pygame.mouse.get_pressed()[0]:
+                #soubor = open("pin.csv", "w", encoding = "utf-8")
+                #soubor.write(pin_kod)
+                #soubor.close()    
+            for i in range(len(pin_kod)):
+                povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
+                okno.blit(povrch, ((i*100)+485,250))
+                print(pin_kod)
+                
+            
+            
+        
+        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:            
+            if mys_zmacknuta_ted:
+                pin = True
+            
 
     pygame.display.update()
