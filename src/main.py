@@ -162,6 +162,7 @@ class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEE
 
 ##################################################################################################
 
+pin_kod = []
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
@@ -225,7 +226,51 @@ while True:
     stisknuto = pygame.key.get_pressed()
     if stisknuto[pygame.K_ESCAPE]:
         pygame.quit()
-        sys.exit()    
+        sys.exit()
+        
+    for u in udalosti:
+        if u.type == pygame.KEYDOWN:
+            soubor = open("pin.csv", "w", encoding = "utf-8")
+            
+            if u.key == pygame.K_0:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_1:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_2:
+                soubor.write(pin_kod)
+                soubor.close()
+             
+            if u.key == pygame.K_3:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_4:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_5:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_6:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_7:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_8:
+                soubor.write(pin_kod)
+                soubor.close()
+                
+            if u.key == pygame.K_9:
+                soubor.write(pin_kod)
+                soubor.close()
         
 # menu a pod. ###############################################################################
     while MENU:
@@ -429,24 +474,17 @@ while True:
         okno.blit(nadpis_close3, nadpis_close3Rect)
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
         
-        pin_kod = [1,2,4,5]
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
             aktivni_obrazovka = pin_menu
             zobraz_okno(okno)
             for cudlik in pin_menu[2]:
                 pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
-            #if cl_ok[0][0] < pygame.mouse.get_pos()[0] < (cl_ok[0][0] + cl_ok[1][0]) and cl_ok[0][1] < pygame.mouse.get_pos()[1] < (cl_ok[0][1] + cl_ok[1][1]) and pygame.mouse.get_pressed()[0]:
-                #soubor = open("pin.csv", "w", encoding = "utf-8")
-                #soubor.write(pin_kod)
-                #soubor.close()    
+                   
             for i in range(len(pin_kod)):
                 povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
                 okno.blit(povrch, ((i*100)+485,250))
                 print(pin_kod)
-                
-            
-            
         
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:            
             if mys_zmacknuta_ted:
