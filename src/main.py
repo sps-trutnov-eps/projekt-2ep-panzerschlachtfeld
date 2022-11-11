@@ -22,6 +22,7 @@ in_game_menu = False
 p_zmacknuto_pred_tim = False
 pin = False
 povoleni_zmacknuti_cisla = True
+zadavani = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -436,15 +437,16 @@ while True:
         
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
-            soubor = open("pin.csv", "w", encoding = "utf-8")
             aktivni_obrazovka = pin_menu
             zobraz_okno(okno)
             for cudlik in pin_menu[2]:
                 pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
-                   
+                
+        if zadavani == True:
+            soubor = open("pin.csv", "w", encoding = "utf-8")
             for i in range(len(pin_kod)):
                 povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
-                okno.blit(povrch, ((i*100)+485,250))
+                okno.blit(povrch, ((i*100)+300,250))
                 print(pin_kod)
             
             for x in cisla:
@@ -467,6 +469,7 @@ while True:
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:            
             if mys_zmacknuta_ted:
                 pin = True
+            zadavani = True
             
 
     pygame.display.update()
