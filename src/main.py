@@ -1,9 +1,8 @@
 # Začátek Panzerschlachtfeld im Labyrinth ##################################################
 import pygame, sys, math, random
 from os import path
-vec = pygame.math.Vector2
-from pynput.keyboard import Key, Listener
 import keyboard
+vec = pygame.math.Vector2
 # proměnné ##################################################################################
 
 PLAYER_SPEED = 300.0
@@ -22,7 +21,9 @@ in_game_menu = False
 p_zmacknuto_pred_tim = False
 pin = False
 povoleni_zmacknuti_cisla = True
+zmacknuto = False
 zadavani = False
+otevreno = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -73,7 +74,72 @@ pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_cl
 pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_ok, pindik)] 
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
+def zapis():
+    global povoleni_zmacknuti_cisla
+    global zadavani
+    global otevreno
+    global soubor
+    if zadavani == True:
+            if otevreno == False: 
+                soubor = open("pin.csv", "w", encoding = "utf-8")
+                otevreno = True
+        
+            cislo = None
+            if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
+                cislo = 0
+                povoleni_zmacknuti_cisla = False
+                
+            elif z[pygame.K_KP1] and povoleni_zmacknuti_cisla:
+                cislo = 1
+                povoleni_zmacknuti_cisla = False
+                
+            elif z[pygame.K_KP2] and povoleni_zmacknuti_cisla:
+                cislo = 2
+                povoleni_zmacknuti_cisla = False
+                
+            elif z[pygame.K_KP3] and povoleni_zmacknuti_cisla:
+                cislo = 3
+                povoleni_zmacknuti_cisla = False
+                
+            elif z[pygame.K_KP4] and povoleni_zmacknuti_cisla:
+                cislo = 4
+                povoleni_zmacknuti_cisla = False
+                
+            elif z[pygame.K_KP5] and povoleni_zmacknuti_cisla:
+                cislo = 5
+                povoleni_zmacknuti_cisla = False
 
+            elif z[pygame.K_KP6] and povoleni_zmacknuti_cisla:
+                cislo = 6
+                povoleni_zmacknuti_cisla = False
+
+            elif z[pygame.K_KP7] and povoleni_zmacknuti_cisla:
+                cislo = 7
+                povoleni_zmacknuti_cisla = False
+
+            elif z[pygame.K_KP8] and povoleni_zmacknuti_cisla:
+                cislo = 8
+                povoleni_zmacknuti_cisla = False
+
+            elif z[pygame.K_KP9] and povoleni_zmacknuti_cisla:
+                cislo = 9
+                povoleni_zmacknuti_cisla = False
+
+            if cislo != None:
+                pin_kod.append(cislo)
+                soubor.write(str(cislo))
+
+            elif (z[pygame.K_KP0] or z[pygame.K_KP1] or z[pygame.K_KP2] or z[pygame.K_KP3] or z[pygame.K_KP4] or z[pygame.K_KP5] or z[pygame.K_KP6] or z[pygame.K_KP7] or z[pygame.K_KP8] or z[pygame.K_KP9]) and povoleni_zmacknuti_cisla == False:
+                pass
+            else:
+                povoleni_zmacknuti_cisla = True
+                
+            if len(pin_kod) == 4:
+                soubor.close()
+                otevreno = False
+                zadavani = False
+                print(pin_kod)
+                
 def zobraz_okno(okno):
     pygame.draw.rect(okno, (200, 20, 20), ((365,195), (610,410)))
     pygame.draw.rect(okno, (170, 170, 170), ((370,200), (600,400)))
@@ -166,7 +232,6 @@ class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEE
 
 ##################################################################################################
 
-cisla = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 pin_kod = []
 zdi = []
 level = [
@@ -220,9 +285,10 @@ pygame.display.set_caption('Panzerschlachtfeld im Labyrinth')
 okno = pygame.display.set_mode(ROZLISENI_OKNA)
 sprites = pygame.sprite.Group()
 
+
 while True:
 # ovladani aplikace ########################################################################
-    
+    z = pygame.key.get_pressed()
     udalosti = pygame.event.get()
     for u in udalosti:
         if u.type == pygame.QUIT:
@@ -441,35 +507,16 @@ while True:
             zobraz_okno(okno)
             for cudlik in pin_menu[2]:
                 pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
-                
-        if zadavani == True:
-            soubor = open("pin.csv", "w", encoding = "utf-8")
             for i in range(len(pin_kod)):
                 povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
-                okno.blit(povrch, ((i*100)+300,250))
+                okno.blit(povrch, ((i*100)+500,250))
                 print(pin_kod)
-            
-            for x in cisla:
-                if keyboard.is_pressed(str(x)) and povoleni_zmacknuti_cisla:
-                    pin_kod.append(x)
-                    soubor.write(str(x))
-                    povoleni_zmacknuti_cisla = False
-                    
-                elif keyboard.is_pressed(str(x)) and not povoleni_zmacknuti_cisla:
-                    pass
                 
-                else: 
-                    povoleni_zmacknuti_cisla = True
-           
-            if len(pin_kod) == 4:
-                soubor.close()
-                print(pin_kod)
+        zapis()        
             
-        
-        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:            
+        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
             if mys_zmacknuta_ted:
                 pin = True
             zadavani = True
             
-
     pygame.display.update()
