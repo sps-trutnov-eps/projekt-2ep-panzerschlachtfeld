@@ -24,6 +24,8 @@ povoleni_zmacknuti_cisla = True
 zmacknuto = False
 zadavani = False
 otevreno = False
+cekat = False
+pauza_v_menu = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -64,16 +66,26 @@ cl_pin = ((190, 150), (150, 50), (0,0,0), "text")
 
 #pin menu
 cl_ok = ((780, 525), (150, 50), (0,0,0), "text")
-pindik = ((325, 250), (0, 0), (0,0,0), "text")
+cl_close4 = ((410, 525), (150, 50), (0,0,0), "text")
+
+#čekací menu
+cl_potvrzeni = ((240, 480), (600, 50), (0,0,0), "text")
+pindik = ((410, 525), (0,0), (0,0,0), "text")
 
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
-pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_ok, pindik)] 
+pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_ok,cl_close4)]
+cekaci_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_potvrzeni, pindik)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
+
+def cekaci_obrazovka(okno):
+    pygame.draw.rect(okno, (200, 20, 20), ((0,0), (1080, 800)))
+    pygame.draw.rect(okno, (170, 170, 170), ((10,10), (1060,780)))
+    
 def zapis():
     global povoleni_zmacknuti_cisla
     global zadavani
@@ -289,6 +301,7 @@ sprites = pygame.sprite.Group()
 while True:
 # ovladani aplikace ########################################################################
     z = pygame.key.get_pressed()
+    
     udalosti = pygame.event.get()
     for u in udalosti:
         if u.type == pygame.QUIT:
@@ -501,6 +514,8 @@ while True:
         okno.blit(nadpis_close3, nadpis_close3Rect)
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
         
+        
+########################
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
             aktivni_obrazovka = pin_menu
@@ -510,6 +525,29 @@ while True:
             for i in range(len(pin_kod)):
                 povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
                 okno.blit(povrch, ((i*100)+500,250))
+                print(pin_kod)
+                
+            if cl_ok[0][0] < pygame.mouse.get_pos()[0] < (cl_ok[0][0] + cl_ok[1][0]) and cl_ok[0][1] < pygame.mouse.get_pos()[1] < (cl_ok[0][1] + cl_ok[1][1]) and pygame.mouse.get_pressed()[0]:
+                if mys_zmacknuta_ted:
+                    cekat = True
+                
+                
+                
+            if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
+                pin = False
+                pin_kod = []
+##########################
+                
+        if cekat == True:
+            soubor = open("pin.csv", "r", encoding = "utf-8")
+            cekaci_obrazovka(okno)
+            aktivni_obrazovka = cekaci_menu
+            for cudlik in cekaci_menu[2]:
+                pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
+                
+            for i in range(len(pin_kod)):
+                povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
+                okno.blit(povrch, ((i*100)+350,250))
                 print(pin_kod)
                 
         zapis()        
