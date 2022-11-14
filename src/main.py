@@ -26,6 +26,7 @@ zadavani = False
 otevreno = False
 cekat = False
 pauza_v_menu = False
+nacitani = False
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
@@ -38,6 +39,7 @@ pygame.font.init()
 typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 25)
 typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
+typ_pisma_overovaci_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 
 # cudliky
 #hlavní menu
@@ -68,17 +70,12 @@ cl_pin = ((190, 150), (150, 50), (0,0,0), "text")
 cl_ok = ((780, 525), (150, 50), (0,0,0), "text")
 cl_close4 = ((410, 525), (150, 50), (0,0,0), "text")
 
-#čekací menu
-cl_potvrzeni = ((240, 480), (600, 50), (0,0,0), "text")
-pindik = ((410, 525), (0,0), (0,0,0), "text")
-
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
 pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_ok,cl_close4)]
-cekaci_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_potvrzeni, pindik)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
@@ -92,6 +89,7 @@ def zapis():
     global otevreno
     global soubor
     if zadavani == True:
+
             if otevreno == False: 
                 soubor = open("pin.csv", "w", encoding = "utf-8")
                 otevreno = True
@@ -156,9 +154,14 @@ def zobraz_okno(okno):
     pygame.draw.rect(okno, (200, 20, 20), ((365,195), (610,410)))
     pygame.draw.rect(okno, (170, 170, 170), ((370,200), (600,400)))
    
-def kontrola(okno, pin):
-    pass    
-
+def nacist_data(): #načtení dat
+    pin_pro_porovnani = []
+    soubor = open("pin.csv", "r", encoding = "utf-8")
+    cislo = soubor.readline()
+    for cislice in cislo:
+        pin_pro_porovnani.append(cislice)
+    print(pin_pro_porovnani)
+        
 class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y):
@@ -244,6 +247,7 @@ class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEE
 
 ##################################################################################################
 
+overovaci_pin_kod = []
 pin_kod = []
 zdi = []
 level = [
@@ -530,31 +534,32 @@ while True:
             if cl_ok[0][0] < pygame.mouse.get_pos()[0] < (cl_ok[0][0] + cl_ok[1][0]) and cl_ok[0][1] < pygame.mouse.get_pos()[1] < (cl_ok[0][1] + cl_ok[1][1]) and pygame.mouse.get_pressed()[0]:
                 if mys_zmacknuta_ted:
                     cekat = True
+                zadavani = True
                 
-                
-                
+
             if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
                 pin = False
                 pin_kod = []
 ##########################
                 
         if cekat == True:
+            if nacitani == True:
+                nacist_data()
+                nacitani = False
             soubor = open("pin.csv", "r", encoding = "utf-8")
             cekaci_obrazovka(okno)
-            aktivni_obrazovka = cekaci_menu
-            for cudlik in cekaci_menu[2]:
-                pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
-                
+            pin_kod = []
             for i in range(len(pin_kod)):
                 povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
                 okno.blit(povrch, ((i*100)+350,250))
                 print(pin_kod)
                 
-        zapis()        
+        zapis()       
             
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
             if mys_zmacknuta_ted:
                 pin = True
             zadavani = True
+        
             
     pygame.display.update()
