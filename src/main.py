@@ -535,6 +535,7 @@ while True:
                 if mys_zmacknuta_ted:
                     cekat = True
                 zadavani = True
+                nacitani = True
                 
 
             if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
