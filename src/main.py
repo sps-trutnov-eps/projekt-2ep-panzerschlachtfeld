@@ -452,6 +452,7 @@ while True:
             else: 
                 poloha = False
             sprites.add(hrac1,hrac2)
+            
         pygame.display.update()        
         
 ########## herní logika ################################################################################################
@@ -496,6 +497,8 @@ while True:
             in_game_menu = False
             Done = False            
             MENU = True
+            hrac1.kill()
+            hrac2.kill()
               
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
@@ -535,6 +538,7 @@ while True:
                 if mys_zmacknuta_ted:
                     cekat = True
                 zadavani = True
+                nacitani = True
                 
 
             if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
