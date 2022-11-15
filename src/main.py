@@ -7,10 +7,7 @@ vec = pygame.math.Vector2
 
 PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 250.0
-game_folder = path.dirname(__file__)
-img_folder = path.join(game_folder, '../doc')
-kol = pygame.image.load(path.join(img_folder, "Tank.png"))
-kol_rect = kol.get_rect()
+
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 100, 145, 84
@@ -169,6 +166,8 @@ class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y):
         #šablona
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, '../doc')
         pygame.sprite.Sprite.__init__(self)
         self.player_img = pygame.image.load(path.join(img_folder, "Tank.png")).convert_alpha()
         self.image = self.player_img
@@ -188,7 +187,7 @@ class Player(pygame.sprite.Sprite):
         self.rot1 = 180
         self.rot2 = 0
         
-    def update(self):
+    def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
         self.rot_speed1 = 0
@@ -230,10 +229,11 @@ class Player(pygame.sprite.Sprite):
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot2)
                 hrac2.vel = vec(0, hrac2.rychlost1).rotate(-self.rot1)
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
-            
         else:
             pass
-       
+        
+    def kolize(self):
+        
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
         if self.pos.x - self.rect.w/2 < 0:
@@ -242,15 +242,41 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = ROZLISENI_Y - self.rect.h/2
         if self.pos.y - self.rect.h/2 < 0:
             self.pos.y = self.rect.h/2
-            
-       
+        for zed in zdi:
+            if pygame.Rect.colliderect(hrac1.kol_rect, zed.rect):
+                if poloha:
+                    if self.rychlost1 > 0:
+                        hrac1.rect.bottom = zed.rect.top  
+                    if self.rychlost1 < 0:    
+                        hrac1.rect.top = zed.rect.bottom
+                else:
+                    if self.rychlost2 > 0:
+                        hrac1.rect.bottom = zed.rect.top
+                    if self.rychlost2 < 0:    
+                        hrac1.rect.top = zed.rect.bottom
+                self.rect.center = self.kol_rect.center  
+            if pygame.Rect.colliderect(hrac2.kol_rect, zed.rect):
+                if poloha == False:
+                    if self.rychlost1 > 0:
+                        hrac2.rect.bottom = zed.rect.top 
+                    if self.rychlost1 < 0:    
+                        hrac2.rect.top = zed.rect.bottom 
+                else:
+                    if self.rychlost2 > 0:
+                        hrac2.rect.bottom = zed.rect.top
+                    if self.rychlost2 < 0:    
+                        hrac2.rect.top = zed.rect.bottom
+                         
+    def update(self):
+        
+        self.pohyb()
+        self.kolize()
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
-        kol_rect.center = self.rect.center 
-       
+
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
