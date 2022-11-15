@@ -7,7 +7,10 @@ vec = pygame.math.Vector2
 
 PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 250.0
-
+game_folder = path.dirname(__file__)
+img_folder = path.join(game_folder, '../doc')
+kol = pygame.image.load(path.join(img_folder, "Tank.png"))
+kol_rect = kol.get_rect()
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 100, 145, 84
@@ -167,8 +170,6 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         #šablona
         pygame.sprite.Sprite.__init__(self)
-        game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, '../doc')
         self.player_img = pygame.image.load(path.join(img_folder, "Tank.png")).convert_alpha()
         self.image = self.player_img
         self.rect = self.image.get_rect()
@@ -216,7 +217,8 @@ class Player(pygame.sprite.Sprite):
         self.rot1 = (self.rot1 + self.rot_speed1 * self.dt) % 360
         self.rot2 = (self.rot2 + self.rot_speed2 * self.dt) % 360
         
-        #kolize        
+        #kolize
+        
         if pohyb_tanku:
             if poloha:
                 hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot1)
@@ -231,12 +233,23 @@ class Player(pygame.sprite.Sprite):
             
         else:
             pass
-        
+       
+        if self.pos.x + self.rect.w/2 > ROZLISENI_X:
+            self.pos.x = ROZLISENI_X - self.rect.w/2
+        if self.pos.x - self.rect.w/2 < 0:
+            self.pos.x = self.rect.w/2
+        if self.pos.y + self.rect.h/2 > ROZLISENI_Y :
+            self.pos.y = ROZLISENI_Y - self.rect.h/2
+        if self.pos.y - self.rect.h/2 < 0:
+            self.pos.y = self.rect.h/2
+            
+       
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
+        kol_rect.center = self.rect.center 
        
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
