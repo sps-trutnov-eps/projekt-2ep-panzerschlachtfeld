@@ -179,6 +179,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y
              
         #pro loop, kolizi apod#
+        self.kol_rect = self.player_img.get_rect()
         self.rychlost1 = 0 
         self.rychlost2 = 0
         self.dt = 60/100000
@@ -242,30 +243,10 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = ROZLISENI_Y - self.rect.h/2
         if self.pos.y - self.rect.h/2 < 0:
             self.pos.y = self.rect.h/2
+            
         for zed in zdi:
-            if pygame.Rect.colliderect(hrac1.kol_rect, zed.rect):
-                if poloha:
-                    if self.rychlost1 > 0:
-                        hrac1.rect.bottom = zed.rect.top  
-                    if self.rychlost1 < 0:    
-                        hrac1.rect.top = zed.rect.bottom
-                else:
-                    if self.rychlost2 > 0:
-                        hrac1.rect.bottom = zed.rect.top
-                    if self.rychlost2 < 0:    
-                        hrac1.rect.top = zed.rect.bottom
-                self.rect.center = self.kol_rect.center  
-            if pygame.Rect.colliderect(hrac2.kol_rect, zed.rect):
-                if poloha == False:
-                    if self.rychlost1 > 0:
-                        hrac2.rect.bottom = zed.rect.top 
-                    if self.rychlost1 < 0:    
-                        hrac2.rect.top = zed.rect.bottom 
-                else:
-                    if self.rychlost2 > 0:
-                        hrac2.rect.bottom = zed.rect.top
-                    if self.rychlost2 < 0:    
-                        hrac2.rect.top = zed.rect.bottom
+            if pygame.Rect.colliderect(self.kol_rect, zed.rect):
+                print("kok")
                          
     def update(self):
         
@@ -276,6 +257,7 @@ class Player(pygame.sprite.Sprite):
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
+        self.kol_rect.center = self.rect.center
 
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
