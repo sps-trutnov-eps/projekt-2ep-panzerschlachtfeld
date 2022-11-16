@@ -27,7 +27,7 @@ zadavani_overovaciho_pinu = False
 #otevreno = False
 cekat = False
 pauza_v_menu = False
-odezva_nacitani_frame_tanku = 9
+odezva_nacitani_framu_tanku = 9
 tank_frame_ted = 0
 tank_posledni_snimek = pygame.Surface((800,608))
 clock = pygame.time.Clock()
@@ -86,15 +86,15 @@ aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
 def cekaci_menu_animation(animovany_tank):
-    global tank_frame_ted, odezva_nacitani_frame_tanku, tank_posledni_snimek
+    global tank_frame_ted, odezva_nacitani_framu_tanku, tank_posledni_snimek
     
     frame_textura_tanku = pygame.Surface((800,608))
-    if odezva_nacitani_frame_tanku >= 9:
+    if odezva_nacitani_framu_tanku >= 9:
         frame_textura_tanku.blit(animovany_tank, (0,0), (800*tank_frame_ted, 0, 800, 608))
         tank_posledni_snimek = frame_textura_tanku
-        odezva_nacitani_frame_tanku = 0
+        odezva_nacitani_framu_tanku = 0
     else:
-        odezva_nacitani_frame_tanku += 1
+        odezva_nacitani_framu_tanku += 1
         frame_textura_tanku = tank_posledni_snimek
     
     if tank_frame_ted >= 15:
@@ -599,11 +599,11 @@ while True:
         if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
             aktivni_obrazovka = hlavni_menu
             in_game_menu = False
-            Done = False            
-            MENU = True
-            hrac1p.kill()
+            Done = False
+            hrac1.kill()
             hrac2.kill()
-              
+            MENU = True
+        
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
         hl_nadpis4Rect.center = (255, 55)
