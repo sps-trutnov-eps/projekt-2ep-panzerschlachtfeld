@@ -27,11 +27,16 @@ zadavani_overovaciho_pinu = False
 #otevreno = False
 cekat = False
 pauza_v_menu = False
+odezva_nacitani_frame_tanku = 9
+tank_frame_ted = 0
+tank_posledni_snimek = pygame.Surface((800,608))
+clock = pygame.time.Clock()
 bila = 255,255,255
 cerna = 0,0,0
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
 mapa2_pozadi = pygame.image.load("..\doc\mapa-2.png")
-mapa3_pozadi = pygame.image.load("..\doc\mapa-3.png") 
+mapa3_pozadi = pygame.image.load("..\doc\mapa-3.png")
+animovany_tank = pygame.image.load("../doc/animation_tank.png")
 #############################################################################################
 
 pygame.font.init()
@@ -79,6 +84,25 @@ pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_cl
 pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
+
+def cekaci_menu_animation(animovany_tank):
+    global tank_frame_ted, odezva_nacitani_frame_tanku, tank_posledni_snimek
+    
+    frame_textura_tanku = pygame.Surface((800,608))
+    if odezva_nacitani_frame_tanku >= 9:
+        frame_textura_tanku.blit(animovany_tank, (0,0), (800*tank_frame_ted, 0, 800, 608))
+        tank_posledni_snimek = frame_textura_tanku
+        odezva_nacitani_frame_tanku = 0
+    else:
+        odezva_nacitani_frame_tanku += 1
+        frame_textura_tanku = tank_posledni_snimek
+    
+    if tank_frame_ted >= 15:
+        tank_frame_ted = 0
+    else:
+        tank_frame_ted += 1
+    return frame_textura_tanku 
+
 def popisky_k_pin_menu(bila, okno, cerna):
     popisek_pin = typ_pisma_pin_menu2.render('Zadejte 4 místný číselný kód!', True, bila, (170, 170, 170))
     popisek_pinRect = popisek_pin.get_rect()
@@ -91,7 +115,7 @@ def popisky_k_pin_menu(bila, okno, cerna):
     okno.blit(nadpis_close4, nadpis_close4Rect)
     
 def popisky_k_cekacimu_menu(bila, cerna, okno):
-    popisek_odemceni = typ_pisma_pin_menu2.render('Zopakujte vámi zadaný kód, pro odemčení!', True, bila, (170, 170, 170))
+    popisek_odemceni = typ_pisma_pin_menu2.render('Zopakujte vámi zadaný kód, pro odemčení!', True, bila, (211, 194, 139))
     popisek_odemceniRect = popisek_odemceni.get_rect()
     popisek_odemceniRect.center = (547, 100)
     okno.blit(popisek_odemceni, popisek_odemceniRect)
@@ -109,8 +133,8 @@ def vykreslovani_policek_v_cekacim_menu(okno):
     pygame.draw.rect(okno, (0, 0, 0), ((655,320), (54,5)))
     
 def cekaci_obrazovka(okno):
-    pygame.draw.rect(okno, (200, 20, 20), ((0,0), (1080, 800)))
-    pygame.draw.rect(okno, (170, 170, 170), ((10,10), (1060,780)))
+    
+    pygame.draw.rect(okno, (211, 194, 139), ((10,10), (1060,780)))
     
 def zapis():
     global povoleni_zmacknuti_cisla
@@ -618,7 +642,9 @@ while True:
 ##########################
                 
         if cekat == True:
+            pygame.draw.rect(okno, (200, 20, 20), ((0, 0), (1080, 800)))
             cekaci_obrazovka(okno)
+            okno.blit(cekaci_menu_animation(animovany_tank), (80, 80))
             vykreslovani_policek_v_cekacim_menu(okno)
             zapis_pro_overovaci_pin()
             popisky_k_cekacimu_menu(bila, cerna, okno)
@@ -627,5 +653,6 @@ while True:
             if mys_zmacknuta_ted:
                 pin = True
             zadavani = True
-          
+    
     pygame.display.update()
+    clock.tick(70)
