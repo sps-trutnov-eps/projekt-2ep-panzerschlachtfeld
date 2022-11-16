@@ -21,9 +21,10 @@ in_game_menu = False
 p_zmacknuto_pred_tim = False
 pin = False
 povoleni_zmacknuti_cisla = True
-zmacknuto = False
+#zmacknuto = False
 zadavani = False
-otevreno = False
+zadavani_overovaciho_pinu = False
+#otevreno = False
 cekat = False
 pauza_v_menu = False
 bila = 255,255,255
@@ -39,6 +40,7 @@ typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 25)
 typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_overovaci_menu = pygame.font.SysFont('freesansbold.ttf', 250)
+typ_pisma_pin_menu2 = pygame.font.SysFont('freesansbold.ttf', 50)
 
 # cudliky
 #hlavní menu
@@ -66,7 +68,7 @@ cl_close3 = ((55, 420), (210, 50), (0,0,0), "text")
 cl_pin = ((190, 150), (150, 50), (0,0,0), "text")
 
 #pin menu
-cl_ok = ((780, 525), (150, 50), (0,0,0), "text")
+pindik = ((780, 525), (0, 0), (0,0,0), "text")
 cl_close4 = ((410, 525), (150, 50), (0,0,0), "text")
 
 # obrazovky menu
@@ -74,15 +76,31 @@ hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
-pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (cl_ok,cl_close4)]
+pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
+def popisky_k_pin_menu(bila, okno, cerna):
+    popisek_pin = typ_pisma_pin_menu2.render('Zadejte 4 místný číselný kód!', True, bila, (170, 170, 170))
+    popisek_pinRect = popisek_pin.get_rect()
+    popisek_pinRect.center = (670, 270)
+    okno.blit(popisek_pin, popisek_pinRect)
+    
+    nadpis_close4 = typ_pisma_hlavni_menu.render('Close', True, bila, cerna)
+    nadpis_close4Rect = nadpis_close4.get_rect()
+    nadpis_close4Rect.center = (480, 550)
+    okno.blit(nadpis_close4, nadpis_close4Rect)
+    
+def popisky_k_cekacimu_menu(bila, cerna, okno):
+    popisek_odemceni = typ_pisma_pin_menu2.render('Zopakujte vámi zadaný kód, pro odemčení!', True, bila, (170, 170, 170))
+    popisek_odemceniRect = popisek_odemceni.get_rect()
+    popisek_odemceniRect.center = (547, 100)
+    okno.blit(popisek_odemceni, popisek_odemceniRect)
 
 def vykreslovani_policek_v_pinu(okno):
-    pygame.draw.rect(okno, (0, 0, 0), ((505,320), (54,5)))
-    pygame.draw.rect(okno, (0, 0, 0), ((605,320), (54,5)))
-    pygame.draw.rect(okno, (0, 0, 0), ((705,320), (54,5)))
-    pygame.draw.rect(okno, (0, 0, 0), ((805,320), (54,5)))
+    pygame.draw.rect(okno, (0, 0, 0), ((505,370), (54,5)))
+    pygame.draw.rect(okno, (0, 0, 0), ((605,370), (54,5)))
+    pygame.draw.rect(okno, (0, 0, 0), ((705,370), (54,5)))
+    pygame.draw.rect(okno, (0, 0, 0), ((805,370), (54,5)))
     
 def vykreslovani_policek_v_cekacim_menu(okno):
     pygame.draw.rect(okno, (0, 0, 0), ((355,320), (54,5)))
@@ -97,10 +115,8 @@ def cekaci_obrazovka(okno):
 def zapis():
     global povoleni_zmacknuti_cisla
     global zadavani
-    global otevreno
-    global soubor
+    global cekat
     if zadavani == True:
-        
             cislo = None
             if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
                 cislo = 0
@@ -150,9 +166,14 @@ def zapis():
             else:
                 povoleni_zmacknuti_cisla = True
                 
+            for i in range(len(pin_kod)):
+                povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
+                okno.blit(povrch, ((i*100)+500,300))
+                print(pin_kod)
+                
             if len(pin_kod) == 4:
-                otevreno = False
                 zadavani = False
+                cekat = True
                 print(pin_kod)
                 
 def zobraz_okno(okno):
@@ -161,10 +182,12 @@ def zobraz_okno(okno):
    
 def zapis_pro_overovaci_pin():#načtení dat
     global povoleni_zmacknuti_cisla
-    global zadavani
-    global otevreno
-    global soubor
-    if zadavani == True:
+    global zadavani_overovaciho_pinu
+    if zadavani_overovaciho_pinu == True:
+            for i in range(len(overovaci_pin_kod)):
+                povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
+                okno.blit(povrch2, ((i*100)+500,250))
+                print(overovaci_pin_kod)
         
             cislo = None
             if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
@@ -216,7 +239,6 @@ def zapis_pro_overovaci_pin():#načtení dat
                 povoleni_zmacknuti_cisla = True
                 
             if len(overovaci_pin_kod) == 4:
-                otevreno = False
                 zadavani = False
                 print(overovaci_pin_kod)
         
@@ -583,21 +605,13 @@ while True:
 ########################
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
+            zobraz_okno(okno) 
             aktivni_obrazovka = pin_menu
-            zobraz_okno(okno)
             for cudlik in pin_menu[2]:
                 pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
             vykreslovani_policek_v_pinu(okno)
-            for i in range(len(pin_kod)):
-                povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
-                okno.blit(povrch, ((i*100)+500,250))
-                print(pin_kod)
-                
-            if cl_ok[0][0] < pygame.mouse.get_pos()[0] < (cl_ok[0][0] + cl_ok[1][0]) and cl_ok[0][1] < pygame.mouse.get_pos()[1] < (cl_ok[0][1] + cl_ok[1][1]) and pygame.mouse.get_pressed()[0]:
-                if mys_zmacknuta_ted:
-                    cekat = True
-                zadavani = True
-                
+            zapis()
+            popisky_k_pin_menu(bila, okno, cerna) 
             if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
                 pin = False
                 pin_kod = []
@@ -606,14 +620,8 @@ while True:
         if cekat == True:
             cekaci_obrazovka(okno)
             vykreslovani_policek_v_cekacim_menu(okno)
-            
-            for i in range(len(overovaci_pin_kod)):
-                povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
-                okno.blit(povrch2, ((i*100)+500,250))
-                print(overovaci_pin_kod)
-                      
-        zapis()   
-        zapis_pro_overovaci_pin() 
+            zapis_pro_overovaci_pin()
+            popisky_k_cekacimu_menu(bila, cerna, okno)
         
         if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
             if mys_zmacknuta_ted:
