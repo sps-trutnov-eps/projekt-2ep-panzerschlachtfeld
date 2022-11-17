@@ -21,10 +21,8 @@ in_game_menu = False
 p_zmacknuto_pred_tim = False
 pin = False
 povoleni_zmacknuti_cisla = True
-#zmacknuto = False
 zadavani = False
 zadavani_overovaciho_pinu = False
-#otevreno = False
 cekat = False
 pauza_v_menu = False
 odezva_nacitani_framu_tanku = 9
@@ -133,139 +131,151 @@ def vykreslovani_policek_v_cekacim_menu(okno):
     pygame.draw.rect(okno, (0, 0, 0), ((655,320), (54,5)))
     
 def cekaci_obrazovka(okno):
-    
     pygame.draw.rect(okno, (211, 194, 139), ((10,10), (1060,780)))
     
 def zapis():
     global povoleni_zmacknuti_cisla
     global zadavani
     global cekat
+    global pin_kod
+    global zadavani_overovaciho_pinu
     if zadavani == True:
-            cislo = None
-            if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
-                cislo = 0
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP1] and povoleni_zmacknuti_cisla:
-                cislo = 1
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP2] and povoleni_zmacknuti_cisla:
-                cislo = 2
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP3] and povoleni_zmacknuti_cisla:
-                cislo = 3
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP4] and povoleni_zmacknuti_cisla:
-                cislo = 4
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP5] and povoleni_zmacknuti_cisla:
-                cislo = 5
-                povoleni_zmacknuti_cisla = False
+        cislo = None
+        if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
+            cislo = 0
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP1] and povoleni_zmacknuti_cisla:
+            cislo = 1
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP2] and povoleni_zmacknuti_cisla:
+            cislo = 2
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP3] and povoleni_zmacknuti_cisla:
+            cislo = 3
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP4] and povoleni_zmacknuti_cisla:
+            cislo = 4
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP5] and povoleni_zmacknuti_cisla:
+            cislo = 5
+            povoleni_zmacknuti_cisla = False
 
-            elif z[pygame.K_KP6] and povoleni_zmacknuti_cisla:
-                cislo = 6
-                povoleni_zmacknuti_cisla = False
+        elif z[pygame.K_KP6] and povoleni_zmacknuti_cisla:
+            cislo = 6
+            povoleni_zmacknuti_cisla = False
 
-            elif z[pygame.K_KP7] and povoleni_zmacknuti_cisla:
-                cislo = 7
-                povoleni_zmacknuti_cisla = False
+        elif z[pygame.K_KP7] and povoleni_zmacknuti_cisla:
+            cislo = 7
+            povoleni_zmacknuti_cisla = False
 
-            elif z[pygame.K_KP8] and povoleni_zmacknuti_cisla:
-                cislo = 8
-                povoleni_zmacknuti_cisla = False
+        elif z[pygame.K_KP8] and povoleni_zmacknuti_cisla:
+            cislo = 8
+            povoleni_zmacknuti_cisla = False
 
-            elif z[pygame.K_KP9] and povoleni_zmacknuti_cisla:
-                cislo = 9
-                povoleni_zmacknuti_cisla = False
+        elif z[pygame.K_KP9] and povoleni_zmacknuti_cisla:
+            cislo = 9
+            povoleni_zmacknuti_cisla = False
 
-            if cislo != None:
-                pin_kod.append(cislo)
+        if cislo != None:
+            pin_kod.append(cislo)
 
-            elif (z[pygame.K_KP0] or z[pygame.K_KP1] or z[pygame.K_KP2] or z[pygame.K_KP3] or z[pygame.K_KP4] or z[pygame.K_KP5] or z[pygame.K_KP6] or z[pygame.K_KP7] or z[pygame.K_KP8] or z[pygame.K_KP9]) and povoleni_zmacknuti_cisla == False:
-                pass
-            else:
-                povoleni_zmacknuti_cisla = True
+        elif (z[pygame.K_KP0] or z[pygame.K_KP1] or z[pygame.K_KP2] or z[pygame.K_KP3] or z[pygame.K_KP4] or z[pygame.K_KP5] or z[pygame.K_KP6] or z[pygame.K_KP7] or z[pygame.K_KP8] or z[pygame.K_KP9]) and povoleni_zmacknuti_cisla == False:
+            pass
+        else:
+            povoleni_zmacknuti_cisla = True
+            
+        for i in range(len(pin_kod)):
+            povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
+            okno.blit(povrch, ((i*100)+500,300))
+            print(pin_kod)
                 
-            for i in range(len(pin_kod)):
-                povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
-                okno.blit(povrch, ((i*100)+500,300))
-                print(pin_kod)
-                
-            if len(pin_kod) == 4:
-                zadavani = False
-                cekat = True
-                print(pin_kod)
+        if len(pin_kod) == 4:
+            zadavani = False
+            cekat = True
+            zadavani_overovaciho_pinu = True
+            print(pin_kod)
                 
 def zobraz_okno(okno):
     pygame.draw.rect(okno, (200, 20, 20), ((365,195), (610,410)))
     pygame.draw.rect(okno, (170, 170, 170), ((370,200), (600,400)))
    
 def zapis_pro_overovaci_pin():#načtení dat
+    global overovaci_pin_kod
     global povoleni_zmacknuti_cisla
     global zadavani_overovaciho_pinu
+    global pin_kod
+    global pin
+    global cekat
     if zadavani_overovaciho_pinu == True:
-            for i in range(len(overovaci_pin_kod)):
-                povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
-                okno.blit(povrch2, ((i*100)+500,250))
-                print(overovaci_pin_kod)
-        
-            cislo = None
-            if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
-                cislo = 0
-                povoleni_zmacknuti_cisla = False
+        cislo = None
+        if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
+            cislo = 0
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP1] and povoleni_zmacknuti_cisla:
+            cislo = 1
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP2] and povoleni_zmacknuti_cisla:
+            cislo = 2
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP3] and povoleni_zmacknuti_cisla:
+            cislo = 3
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP4] and povoleni_zmacknuti_cisla:
+            cislo = 4
+            povoleni_zmacknuti_cisla = False
+            
+        elif z[pygame.K_KP5] and povoleni_zmacknuti_cisla:
+            cislo = 5
+            povoleni_zmacknuti_cisla = False
+
+        elif z[pygame.K_KP6] and povoleni_zmacknuti_cisla:
+            cislo = 6
+            povoleni_zmacknuti_cisla = False
+
+        elif z[pygame.K_KP7] and povoleni_zmacknuti_cisla:
+            cislo = 7
+            povoleni_zmacknuti_cisla = False
+
+        elif z[pygame.K_KP8] and povoleni_zmacknuti_cisla:
+            cislo = 8
+            povoleni_zmacknuti_cisla = False
+
+        elif z[pygame.K_KP9] and povoleni_zmacknuti_cisla:
+            cislo = 9
+            povoleni_zmacknuti_cisla = False
+
+        if cislo != None:
+            overovaci_pin_kod.append(cislo)
+
+        elif (z[pygame.K_KP0] or z[pygame.K_KP1] or z[pygame.K_KP2] or z[pygame.K_KP3] or z[pygame.K_KP4] or z[pygame.K_KP5] or z[pygame.K_KP6] or z[pygame.K_KP7] or z[pygame.K_KP8] or z[pygame.K_KP9]) and povoleni_zmacknuti_cisla == False:
+            pass
+        else:
+            povoleni_zmacknuti_cisla = True
+            
+    for i in range(len(overovaci_pin_kod)):
+        povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
+        okno.blit(povrch2, ((i*100)+350,250))
+        print(overovaci_pin_kod)
                 
-            elif z[pygame.K_KP1] and povoleni_zmacknuti_cisla:
-                cislo = 1
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP2] and povoleni_zmacknuti_cisla:
-                cislo = 2
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP3] and povoleni_zmacknuti_cisla:
-                cislo = 3
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP4] and povoleni_zmacknuti_cisla:
-                cislo = 4
-                povoleni_zmacknuti_cisla = False
-                
-            elif z[pygame.K_KP5] and povoleni_zmacknuti_cisla:
-                cislo = 5
-                povoleni_zmacknuti_cisla = False
-
-            elif z[pygame.K_KP6] and povoleni_zmacknuti_cisla:
-                cislo = 6
-                povoleni_zmacknuti_cisla = False
-
-            elif z[pygame.K_KP7] and povoleni_zmacknuti_cisla:
-                cislo = 7
-                povoleni_zmacknuti_cisla = False
-
-            elif z[pygame.K_KP8] and povoleni_zmacknuti_cisla:
-                cislo = 8
-                povoleni_zmacknuti_cisla = False
-
-            elif z[pygame.K_KP9] and povoleni_zmacknuti_cisla:
-                cislo = 9
-                povoleni_zmacknuti_cisla = False
-
-            if cislo != None:
-                overovaci_pin_kod.append(cislo)
-
-            elif (z[pygame.K_KP0] or z[pygame.K_KP1] or z[pygame.K_KP2] or z[pygame.K_KP3] or z[pygame.K_KP4] or z[pygame.K_KP5] or z[pygame.K_KP6] or z[pygame.K_KP7] or z[pygame.K_KP8] or z[pygame.K_KP9]) and povoleni_zmacknuti_cisla == False:
-                pass
+        if len(overovaci_pin_kod) == 4:
+            zadavani_overovaciho_pinu = False
+            print(overovaci_pin_kod)
+            if pin_kod == overovaci_pin_kod:
+                cekat = False
+                pin = False
             else:
-                povoleni_zmacknuti_cisla = True
+                overovaci_pin_kod = []
+                zadavani_overovaciho_pinu = True
                 
-            if len(overovaci_pin_kod) == 4:
-                zadavani = False
-                print(overovaci_pin_kod)
-        
 class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y):
@@ -517,7 +527,7 @@ while True:
     ###############vykreslovani########################################################################################################################################################################   
         
         if aktivni_obrazovka == hlavni_menu:
-            okno.blit(nadpis_exit, nadpis_exitRect)
+            okno.blit(nadpis_exit, nadpis_exitRect) 
             okno.blit(hl_nadpis1, hl_nadpis1Rect)
             okno.blit(nadpis_menu1, nadpis_menu1Rect)
             okno.blit(nadpis_menu2, nadpis_menu2Rect)
@@ -635,7 +645,8 @@ while True:
                 pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
             vykreslovani_policek_v_pinu(okno)
             zapis()
-            popisky_k_pin_menu(bila, okno, cerna) 
+            popisky_k_pin_menu(bila, okno, cerna)
+            
             if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
                 pin = False
                 pin_kod = []
