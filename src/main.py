@@ -270,8 +270,8 @@ def zapis_pro_overovaci_pin():#načtení dat
             zadavani_overovaciho_pinu = False
             print(overovaci_pin_kod)
             if pin_kod == overovaci_pin_kod:
+                overovaci_pin_kod = []
                 cekat = False
-                pin = False
             else:
                 overovaci_pin_kod = []
                 zadavani_overovaciho_pinu = True
@@ -341,8 +341,7 @@ class Player(pygame.sprite.Sprite):
                 hrac1.vel = vec(0, hrac1.rychlost2).rotate(-self.rot2)
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot2)
                 hrac2.vel = vec(0, hrac2.rychlost1).rotate(-self.rot1)
-                hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
-            
+                hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)    
         else:
             pass
         
@@ -352,7 +351,6 @@ class Player(pygame.sprite.Sprite):
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
        
-
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
@@ -414,7 +412,6 @@ pygame.init()
 pygame.display.set_caption('Panzerschlachtfeld im Labyrinth')
 okno = pygame.display.set_mode(ROZLISENI_OKNA)
 sprites = pygame.sprite.Group()
-
 
 while True:
 # ovladani aplikace ########################################################################
@@ -634,8 +631,7 @@ while True:
         okno.blit(nadpis_exit1, nadpis_exit1Rect)
         okno.blit(nadpis_close3, nadpis_close3Rect)
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
-        
-        
+              
 ########################
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
