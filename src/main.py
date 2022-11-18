@@ -177,9 +177,10 @@ class Player(pygame.sprite.Sprite):
         #pro vnější kód
         self.rect.x = x
         self.rect.y = y
-             
+        
         #pro loop, kolizi apod#
         self.kol_rect = self.player_img.get_rect()
+        self.kol_rect.center = self.rect.center
         self.rychlost1 = 0 
         self.rychlost2 = 0
         self.dt = 60/100000
@@ -187,7 +188,30 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec(x, y)
         self.rot1 = 180
         self.rot2 = 0
-        
+    def kolize(self):
+        if self.pos.x + self.rect.w/2 > ROZLISENI_X:
+            self.pos.x = ROZLISENI_X - self.rect.w/2
+        if self.pos.x - self.rect.w/2 < 0:
+            self.pos.x = self.rect.w/2
+        if self.pos.y + self.rect.h/2 > ROZLISENI_Y :
+            self.pos.y = ROZLISENI_Y - self.rect.h/2
+        if self.pos.y - self.rect.h/2 < 0:
+            self.pos.y = self.rect.h/2
+            
+        for zed in zdi:
+            if pygame.Rect.colliderect(hrac1.kol_rect, zed.rect):
+               if zed.rect.x > hrac1.kol_rect.x + hrac1.kol_rect.width / 2 :
+                   hrac1.pos.x = zed.rect.x - hrac1.kol_rect.width / 2
+               if zed.rect.x + zed.rect.w - 1.45 < hrac1.kol_rect.x :
+                   hrac1.pos.x = zed.rect.right + hrac1.kol_rect.width / 2
+               if zed.rect.y > hrac1.kol_rect.y + hrac1.kol_rect.h - 1.45:
+                   hrac1.pos.y = zed.rect.top - hrac1.kol_rect.h / 2
+               if zed.rect.y + zed.rect.h - 1.45 < hrac1.kol_rect.y :
+                   hrac1.pos.y = zed.rect.bottom + hrac1.kol_rect.h / 2
+                   
+               
+                    
+                    
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
@@ -232,21 +256,6 @@ class Player(pygame.sprite.Sprite):
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
-        
-    def kolize(self):
-        
-        if self.pos.x + self.rect.w/2 > ROZLISENI_X:
-            self.pos.x = ROZLISENI_X - self.rect.w/2
-        if self.pos.x - self.rect.w/2 < 0:
-            self.pos.x = self.rect.w/2
-        if self.pos.y + self.rect.h/2 > ROZLISENI_Y :
-            self.pos.y = ROZLISENI_Y - self.rect.h/2
-        if self.pos.y - self.rect.h/2 < 0:
-            self.pos.y = self.rect.h/2
-            
-        for zed in zdi:
-            if pygame.Rect.colliderect(self.kol_rect, zed.rect):
-                print("kok")
                          
     def update(self):
         
@@ -258,6 +267,7 @@ class Player(pygame.sprite.Sprite):
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
         self.kol_rect.center = self.rect.center
+        
 
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
