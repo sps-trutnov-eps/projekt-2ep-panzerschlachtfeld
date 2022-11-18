@@ -272,6 +272,9 @@ def zapis_pro_overovaci_pin():#načtení dat
             if pin_kod == overovaci_pin_kod:
                 overovaci_pin_kod = []
                 cekat = False
+                pin = False
+                pin_kod = []
+                
             else:
                 overovaci_pin_kod = []
                 zadavani_overovaciho_pinu = True
