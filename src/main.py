@@ -656,6 +656,8 @@ while True:
         
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
+            odchod_ze_hry = False
+            zpatky_do_menu = False
             zobraz_okno(okno) 
             aktivni_obrazovka = pin_menu
             for cudlik in pin_menu[2]:
