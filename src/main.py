@@ -26,12 +26,14 @@ cekat = False
 pauza_v_menu = False
 zpatky_do_menu = False
 odchod_ze_hry = False
+varovani = False
 odezva_nacitani_framu_tanku = 9
 tank_frame_ted = 0
 tank_posledni_snimek = pygame.Surface((800,608))
 clock = pygame.time.Clock()
 bila = 255,255,255
 cerna = 0,0,0
+cervena = 237, 28, 36
 mapa1_pozadi = pygame.image.load("..\doc\mapa-1.png")
 mapa2_pozadi = pygame.image.load("..\doc\mapa-2.png")
 mapa3_pozadi = pygame.image.load("..\doc\mapa-3.png")
@@ -100,8 +102,8 @@ def cekaci_menu_animation(animovany_tank):
         tank_frame_ted = 0
     else:
         tank_frame_ted += 1
-    return frame_textura_tanku 
-
+    return frame_textura_tanku
+    
 def popisky_k_pin_menu(bila, okno, cerna):
     popisek_pin = typ_pisma_pin_menu2.render('Zadejte 4 místný číselný kód!', True, bila, (170, 170, 170))
     popisek_pinRect = popisek_pin.get_rect()
@@ -204,7 +206,7 @@ def zapis():
 def zobraz_okno(okno):
     pygame.draw.rect(okno, (200, 20, 20), ((365,195), (610,410)))
     pygame.draw.rect(okno, (170, 170, 170), ((370,200), (600,400)))
-   
+
 def zapis_pro_overovaci_pin():#načtení dat
     global overovaci_pin_kod
     global povoleni_zmacknuti_cisla
@@ -212,6 +214,7 @@ def zapis_pro_overovaci_pin():#načtení dat
     global pin_kod
     global pin
     global cekat
+    global varovani
     if zadavani_overovaciho_pinu == True:
         cislo = None
         if z[pygame.K_KP0] and povoleni_zmacknuti_cisla:
@@ -262,6 +265,13 @@ def zapis_pro_overovaci_pin():#načtení dat
         else:
             povoleni_zmacknuti_cisla = True
             
+    if varovani == True:
+        nadpis_varovani = typ_pisma_hlavni_menu.render('Špatně zadaný pin, zkuste to znovu', True, cervena, (211, 194, 139))
+        nadpis_varovaniRect = nadpis_varovani.get_rect()
+        nadpis_varovaniRect.center = (547, 170)
+        okno.blit(nadpis_varovani, nadpis_varovaniRect)
+        print("bum")
+            
     for i in range(len(overovaci_pin_kod)):
         povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
         okno.blit(povrch2, ((i*100)+350,250))
@@ -272,13 +282,14 @@ def zapis_pro_overovaci_pin():#načtení dat
             print(overovaci_pin_kod)
             if pin_kod == overovaci_pin_kod:
                 overovaci_pin_kod = []
+                varovani = False
                 cekat = False
                 pin = False
                 pin_kod = []
-                
             else:
                 overovaci_pin_kod = []
                 zadavani_overovaciho_pinu = True
+                varovani = True
                 
 class Player(pygame.sprite.Sprite):
     
@@ -618,8 +629,7 @@ while True:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
             
         odchod_ze_hry = True
-        zpatky_do_menu = True
-           
+        zpatky_do_menu = True   
         
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
@@ -658,7 +668,7 @@ while True:
                 pin = False
                 pin_kod = []
 ##########################
-                
+            
         if cekat == True:
             odchod_ze_hry = False
             zpatky_do_menu = False
