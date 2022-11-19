@@ -295,9 +295,9 @@ class Player(pygame.sprite.Sprite):
     
     def __init__(self, x, y):
         #šablona
-        pygame.sprite.Sprite.__init__(self)
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, '../doc')
+        pygame.sprite.Sprite.__init__(self)
         self.player_img = pygame.image.load(path.join(img_folder, "Tank.png")).convert_alpha()
         self.image = self.player_img
         self.rect = self.image.get_rect()
@@ -306,8 +306,10 @@ class Player(pygame.sprite.Sprite):
         #pro vnější kód
         self.rect.x = x
         self.rect.y = y
-             
+        
         #pro loop, kolizi apod#
+        self.kol_rect = self.player_img.get_rect()
+        self.kol_rect.center = self.rect.center
         self.rychlost1 = 0 
         self.rychlost2 = 0
         self.dt = 60/100000
@@ -315,8 +317,31 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec(x, y)
         self.rot1 = 180
         self.rot2 = 0
-        
-    def update(self):
+    def kolize(self):
+        if self.pos.x + self.rect.w/2 > ROZLISENI_X:
+            self.pos.x = ROZLISENI_X - self.rect.w/2
+        if self.pos.x - self.rect.w/2 < 0:
+            self.pos.x = self.rect.w/2
+        if self.pos.y + self.rect.h/2 > ROZLISENI_Y :
+            self.pos.y = ROZLISENI_Y - self.rect.h/2
+        if self.pos.y - self.rect.h/2 < 0:
+            self.pos.y = self.rect.h/2
+            
+        for zed in zdi:
+            #pro dolejšek zdi s hořejškem playera
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x and zed.rect.x + zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h > self.kol_rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.kol_rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x + zed.rect.w/25 < self.kol_rect.x + self.kol_rect.w  and zed.rect.y + zed.rect.h > self.kol_rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.kol_rect.y:
+                self.pos.y = zed.rect.bottom + self.kol_rect.h / 2
+            #pro hořejšek zdi s dolejškem playera
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x + zed.rect.w/25 < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y < self.kol_rect.y + self.kol_rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x and zed.rect.x + zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y < self.kol_rect.y + self.kol_rect.h:
+                self.pos.y = zed.rect.top - self.kol_rect.h/2
+            #pro pravou stranu zdi a levou playera
+            if zed.rect.x + zed.rect.w > self.kol_rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y + zed.rect.h /25 < self.kol_rect.y + self.kol_rect.h or zed.rect.x + zed.rect.w > self.kol_rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.kol_rect.y and zed.rect.y + zed.rect.h /25 < self.kol_rect.y:
+                self.pos.x = zed.rect.right + self.kol_rect.width / 2
+            #pro levou stranu zdi a pravou playera
+            if zed.rect.x + zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y and zed.rect.y + zed.rect.h/25 < self.kol_rect.y or zed.rect.x + zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y + zed.rect.h/25 < self.kol_rect.y + self.kol_rect.h:
+                self.pos.x = zed.rect.x - self.kol_rect.width / 2
+    
+    def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
         self.rot_speed1 = 0
@@ -345,7 +370,8 @@ class Player(pygame.sprite.Sprite):
         self.rot1 = (self.rot1 + self.rot_speed1 * self.dt) % 360
         self.rot2 = (self.rot2 + self.rot_speed2 * self.dt) % 360
         
-        #kolize        
+        #kolize
+        
         if pohyb_tanku:
             if poloha:
                 hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot1)
@@ -356,15 +382,20 @@ class Player(pygame.sprite.Sprite):
                 hrac1.vel = vec(0, hrac1.rychlost2).rotate(-self.rot2)
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot2)
                 hrac2.vel = vec(0, hrac2.rychlost1).rotate(-self.rot1)
-                hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)    
+                hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
+                         
+    def update(self):
         
+        self.pohyb()
+        self.kolize()
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
+        self.kol_rect.center = self.rect.center
        
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
@@ -687,4 +718,4 @@ while True:
             zadavani = True
     
     pygame.display.update()
-    clock.tick(70)
+    clock.tick(700)
