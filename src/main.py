@@ -204,6 +204,8 @@ class Player(pygame.sprite.Sprite):
                    hrac1.pos.y = zed.rect.top - hrac1.kol_rect.h / 2
                 if zed.rect.y + zed.rect.h - 1.45 < hrac1.kol_rect.y :
                    hrac1.pos.y = zed.rect.bottom + hrac1.kol_rect.h / 2
+                
+                
                                    
                
                     
