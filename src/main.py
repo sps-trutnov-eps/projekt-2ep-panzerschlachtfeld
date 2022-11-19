@@ -199,11 +199,21 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = self.rect.h/2
             
         for zed in zdi:
-            if pygame.Rect.colliderect(hrac1.kol_rect, zed.rect):
-                if zed.rect.y > hrac1.kol_rect.y + hrac1.kol_rect.h - 1.45:
-                   hrac1.pos.y = zed.rect.top - hrac1.kol_rect.h / 2
-                if zed.rect.y + zed.rect.h - 1.45 < hrac1.kol_rect.y :
-                   hrac1.pos.y = zed.rect.bottom + hrac1.kol_rect.h / 2
+            #pro dolejšek zdi s hořejškem playera
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x and zed.rect.x + zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h > self.kol_rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.kol_rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x + zed.rect.w/25 < self.kol_rect.x + self.kol_rect.w  and zed.rect.y + zed.rect.h > self.kol_rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.kol_rect.y:
+                self.pos.y = zed.rect.bottom + self.kol_rect.h / 2
+            #pro hořejšek zdi s dolejškem playera
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x + zed.rect.w/25 < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y < self.kol_rect.y + self.kol_rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x and zed.rect.x + zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y < self.kol_rect.y + self.kol_rect.h:
+                self.pos.y = zed.rect.top - self.kol_rect.h/2
+            #pro pravou stranu zdi a levou playera
+            if zed.rect.x + zed.rect.w > self.kol_rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y + zed.rect.h /25 < self.kol_rect.y + self.kol_rect.h or zed.rect.x + zed.rect.w > self.kol_rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.kol_rect.y and zed.rect.y + zed.rect.h /25 < self.kol_rect.y:
+                self.pos.x = zed.rect.right + self.kol_rect.width / 2
+            #pro levou stranu zdi a pravou playera
+            if zed.rect.x + zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y and zed.rect.y + zed.rect.h/25 < self.kol_rect.y or zed.rect.x + zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y + zed.rect.h/25 < self.kol_rect.y + self.kol_rect.h:
+                self.pos.x = zed.rect.x - self.kol_rect.width / 2
+
+                
+                
                 
                 
                                    
@@ -506,7 +516,6 @@ while True:
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     sprites.draw(okno)
-    
 # cudliky v pause menu ################################################################################################ 
     
     if in_game_menu == True:
