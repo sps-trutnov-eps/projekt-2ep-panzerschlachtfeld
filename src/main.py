@@ -1,7 +1,6 @@
 # Začátek Panzerschlachtfeld im Labyrinth ##################################################
 import pygame, sys, math, random
 from os import path
-import keyboard
 vec = pygame.math.Vector2
 # proměnné ##################################################################################
 
