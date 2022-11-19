@@ -24,6 +24,8 @@ zadavani = False
 zadavani_overovaciho_pinu = False
 cekat = False
 pauza_v_menu = False
+zpatky_do_menu = False
+odchod_ze_hry = False
 odezva_nacitani_framu_tanku = 9
 tank_frame_ted = 0
 tank_posledni_snimek = pygame.Surface((800,608))
@@ -593,6 +595,20 @@ while True:
     
 # cudliky v pause menu ################################################################################################ 
     
+    if zpatky_do_menu == True:
+        if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+            aktivni_obrazovka = hlavni_menu
+            in_game_menu = False
+            Done = False
+            hrac1.kill()
+            hrac2.kill()
+            MENU = True
+            
+    if odchod_ze_hry == True:
+        if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
+            pygame.quit()
+            sys.exit()
+    
     if in_game_menu == True:
         aktivni_obrazovka = pause_menu
         pygame.draw.rect(okno, (200, 0, 0), ((0,0), (520,520)))
@@ -601,17 +617,9 @@ while True:
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
             
-        if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
-            pygame.quit()
-            sys.exit()
-            
-        if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
-            aktivni_obrazovka = hlavni_menu
-            in_game_menu = False
-            Done = False
-            hrac1.kill()
-            hrac2.kill()
-            MENU = True
+        odchod_ze_hry = True
+        zpatky_do_menu = True
+           
         
         hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
         hl_nadpis4Rect = hl_nadpis4.get_rect()
@@ -635,6 +643,7 @@ while True:
         okno.blit(hl_nadpis4, hl_nadpis4Rect)
               
 ########################
+        
         mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
         if pin == True:
             zobraz_okno(okno) 
@@ -651,6 +660,8 @@ while True:
 ##########################
                 
         if cekat == True:
+            odchod_ze_hry = False
+            zpatky_do_menu = False
             pygame.draw.rect(okno, (200, 20, 20), ((0, 0), (1080, 800)))
             cekaci_obrazovka(okno)
             okno.blit(cekaci_menu_animation(animovany_tank), (80, 80))
