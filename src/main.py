@@ -200,15 +200,11 @@ class Player(pygame.sprite.Sprite):
             
         for zed in zdi:
             if pygame.Rect.colliderect(hrac1.kol_rect, zed.rect):
-               if zed.rect.x > hrac1.kol_rect.x + hrac1.kol_rect.width / 2 :
-                   hrac1.pos.x = zed.rect.x - hrac1.kol_rect.width / 2
-               if zed.rect.x + zed.rect.w - 1.45 < hrac1.kol_rect.x :
-                   hrac1.pos.x = zed.rect.right + hrac1.kol_rect.width / 2
-               if zed.rect.y > hrac1.kol_rect.y + hrac1.kol_rect.h - 1.45:
+                if zed.rect.y > hrac1.kol_rect.y + hrac1.kol_rect.h - 1.45:
                    hrac1.pos.y = zed.rect.top - hrac1.kol_rect.h / 2
-               if zed.rect.y + zed.rect.h - 1.45 < hrac1.kol_rect.y :
+                if zed.rect.y + zed.rect.h - 1.45 < hrac1.kol_rect.y :
                    hrac1.pos.y = zed.rect.bottom + hrac1.kol_rect.h / 2
-                   
+                                   
                
                     
                     
