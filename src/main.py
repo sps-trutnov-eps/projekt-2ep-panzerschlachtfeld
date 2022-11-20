@@ -315,8 +315,9 @@ class Player(pygame.sprite.Sprite):
         self.dt = 60/100000
         self.vel = vec(0, 0)
         self.pos = vec(x, y)
-        self.rot1 = 180
-        self.rot2 = 0
+        self.rot1 = 0
+        self.rot2 = 180
+        
     def kolize(self):
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
@@ -373,7 +374,7 @@ class Player(pygame.sprite.Sprite):
         #kolize
         
         if pohyb_tanku:
-            if poloha:
+            if poloha == False:
                 hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot1)
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot1)
                 hrac2.vel = vec(0, hrac2.rychlost2).rotate(-self.rot2)
@@ -388,8 +389,8 @@ class Player(pygame.sprite.Sprite):
                          
     def update(self):
         
-        self.pohyb()
         self.kolize()
+        self.pohyb()
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
         hrac2.image.set_colorkey(cerna)
