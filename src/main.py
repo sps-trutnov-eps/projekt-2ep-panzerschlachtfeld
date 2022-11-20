@@ -330,7 +330,7 @@ class Player(pygame.sprite.Sprite):
         if self.pos.y - self.rect.h/2 < 0:
             self.pos.y = self.rect.h/2
         
-        if hrac2.rect.x + hrac2.rect.w + 0.1 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.1 < hrac1.rect.x + hrac1.rect.w  and hrac2.rect.y + hrac2.rect.h + 0.1 > hrac1.rect.y and hrac2.rect.y - 0.1 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.1 > hrac1.rect.x and hrac2.rect.x - 0.1 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.1 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.1 < hrac1.rect.y + hrac1.rect.h or hrac2.rect.x + hrac2.rect.w + 0.1 > hrac1.rect.x and hrac2.rect.x - 0.1 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.1 > hrac1.rect.y and hrac2.rect.y - 0.1 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.1 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.1 < hrac1.rect.x + hrac1.rect.w and hrac2.rect.y + hrac2.rect.h + 0.1 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.1 < hrac1.rect.y + hrac1.rect.h or hrac1.rect.x + hrac1.rect.w + 0.1 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.1 < hrac2.rect.x + hrac2.rect.w  and hrac1.rect.y + hrac1.rect.h + 0.1 > hrac2.rect.y and hrac1.rect.y - 0.1 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.1 > hrac2.rect.x and hrac1.rect.x - 0.1 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.1 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.1 < hrac2.rect.y + hrac2.rect.h or hrac1.rect.x + hrac1.rect.w + 0.1 > hrac2.rect.x and hrac1.rect.x - 0.1 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.1 > hrac2.rect.y and hrac1.rect.y - 0.1 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.1 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.1 < hrac2.rect.x + hrac2.rect.w and hrac1.rect.y + hrac1.rect.h + 0.1 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.1 < hrac2.rect.y + hrac2.rect.h:
+        if hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.25 < hrac1.rect.x + hrac1.rect.w  and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y and hrac2.rect.y - 0.25 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x and hrac2.rect.x - 0.25 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.25 < hrac1.rect.y + hrac1.rect.h or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x and hrac2.rect.x - 0.25 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y and hrac2.rect.y - 0.25 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.25 < hrac1.rect.x + hrac1.rect.w and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.25 < hrac1.rect.y + hrac1.rect.h or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.25 < hrac2.rect.x + hrac2.rect.w  and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y and hrac1.rect.y - 0.25 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x and hrac1.rect.x - 0.25 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.25 < hrac2.rect.y + hrac2.rect.h or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x and hrac1.rect.x - 0.25 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y and hrac1.rect.y - 0.25 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.25 < hrac2.rect.x + hrac2.rect.w and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.25 < hrac2.rect.y + hrac2.rect.h:
             hrac1.otaceni = False
             hrac2.otaceni = False
             
@@ -451,14 +451,14 @@ pin_kod = []
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WWW              WWW",
+"WWW       N      WWW",
 "WW       WW       WW",
 "W   W  WWWWWW  W   W",
 "W WWW          WWW W",
 "W WWW          WWW W",
 "W   W  WWWWWW  W   W",
 "WW       WW       WW",
-"WWW      H N     WWW",
+"WWW      H       WWW",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
