@@ -308,6 +308,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y
         
         #pro loop, kolizi apod#
+        self.otaceni = True
         self.kol_rect = self.player_img.get_rect()
         self.kol_rect.center = self.rect.center
         self.rychlost1 = 0 
@@ -327,21 +328,26 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = ROZLISENI_Y - self.rect.h/2
         if self.pos.y - self.rect.h/2 < 0:
             self.pos.y = self.rect.h/2
-            
+     
         for zed in zdi:
+            if zed.rect.x + zed.rect.w > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y < self.rect.y or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y < self.rect.y or zed.rect.x + zed.rect.w > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+                self.otaceni = False
             #pro dolejšek zdi s hořejškem playera
-            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x and zed.rect.x + zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h > self.kol_rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.kol_rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x + zed.rect.w/25 < self.kol_rect.x + self.kol_rect.w  and zed.rect.y + zed.rect.h > self.kol_rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.kol_rect.y:
-                self.pos.y = zed.rect.bottom + self.kol_rect.h / 2
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
+                self.pos.y = zed.rect.bottom + self.rect.h / 2
             #pro hořejšek zdi s dolejškem playera
-            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x + zed.rect.w/25 < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y < self.kol_rect.y + self.kol_rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.kol_rect.x and zed.rect.x + zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y < self.kol_rect.y + self.kol_rect.h:
-                self.pos.y = zed.rect.top - self.kol_rect.h/2
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+                self.pos.y = zed.rect.top - self.rect.h/2
             #pro pravou stranu zdi a levou playera
-            if zed.rect.x + zed.rect.w > self.kol_rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y + zed.rect.h /25 < self.kol_rect.y + self.kol_rect.h or zed.rect.x + zed.rect.w > self.kol_rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.kol_rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.kol_rect.y and zed.rect.y + zed.rect.h /25 < self.kol_rect.y:
-                self.pos.x = zed.rect.right + self.kol_rect.width / 2
+            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
+                self.pos.x = zed.rect.right + self.rect.width / 2
             #pro levou stranu zdi a pravou playera
-            if zed.rect.x + zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y and zed.rect.y + zed.rect.h/25 < self.kol_rect.y or zed.rect.x + zed.rect.w/25 > self.kol_rect.x + self.kol_rect.w and zed.rect.x < self.kol_rect.x + self.kol_rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.kol_rect.y + self.kol_rect.h and zed.rect.y + zed.rect.h/25 < self.kol_rect.y + self.kol_rect.h:
-                self.pos.x = zed.rect.x - self.kol_rect.width / 2
-    
+            if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
+                self.pos.x = zed.rect.x - self.rect.width / 2
+                
+                
+            
+                
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
@@ -368,6 +374,19 @@ class Player(pygame.sprite.Sprite):
         if stisknuto[pygame.K_d]:
             self.rot_speed2 = -PLAYER_ROT_SPEED
         
+        self.kolize()
+        
+        if poloha == False:
+            if hrac1.otaceni == False:
+                self.rot_speed1 = 0
+            if hrac2.otaceni == False:
+                self.rot_speed2 = 0
+        else:
+            if hrac1.otaceni == False:
+                self.rot_speed2 = 0
+            if hrac2.otaceni == False:
+                self.rot_speed1 = 0
+        self.otaceni = True
         self.rot1 = (self.rot1 + self.rot_speed1 * self.dt) % 360
         self.rot2 = (self.rot2 + self.rot_speed2 * self.dt) % 360
         
@@ -388,8 +407,7 @@ class Player(pygame.sprite.Sprite):
             pass
                          
     def update(self):
-        
-        self.kolize()
+
         self.pohyb()
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
