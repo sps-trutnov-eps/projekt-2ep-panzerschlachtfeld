@@ -86,7 +86,7 @@ pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
-def cekaci_menu_animation(animovany_tank):
+def cekaci_menu_animation(animovany_tank, clock):
     global tank_frame_ted, odezva_nacitani_framu_tanku, tank_posledni_snimek
     
     frame_textura_tanku = pygame.Surface((800,608))
@@ -102,8 +102,9 @@ def cekaci_menu_animation(animovany_tank):
         tank_frame_ted = 0
     else:
         tank_frame_ted += 1
+    clock.tick(80)
+
     return frame_textura_tanku
-    
 def popisky_k_pin_menu(bila, okno, cerna):
     popisek_pin = typ_pisma_pin_menu2.render('Zadejte 4 místný číselný kód!', True, bila, (170, 170, 170))
     popisek_pinRect = popisek_pin.get_rect()
@@ -728,7 +729,7 @@ while True:
             zpatky_do_menu = False
             pygame.draw.rect(okno, (200, 20, 20), ((0, 0), (1080, 800)))
             cekaci_obrazovka(okno)
-            okno.blit(cekaci_menu_animation(animovany_tank), (80, 80))
+            okno.blit(cekaci_menu_animation(animovany_tank,clock), (80, 80))
             vykreslovani_policek_v_cekacim_menu(okno)
             zapis_pro_overovaci_pin()
             popisky_k_cekacimu_menu(bila, cerna, okno)
@@ -739,4 +740,3 @@ while True:
             zadavani = True
     
     pygame.display.update()
-    clock.tick(700)
