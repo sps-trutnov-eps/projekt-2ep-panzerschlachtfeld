@@ -329,7 +329,26 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = ROZLISENI_Y - self.rect.h/2
         if self.pos.y - self.rect.h/2 < 0:
             self.pos.y = self.rect.h/2
-     
+        
+        if pygame.Rect.colliderect(hrac1.rect, hrac2.rect):
+            hrac1.otaceni = False
+            hrac2.otaceni = False
+            
+        if pygame.Rect.colliderect(hrac1.rect, hrac2.rect):
+
+            if hrac1.rect.x > hrac2.rect.x + hrac2.rect.width / 2 and hrac2.rect.x + hrac2.rect.w - 1.45 < hrac1.rect.x :
+                   hrac2.pos.x = hrac1.rect.x - hrac2.rect.width / 2
+                   hrac1.pos.x = hrac2.rect.right + hrac1.rect.width / 2
+            if hrac1.rect.x + hrac1.rect.w - 1.45 < hrac2.rect.x and hrac2.rect.x > hrac1.rect.x + hrac1.rect.width / 2:
+                   hrac1.pos.x = hrac2.rect.x - hrac1.rect.width / 2
+                   hrac2.pos.x = hrac1.rect.right + hrac2.rect.width / 2
+            if hrac2.rect.y > hrac1.rect.y + hrac1.rect.h - 1.45 and hrac1.rect.y + hrac1.rect.h - 1.45 < hrac2.rect.y:
+                   hrac2.pos.y = hrac1.rect.bottom + hrac2.rect.h / 2
+                   hrac1.pos.y = hrac2.rect.top - hrac1.rect.h / 2
+            if hrac1.rect.y > hrac2.rect.y + hrac2.rect.h - 1.45 and hrac2.rect.y + hrac2.rect.h - 1.45 < hrac1.rect.y:
+                   hrac1.pos.y = hrac2.rect.bottom + hrac1.rect.h / 2
+                   hrac2.pos.y = hrac1.rect.top - hrac2.rect.h / 2
+            
         for zed in zdi:
             if zed.rect.x + zed.rect.w > hrac1.rect.x + hrac1.rect.w and zed.rect.x < hrac1.rect.x + hrac1.rect.w  and zed.rect.y + zed.rect.h > hrac1.rect.y and zed.rect.y < hrac1.rect.y or zed.rect.x + zed.rect.w > hrac1.rect.x and zed.rect.x < hrac1.rect.x and zed.rect.y + zed.rect.h > hrac1.rect.y + hrac1.rect.h and zed.rect.y < hrac1.rect.y + hrac1.rect.h or zed.rect.x + zed.rect.w > hrac1.rect.x and zed.rect.x < hrac1.rect.x and zed.rect.y + zed.rect.h > hrac1.rect.y and zed.rect.y < hrac1.rect.y or zed.rect.x + zed.rect.w > hrac1.rect.x + hrac1.rect.w and zed.rect.x < hrac1.rect.x + hrac1.rect.w and zed.rect.y + zed.rect.h > hrac1.rect.y + hrac1.rect.h and zed.rect.y < hrac1.rect.y + hrac1.rect.h:
                 hrac1.otaceni = False
@@ -432,14 +451,14 @@ pin_kod = []
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WWW       N      WWW",
+"WWW              WWW",
 "WW       WW       WW",
 "W   W  WWWWWW  W   W",
 "W WWW          WWW W",
 "W WWW          WWW W",
 "W   W  WWWWWW  W   W",
 "WW       WW       WW",
-"WWW      H       WWW",
+"WWW      H N     WWW",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
