@@ -468,7 +468,7 @@ level1 = [
 "W  W             W W",
 "W  W  WWWWWWWWW  W W",
 "W  W      W      W W",
-"W  W   WW   WW  W  W",
+"W  W   W     W  W  W",
 "W  W      W      W W",
 "W  W  WWWWWWWWW  W W",
 "W  W             W W",
