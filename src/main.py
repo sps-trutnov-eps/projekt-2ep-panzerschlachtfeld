@@ -3,9 +3,11 @@ import pygame, sys, math, random
 from os import path
 vec = pygame.math.Vector2
 # proměnné ##################################################################################
-
+#hráč
 PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 250.0
+obr = "Tank.png"
+#střely
 
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
@@ -294,12 +296,12 @@ def zapis_pro_overovaci_pin():#načtení dat
                 
 class Player(pygame.sprite.Sprite):
     
-    def __init__(self, x, y):
+    def __init__(self, x, y, obr):
         #šablona
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, '../doc')
         pygame.sprite.Sprite.__init__(self)
-        self.player_img = pygame.image.load(path.join(img_folder, "Tank.png")).convert_alpha()
+        self.player_img = pygame.image.load(path.join(img_folder, obr)).convert_alpha()
         self.image = self.player_img
         self.rect = self.image.get_rect()
         self.image.set_colorkey(cerna)
@@ -319,7 +321,9 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec(x, y)
         self.rot1 = 0
         self.rot2 = 180
-        
+    def palba(self):
+        if stisknuto[pygame.K_SPACE]:
+            print("strela")
     def kolize(self):
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
@@ -429,8 +433,9 @@ class Player(pygame.sprite.Sprite):
             pass
                          
     def update(self):
-
+        
         self.pohyb()
+        self.palba()
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
         hrac2.image.set_colorkey(cerna)
@@ -549,14 +554,17 @@ while True:
         if aktivni_obrazovka == menu_vyberu:
             if cl_v1[0][0] < pygame.mouse.get_pos()[0] < (cl_v1[0][0] + cl_v1[1][0]) and cl_v1[0][1] < pygame.mouse.get_pos()[1] < (cl_v1[0][1] + cl_v1[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[0]
+                obr = "Tank.png"
                 Done = True
                 MENU = False
             if cl_v2[0][0] < pygame.mouse.get_pos()[0] < (cl_v2[0][0] + cl_v2[1][0]) and cl_v2[0][1] < pygame.mouse.get_pos()[1] < (cl_v2[0][1] + cl_v2[1][1]) and pygame.mouse.get_pressed()[0]:    
                 vyber = levely[1]
+                obr = "TankN.png"
                 Done = True
                 MENU = False
             if cl_v3[0][0] < pygame.mouse.get_pos()[0] < (cl_v3[0][0] + cl_v3[1][0]) and cl_v3[0][1] < pygame.mouse.get_pos()[1] < (cl_v3[0][1] + cl_v3[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[2]
+                obr = "Tank.png"
                 Done = True
                 MENU = False
                 
@@ -639,9 +647,9 @@ while True:
                     if element == "W":
                         Zed((x, y))
                     if element == "H":
-                        hrac1 = Player(x + mezery/(h/15),y + mezery/(h/21.8))
+                        hrac1 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
                     if element == "N":
-                        hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8))
+                        hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
                     x += mezery
                 y += mezery_y
                 x = 0
