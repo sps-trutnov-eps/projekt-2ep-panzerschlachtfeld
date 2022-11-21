@@ -8,7 +8,9 @@ PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 250.0
 obr = "Tank.png"
 #střely
-
+bullet_img = "."
+bullet_speed = 500
+bullet_lifetime = 5000
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 100, 145, 84
@@ -321,9 +323,11 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec(x, y)
         self.rot1 = 0
         self.rot2 = 180
+        
     def palba(self):
         if stisknuto[pygame.K_SPACE]:
             print("strela")
+            
     def kolize(self):
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
@@ -371,9 +375,6 @@ class Player(pygame.sprite.Sprite):
             if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 
-                
-            
-                
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
@@ -416,8 +417,6 @@ class Player(pygame.sprite.Sprite):
         self.rot1 = (self.rot1 + self.rot_speed1 * self.dt) % 360
         self.rot2 = (self.rot2 + self.rot_speed2 * self.dt) % 360
         
-        #kolize
-        
         if pohyb_tanku:
             if poloha == False:
                 hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot1)
@@ -442,7 +441,12 @@ class Player(pygame.sprite.Sprite):
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
         self.kol_rect.center = self.rect.center
-       
+ 
+class Strela(pygame.sprite.Sprite):
+    def __init__(self, pos, direct):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = 
+
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
