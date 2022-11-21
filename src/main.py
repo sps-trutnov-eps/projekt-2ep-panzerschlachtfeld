@@ -445,7 +445,7 @@ class Player(pygame.sprite.Sprite):
 class Strela(pygame.sprite.Sprite):
     def __init__(self, pos, direct):
         pygame.sprite.Sprite.__init__(self)
-        self.image = 
+        
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
