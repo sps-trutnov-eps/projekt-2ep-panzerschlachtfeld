@@ -31,6 +31,9 @@ pauza_v_menu = False
 zpatky_do_menu = False
 odchod_ze_hry = False
 varovani = False
+vykreslovani_skore_sever = False
+skorovani_sever = 0
+skorovani_jih = 0
 odezva_nacitani_framu_tanku = 9
 tank_frame_ted = 0
 tank_posledni_snimek = pygame.Surface((800,608))
@@ -90,9 +93,6 @@ pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
-def skore_sever():
-    pass
-
 def skore_jih():
     pass
 
@@ -115,6 +115,7 @@ def cekaci_menu_animation(animovany_tank, clock):
     clock.tick(80)
 
     return frame_textura_tanku
+
 def popisky_k_pin_menu(bila, okno, cerna):
     popisek_pin = typ_pisma_pin_menu2.render('Zadejte 4 místný číselný kód!', True, bila, (170, 170, 170))
     popisek_pinRect = popisek_pin.get_rect()
@@ -550,7 +551,7 @@ while True:
        
             if cl_hl2[0][0] < pygame.mouse.get_pos()[0] < (cl_hl2[0][0] + cl_hl2[1][0]) and cl_hl2[0][1] < pygame.mouse.get_pos()[1] < (cl_hl2[0][1] + cl_hl2[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = random.choice(levely)
-                Done = True
+                Done = True 
                 MENU = False
                 
             if cl_exit1[0][0] < pygame.mouse.get_pos()[0] < (cl_exit1[0][0] + cl_exit1[1][0]) and cl_exit1[0][1] < pygame.mouse.get_pos()[1] < (cl_exit1[0][1] + cl_exit1[1][1]) and pygame.mouse.get_pressed()[0] and aktivni_obrazovka == hlavni_menu:
@@ -564,7 +565,7 @@ while True:
             if cl_v1[0][0] < pygame.mouse.get_pos()[0] < (cl_v1[0][0] + cl_v1[1][0]) and cl_v1[0][1] < pygame.mouse.get_pos()[1] < (cl_v1[0][1] + cl_v1[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[0]
                 obr = "Tank.png"
-                Done = True
+                Done = True 
                 MENU = False
             if cl_v2[0][0] < pygame.mouse.get_pos()[0] < (cl_v2[0][0] + cl_v2[1][0]) and cl_v2[0][1] < pygame.mouse.get_pos()[1] < (cl_v2[0][1] + cl_v2[1][1]) and pygame.mouse.get_pressed()[0]:    
                 vyber = levely[1]
@@ -645,7 +646,9 @@ while True:
         if aktivni_obrazovka == menu_CREDITS:
             okno.blit(hl_nadpis3, hl_nadpis3Rect)
             okno.blit(nadpis_close2, nadpis_close2Rect)
+            
         
+            
         if Done == True:
             zdi = []
             mezery = ROZLISENI_X/len(vyber[0])
@@ -661,14 +664,21 @@ while True:
                         hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
                     x += mezery
                 y += mezery_y
-                x = 0
+                x = 0               
             if hrac1.rect.y < hrac2.rect.y: 
                 poloha = True 
             else: 
                 poloha = False
             sprites.add(hrac1,hrac2)
             
-        pygame.display.update()        
+        pygame.display.update()
+        
+    if vykreslovani_skore_sever == True:        
+        text_skore = typ_pisma_in_game_menu.render(str(skorovani_sever) + ' : ', True, bila, cerna)
+        text_skoreRect = text_skore.get_rect()
+        text_skoreRect.center = (300, 300)
+        okno.blit(text_skore, text_skoreRect)
+        print("nazdaar")
         
 ########## herní logika ################################################################################################
         
