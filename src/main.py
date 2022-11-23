@@ -90,6 +90,12 @@ pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 
+def skore_sever():
+    pass
+
+def skore_jih():
+    pass
+
 def cekaci_menu_animation(animovany_tank, clock):
     global tank_frame_ted, odezva_nacitani_framu_tanku, tank_posledni_snimek
     
@@ -275,7 +281,6 @@ def zapis_pro_overovaci_pin():#načtení dat
         nadpis_varovaniRect = nadpis_varovani.get_rect()
         nadpis_varovaniRect.center = (547, 170)
         okno.blit(nadpis_varovani, nadpis_varovaniRect)
-        print("bum")
             
     for i in range(len(overovaci_pin_kod)):
         povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
