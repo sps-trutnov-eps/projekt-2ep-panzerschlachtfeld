@@ -548,6 +548,10 @@ while True:
         
 # menu a pod. ###############################################################################
     while MENU:
+        
+        skorovani_jih = 0
+        skorovani_sever = 0
+        
         udalosti = pygame.event.get()
         for u in udalosti:
             if u.type == pygame.QUIT:
