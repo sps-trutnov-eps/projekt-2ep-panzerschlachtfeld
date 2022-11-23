@@ -100,7 +100,7 @@ def skore_sever(bila, cerna):
     text_skore_severRect.center = (400, 40)
     okno.blit(text_skore_sever, text_skore_severRect)
     
-    if stisknuto[pygame.K_k]:
+    if stisknuto[pygame.K_k] and skorovani_sever <= 2:
         skorovani_sever += 1
     
 def skore_jih(bila, cerna):
@@ -110,7 +110,7 @@ def skore_jih(bila, cerna):
     text_skore_jihRect.center = (445, 40)
     okno.blit(text_skore_jih, text_skore_jihRect)
 
-    if stisknuto[pygame.K_l]:
+    if stisknuto[pygame.K_l] and skorovani_jih <= 2 :
         skorovani_jih += 1
 
 def cekaci_menu_animation(animovany_tank, clock):
