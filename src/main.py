@@ -49,6 +49,7 @@ animovany_tank = pygame.image.load("../doc/animation_tank.png")
 
 pygame.font.init()
 
+typ_pisma_skore = pygame.font.Font('freesansbold.ttf', 48)
 typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 25)
 typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
@@ -92,9 +93,25 @@ pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_cl
 pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
+def skore_sever(bila, cerna):
+    global skorovani_sever 
+    text_skore_sever = typ_pisma_skore.render(str(skorovani_sever) + ':', True, bila, cerna)
+    text_skore_severRect = text_skore_sever.get_rect()
+    text_skore_severRect.center = (400, 40)
+    okno.blit(text_skore_sever, text_skore_severRect)
+    
+    if stisknuto[pygame.K_k]:
+        skorovani_sever += 1
+    
+def skore_jih(bila, cerna):
+    global skorovani_jih
+    text_skore_jih = typ_pisma_skore.render(str(skorovani_jih) + ' ', True, bila, cerna)
+    text_skore_jihRect = text_skore_jih.get_rect()
+    text_skore_jihRect.center = (445, 40)
+    okno.blit(text_skore_jih, text_skore_jihRect)
 
-def skore_jih():
-    pass
+    if stisknuto[pygame.K_l]:
+        skorovani_jih += 1
 
 def cekaci_menu_animation(animovany_tank, clock):
     global tank_frame_ted, odezva_nacitani_framu_tanku, tank_posledni_snimek
@@ -647,8 +664,6 @@ while True:
             okno.blit(hl_nadpis3, hl_nadpis3Rect)
             okno.blit(nadpis_close2, nadpis_close2Rect)
             
-        
-            
         if Done == True:
             zdi = []
             mezery = ROZLISENI_X/len(vyber[0])
@@ -670,15 +685,7 @@ while True:
             else: 
                 poloha = False
             sprites.add(hrac1,hrac2)
-            
         pygame.display.update()
-        
-    if vykreslovani_skore_sever == True:        
-        text_skore = typ_pisma_in_game_menu.render(str(skorovani_sever) + ' : ', True, bila, cerna)
-        text_skoreRect = text_skore.get_rect()
-        text_skoreRect.center = (300, 300)
-        okno.blit(text_skore, text_skoreRect)
-        print("nazdaar")
         
 ########## herní logika ################################################################################################
         
@@ -703,6 +710,18 @@ while True:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     sprites.draw(okno)
     
+    if vyber == level:
+        skore_sever(bila, cerna)
+        skore_jih(bila, cerna)
+        
+    if vyber == level1:
+        skore_sever(bila, cerna)
+        skore_jih(bila, cerna)
+        
+    if vyber == level2:
+        skore_sever(bila, cerna)
+        skore_jih(bila, cerna)
+        
 # cudliky v pause menu ################################################################################################ 
     
     if zpatky_do_menu == True:
@@ -722,7 +741,7 @@ while True:
     if in_game_menu == True:
         aktivni_obrazovka = pause_menu
         pygame.draw.rect(okno, (200, 0, 0), ((0,0), (520,520)))
-        pygame.draw.rect(okno, (190, 190, 190), ((10,10), (500,500)))
+        pygame.draw.rect(okno, (190, 190, 190), ((10,10), (500,500))) 
         
         for cudlik in pause_menu[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
