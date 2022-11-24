@@ -5,12 +5,13 @@ vec = pygame.math.Vector2
 # proměnné ##################################################################################
 #hráč
 PLAYER_SPEED = 300.0
-PLAYER_ROT_SPEED = 250.0
+PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
 #střely
-bullet_img = "."
-bullet_speed = 500
-bullet_lifetime = 5000
+strela_img = "bullet.png"
+strela_speed = 500
+strela_lifetime = 5000
+strela_delay = 1500
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 100, 145, 84
@@ -387,6 +388,7 @@ class Player(pygame.sprite.Sprite):
         #pro vnější kód
         self.rect.x = x
         self.rect.y = y
+        sprites.add(self)
         
         #pro loop, kolizi apod#
         self.otaceni = True
@@ -399,11 +401,8 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec(x, y)
         self.rot1 = 0
         self.rot2 = 180
-        
-    def palba(self):
-        if stisknuto[pygame.K_SPACE]:
-            print("strela")
-            
+        self.last_shot = 0
+    
     def kolize(self):
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
@@ -451,6 +450,38 @@ class Player(pygame.sprite.Sprite):
             if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 
+    def palba(self):
+        if poloha:
+            if stisknuto[pygame.K_SPACE]:
+                now1 = pygame.time.get_ticks()
+                if now1 - hrac1.last_shot > strela_delay:
+                    hrac1.last_shot = now1
+                    pal1 = Strela(hrac1.pos + + vec(0,hrac1.rect.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                    sprites.add(pal1)
+                    
+            if stisknuto[pygame.K_KP_ENTER]:
+                now2 = pygame.time.get_ticks()
+                if now2 - hrac2.last_shot > strela_delay:
+                    hrac2.last_shot = now2
+                    pal2 = Strela(hrac2.pos + + vec(0,hrac2.rect.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
+                    sprites.add(pal2)
+                    
+        else:
+            if stisknuto[pygame.K_SPACE]:
+                now2 = pygame.time.get_ticks()
+                if now2 - hrac2.last_shot > strela_delay:
+                    hrac2.last_shot = now2
+                    pal2 = Strela(hrac2.pos + vec(0,hrac2.rect.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                    sprites.add(pal2)
+                    print("kok")
+            if stisknuto[pygame.K_KP_ENTER]:
+                now1 = pygame.time.get_ticks()
+                if now1 - hrac1.last_shot > strela_delay:
+                    hrac1.last_shot = now1
+                    pal1 = Strela(hrac1.pos + + vec(0,hrac1.rect.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
+                    sprites.add(pal1)
+                    
+                    
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
@@ -476,7 +507,8 @@ class Player(pygame.sprite.Sprite):
             self.rot_speed2 = PLAYER_ROT_SPEED
         if stisknuto[pygame.K_d]:
             self.rot_speed2 = -PLAYER_ROT_SPEED
-        
+                
+        #kolize
         self.kolize()
         
         if poloha == False:
@@ -510,18 +542,37 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         
         self.pohyb()
-        self.palba()
         self.rect = self.image.get_rect()
         hrac1.image.set_colorkey(cerna)
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
         self.kol_rect.center = self.rect.center
+        self.palba()
  
 class Strela(pygame.sprite.Sprite):
-    def __init__(self, pos, direct):
+    def __init__(self, pos, direct, img):
+        #základy
         pygame.sprite.Sprite.__init__(self)
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, '../doc')
+        pygame.sprite.Sprite.__init__(self)
+        self.bullet_img = pygame.image.load(path.join(img_folder, img)).convert_alpha()
+        self.image = self.bullet_img
         
+        #pro hru
+        self.dt = 150/100000
+        self.rect = self.image.get_rect()
+        self.pos = vec(pos)
+        self.rect.center = pos
+        self.vel = direct * strela_speed
+        self.spawn_time = pygame.time.get_ticks()
+        
+    def update(self):
+        self.pos += self.vel * self.dt
+        self.rect.center = self.pos
+        if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
+            self.kill()
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
@@ -536,14 +587,14 @@ pin_kod = []
 zdi = []
 level = [
 "WWWWWWWWWWWWWWWWWWWW",
-"WWW       N      WWW",
+"WWW       H      WWW",
 "WW       WW       WW",
 "W   W  WWWWWW  W   W",
 "W WWW          WWW W",
 "W WWW          WWW W",
 "W   W  WWWWWW  W   W",
 "WW       WW       WW",
-"WWW      H       WWW",
+"WWW      N       WWW",
 "WWWWWWWWWWWWWWWWWWWW",
 ]
 
@@ -741,7 +792,7 @@ while True:
                 poloha = True 
             else: 
                 poloha = False
-            sprites.add(hrac1,hrac2)
+            
         pygame.display.update()
         
 ########## herní logika ################################################################################################
