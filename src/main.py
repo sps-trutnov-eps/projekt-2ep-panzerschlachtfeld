@@ -120,9 +120,8 @@ def skore_jih(bila, cerna):
     if stisknuto[pygame.K_l] and skorovani_jih <= 2 :
         skorovani_jih += 1
 
-def kontrola_skore(okno, MENU):
-    global skorovani_jih, skorovani_sever, menu_skore
-    #while skore == True:
+def kontrola_skore(okno):
+    global skorovani_jih, skorovani_sever, menu_skore, MENU, Done, hlavni_menu, in_game_menu, aktivni_obrazovka
     if skorovani_jih == 3 and skorovani_sever <= 2:
         pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
         
@@ -135,12 +134,15 @@ def kontrola_skore(okno, MENU):
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
         
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
-            vyber = levely[0]
-            print("ahoj")
+            skorovani_jih = 0
+            skorovani_sever = 0
             
         if cl_exit3[0][0] < pygame.mouse.get_pos()[0] < (cl_exit3[0][0] + cl_exit3[1][0]) and cl_exit3[0][1] < pygame.mouse.get_pos()[1] < (cl_exit3[0][1] + cl_exit3[1][1]) and pygame.mouse.get_pressed()[0]:
             MENU = True
-            print("ahoj")
+            Done = False
+            hrac1.kill()
+            hrac2.kill()
+            aktivni_obrazovka = hlavni_menu
             
     if skorovani_sever == 3 and skorovani_jih <= 2:
         pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
@@ -154,12 +156,15 @@ def kontrola_skore(okno, MENU):
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
             
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
-            vyber = levely[0]
-            print("ahoj")
+            skorovani_jih = 0
+            skorovani_sever = 0
             
         if cl_exit3[0][0] < pygame.mouse.get_pos()[0] < (cl_exit3[0][0] + cl_exit3[1][0]) and cl_exit3[0][1] < pygame.mouse.get_pos()[1] < (cl_exit3[0][1] + cl_exit3[1][1]) and pygame.mouse.get_pressed()[0]:
             MENU = True
-            print("ahoj")
+            Done = False
+            hrac1.kill()
+            hrac2.kill()
+            aktivni_obrazovka = hlavni_menu
 
 def cekaci_menu_animation(animovany_tank, clock):
     global tank_frame_ted, odezva_nacitani_framu_tanku, tank_posledni_snimek
@@ -593,7 +598,7 @@ while True:
     if stisknuto[pygame.K_ESCAPE]:
         pygame.quit()
         sys.exit()
-        
+            
 # menu a pod. ###############################################################################
     while MENU:
         
@@ -715,7 +720,7 @@ while True:
         if aktivni_obrazovka == menu_CREDITS:
             okno.blit(hl_nadpis3, hl_nadpis3Rect)
             okno.blit(nadpis_close2, nadpis_close2Rect)
-            
+        
         if Done == True:
             zdi = []
             mezery = ROZLISENI_X/len(vyber[0])
@@ -774,8 +779,7 @@ while True:
         skore_sever(bila, cerna)
         skore_jih(bila, cerna)
     
-    kontrola_skore(okno, MENU)
-    
+    kontrola_skore(okno)
         
 # cudliky v pause menu ################################################################################################ 
     
