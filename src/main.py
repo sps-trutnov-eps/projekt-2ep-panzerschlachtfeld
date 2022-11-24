@@ -33,6 +33,7 @@ zpatky_do_menu = False
 odchod_ze_hry = False
 varovani = False
 vykreslovani_skore_sever = False
+skore = False
 skorovani_sever = 0
 skorovani_jih = 0
 odezva_nacitani_framu_tanku = 9
@@ -86,12 +87,18 @@ cl_pin = ((190, 150), (150, 50), (0,0,0), "text")
 pindik = ((780, 525), (0, 0), (0,0,0), "text")
 cl_close4 = ((410, 525), (150, 50), (0,0,0), "text")
 
+#okno vyhra
+cl_pokracovat =  ((600, 570), (150, 50), (0,0,0), "text")
+cl_exit3 = ((330, 570), (150, 50), (0,0,0), "text")
+
+
 # obrazovky menu
 hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
 pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
+menu_skore = [(170, 170, 170), "Panzerschlachtfeld", (cl_pokracovat,cl_exit3)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 def skore_sever(bila, cerna):
@@ -113,6 +120,47 @@ def skore_jih(bila, cerna):
 
     if stisknuto[pygame.K_l] and skorovani_jih <= 2 :
         skorovani_jih += 1
+
+def kontrola_skore(okno, MENU):
+    global skorovani_jih, skorovani_sever, menu_skore
+    #while skore == True:
+    if skorovani_jih == 3 and skorovani_sever <= 2:
+        pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
+        
+        text_jih_vyhra = typ_pisma_skore.render("Jižní linie vyhrála", True, (0, 255, 255), (180, 180 ,180))
+        text_jih_vyhraRect = text_jih_vyhra.get_rect()
+        text_jih_vyhraRect.center = (540, 250)
+        okno.blit(text_jih_vyhra, text_jih_vyhraRect)
+        
+        for cudlik in menu_skore[2]:
+            pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+        
+        if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
+            vyber = levely[0]
+            print("ahoj")
+            
+        if cl_exit3[0][0] < pygame.mouse.get_pos()[0] < (cl_exit3[0][0] + cl_exit3[1][0]) and cl_exit3[0][1] < pygame.mouse.get_pos()[1] < (cl_exit3[0][1] + cl_exit3[1][1]) and pygame.mouse.get_pressed()[0]:
+            MENU = True
+            print("ahoj")
+            
+    if skorovani_sever == 3 and skorovani_jih <= 2:
+        pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
+        
+        text_sever_vyhra = typ_pisma_skore.render("Severní linie vyhrála", True, (0, 255, 255), (180, 180 ,180))
+        text_sever_vyhraRect = text_sever_vyhra.get_rect()
+        text_sever_vyhraRect.center = (540, 250)
+        okno.blit(text_sever_vyhra, text_sever_vyhraRect)
+        
+        for cudlik in menu_skore[2]:
+            pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+            
+        if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
+            vyber = levely[0]
+            print("ahoj")
+            
+        if cl_exit3[0][0] < pygame.mouse.get_pos()[0] < (cl_exit3[0][0] + cl_exit3[1][0]) and cl_exit3[0][1] < pygame.mouse.get_pos()[1] < (cl_exit3[0][1] + cl_exit3[1][1]) and pygame.mouse.get_pressed()[0]:
+            MENU = True
+            print("ahoj")
 
 def cekaci_menu_animation(animovany_tank, clock):
     global tank_frame_ted, odezva_nacitani_framu_tanku, tank_posledni_snimek
@@ -776,6 +824,9 @@ while True:
     if vyber == level2:
         skore_sever(bila, cerna)
         skore_jih(bila, cerna)
+    
+    kontrola_skore(okno, MENU)
+    
         
 # cudliky v pause menu ################################################################################################ 
     
@@ -843,7 +894,7 @@ while True:
                 pin = False
                 pin_kod = []
 ##########################
-            
+        
         if cekat == True:
             odchod_ze_hry = False
             zpatky_do_menu = False
