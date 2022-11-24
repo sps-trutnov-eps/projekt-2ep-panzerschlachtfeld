@@ -123,7 +123,9 @@ def skore_jih(bila, cerna):
 
 def kontrola_skore(okno):
     global skorovani_jih, skorovani_sever, menu_skore, MENU, Done, hlavni_menu, in_game_menu, aktivni_obrazovka
+    
     if skorovani_jih == 3 and skorovani_sever <= 2:
+        pygame.draw.rect(okno, (200, 20, 20), ((280,140), (520,520)))
         pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
         
         text_jih_vyhra = typ_pisma_skore.render("Jižní linie vyhrála", True, (0, 255, 255), (180, 180 ,180))
@@ -133,6 +135,8 @@ def kontrola_skore(okno):
         
         for cudlik in menu_skore[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+        
+        popisky_k_vyhernimu_oknu(okno, bila, cerna)
         
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
             skorovani_jih = 0
@@ -146,6 +150,7 @@ def kontrola_skore(okno):
             aktivni_obrazovka = hlavni_menu
             
     if skorovani_sever == 3 and skorovani_jih <= 2:
+        pygame.draw.rect(okno, (200, 20, 20), ((280,140), (520,520)))
         pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
         
         text_sever_vyhra = typ_pisma_skore.render("Severní linie vyhrála", True, (0, 255, 255), (180, 180 ,180))
@@ -155,7 +160,9 @@ def kontrola_skore(okno):
         
         for cudlik in menu_skore[2]:
             pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
-            
+         
+        popisky_k_vyhernimu_oknu(okno, bila, cerna)
+        
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
             skorovani_jih = 0
             skorovani_sever = 0
@@ -186,6 +193,17 @@ def cekaci_menu_animation(animovany_tank, clock):
     clock.tick(80)
 
     return frame_textura_tanku
+
+def popisky_k_vyhernimu_oknu(okno, bila, cerna):
+    popisek_exit = typ_pisma_pin_menu2.render('Exit', True, bila, cerna)
+    popisek_exitRect = popisek_exit.get_rect()
+    popisek_exitRect.center = (400, 595)
+    okno.blit(popisek_exit, popisek_exitRect)
+    
+    popisek_znovu = typ_pisma_pin_menu2.render('Znovu', True, bila, cerna)
+    popisek_znovuRect = popisek_znovu.get_rect()
+    popisek_znovuRect.center = (675, 595)
+    okno.blit(popisek_znovu, popisek_znovuRect)
 
 def popisky_k_pin_menu(bila, okno, cerna):
     popisek_pin = typ_pisma_pin_menu2.render('Zadejte 4 místný číselný kód!', True, bila, (170, 170, 170))
@@ -278,7 +296,6 @@ def zapis():
         for i in range(len(pin_kod)):
             povrch = typ_pisma_pin_menu.render("*", True, (0,0,0,))
             okno.blit(povrch, ((i*100)+500,300))
-            print(pin_kod)
                 
         if len(pin_kod) == 4:
             zadavani = False
@@ -357,7 +374,6 @@ def zapis_pro_overovaci_pin():#načtení dat
     for i in range(len(overovaci_pin_kod)):
         povrch2 = typ_pisma_pin_menu.render("*", True, (0,0,0,))
         okno.blit(povrch2, ((i*100)+350,250))
-        print(overovaci_pin_kod)
                 
         if len(overovaci_pin_kod) == 4:
             zadavani_overovaciho_pinu = False
