@@ -10,7 +10,7 @@ obr = "Tank.png"
 #střely
 strela_img = "bullet.png"
 strela_speed = 500
-strela_lifetime = 5000
+strela_lifetime = 55000
 strela_delay = 1500
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
@@ -407,6 +407,8 @@ class Player(pygame.sprite.Sprite):
         sprites.add(self)
         
         #pro loop, kolizi apod#
+        self.h = self.rect.h
+        
         self.otaceni = True
         self.kol_rect = self.player_img.get_rect()
         self.kol_rect.center = self.rect.center
@@ -472,14 +474,14 @@ class Player(pygame.sprite.Sprite):
                 now1 = pygame.time.get_ticks()
                 if now1 - hrac1.last_shot > strela_delay:
                     hrac1.last_shot = now1
-                    pal1 = Strela(hrac1.pos + + vec(0,hrac1.rect.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                    pal1 = Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
                     sprites.add(pal1)
                     
             if stisknuto[pygame.K_KP_ENTER]:
                 now2 = pygame.time.get_ticks()
                 if now2 - hrac2.last_shot > strela_delay:
                     hrac2.last_shot = now2
-                    pal2 = Strela(hrac2.pos + + vec(0,hrac2.rect.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
+                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                     sprites.add(pal2)
                     
         else:
@@ -487,14 +489,14 @@ class Player(pygame.sprite.Sprite):
                 now2 = pygame.time.get_ticks()
                 if now2 - hrac2.last_shot > strela_delay:
                     hrac2.last_shot = now2
-                    pal2 = Strela(hrac2.pos + vec(0,hrac2.rect.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
                     sprites.add(pal2)
-                    print("kok")
+                    
             if stisknuto[pygame.K_KP_ENTER]:
                 now1 = pygame.time.get_ticks()
                 if now1 - hrac1.last_shot > strela_delay:
                     hrac1.last_shot = now1
-                    pal1 = Strela(hrac1.pos + + vec(0,hrac1.rect.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
+                    pal1 = Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                     sprites.add(pal1)
                     
                     
@@ -579,12 +581,22 @@ class Strela(pygame.sprite.Sprite):
         #pro hru
         self.dt = 150/100000
         self.rect = self.image.get_rect()
+        self.image.set_colorkey(cerna)
         self.pos = vec(pos)
         self.rect.center = pos
         self.vel = direct * strela_speed
         self.spawn_time = pygame.time.get_ticks()
         
+    def kolize_strely(self):
+        for zed in zdi:
+           #pro dolejšek zdi s hořejškem střely
+            
+                
+        if pygame.Rect.colliderect(self.rect, hrac1.rect):
+            print("kok")
+            
     def update(self):
+        self.kolize_strely()
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
         if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
