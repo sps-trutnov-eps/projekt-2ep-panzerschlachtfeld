@@ -411,6 +411,7 @@ class Player(pygame.sprite.Sprite):
         self.h = self.rect.h
         self.kontrola = vec(0,0)
         self.povoleni = True
+        self.tanky_kolize = True
         
         self.otaceni = True
         self.kol_rect = self.player_img.get_rect()
@@ -431,7 +432,8 @@ class Player(pygame.sprite.Sprite):
         else:
             hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 9).rotate(-self.rot2 - 180)
             hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 9).rotate(-self.rot1 - 180)
-        
+            
+        #se stranama
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
         if self.pos.x - self.rect.w/2 < 0:
@@ -440,25 +442,27 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = ROZLISENI_Y - self.rect.h/2
         if self.pos.y - self.rect.h/2 < 0:
             self.pos.y = self.rect.h/2
-        
-        if hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.25 < hrac1.rect.x + hrac1.rect.w  and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y and hrac2.rect.y - 0.25 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x and hrac2.rect.x - 0.25 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.25 < hrac1.rect.y + hrac1.rect.h or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x and hrac2.rect.x - 0.25 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y and hrac2.rect.y - 0.25 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.25 < hrac1.rect.x + hrac1.rect.w and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.25 < hrac1.rect.y + hrac1.rect.h or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.25 < hrac2.rect.x + hrac2.rect.w  and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y and hrac1.rect.y - 0.25 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x and hrac1.rect.x - 0.25 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.25 < hrac2.rect.y + hrac2.rect.h or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x and hrac1.rect.x - 0.25 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y and hrac1.rect.y - 0.25 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.25 < hrac2.rect.x + hrac2.rect.w and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.25 < hrac2.rect.y + hrac2.rect.h:
-            hrac1.otaceni = False
-            hrac2.otaceni = False
-            
-        if pygame.Rect.colliderect(hrac1.rect, hrac2.rect):
+       
+        if self.tanky_kolize:
+            if hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.25 < hrac1.rect.x + hrac1.rect.w  and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y and hrac2.rect.y - 0.25 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x and hrac2.rect.x - 0.25 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.25 < hrac1.rect.y + hrac1.rect.h or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x and hrac2.rect.x - 0.25 < hrac1.rect.x and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y and hrac2.rect.y - 0.25 < hrac1.rect.y or hrac2.rect.x + hrac2.rect.w + 0.25 > hrac1.rect.x + hrac1.rect.w and hrac2.rect.x - 0.25 < hrac1.rect.x + hrac1.rect.w and hrac2.rect.y + hrac2.rect.h + 0.25 > hrac1.rect.y + hrac1.rect.h and hrac2.rect.y - 0.25 < hrac1.rect.y + hrac1.rect.h or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.25 < hrac2.rect.x + hrac2.rect.w  and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y and hrac1.rect.y - 0.25 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x and hrac1.rect.x - 0.25 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.25 < hrac2.rect.y + hrac2.rect.h or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x and hrac1.rect.x - 0.25 < hrac2.rect.x and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y and hrac1.rect.y - 0.25 < hrac2.rect.y or hrac1.rect.x + hrac1.rect.w + 0.25 > hrac2.rect.x + hrac2.rect.w and hrac1.rect.x - 0.25 < hrac2.rect.x + hrac2.rect.w and hrac1.rect.y + hrac1.rect.h + 0.25 > hrac2.rect.y + hrac2.rect.h and hrac1.rect.y - 0.25 < hrac2.rect.y + hrac2.rect.h:
+                hrac1.otaceni = False
+                hrac2.otaceni = False
+                
+            # tanky mezi sebou    
+            if pygame.Rect.colliderect(hrac1.rect, hrac2.rect):
 
-            if hrac1.rect.x > hrac2.rect.x + hrac2.rect.width / 2 and hrac2.rect.x + hrac2.rect.w - 1.45 < hrac1.rect.x :
-                   hrac2.pos.x = hrac1.rect.x - hrac2.rect.width / 2
-                   hrac1.pos.x = hrac2.rect.right + hrac1.rect.width / 2
-            if hrac1.rect.x + hrac1.rect.w - 1.45 < hrac2.rect.x and hrac2.rect.x > hrac1.rect.x + hrac1.rect.width / 2:
-                   hrac1.pos.x = hrac2.rect.x - hrac1.rect.width / 2
-                   hrac2.pos.x = hrac1.rect.right + hrac2.rect.width / 2
-            if hrac2.rect.y > hrac1.rect.y + hrac1.rect.h - 1.45 and hrac1.rect.y + hrac1.rect.h - 1.45 < hrac2.rect.y:
-                   hrac2.pos.y = hrac1.rect.bottom + hrac2.rect.h / 2
-                   hrac1.pos.y = hrac2.rect.top - hrac1.rect.h / 2
-            if hrac1.rect.y > hrac2.rect.y + hrac2.rect.h - 1.45 and hrac2.rect.y + hrac2.rect.h - 1.45 < hrac1.rect.y:
-                   hrac1.pos.y = hrac2.rect.bottom + hrac1.rect.h / 2
-                   hrac2.pos.y = hrac1.rect.top - hrac2.rect.h / 2
+                if hrac1.rect.x > hrac2.rect.x + hrac2.rect.width / 2 and hrac2.rect.x + hrac2.rect.w - 1.45 < hrac1.rect.x :
+                       hrac2.pos.x = hrac1.rect.x - hrac2.rect.width / 2
+                       hrac1.pos.x = hrac2.rect.right + hrac1.rect.width / 2
+                if hrac1.rect.x + hrac1.rect.w - 1.45 < hrac2.rect.x and hrac2.rect.x > hrac1.rect.x + hrac1.rect.width / 2:
+                       hrac1.pos.x = hrac2.rect.x - hrac1.rect.width / 2
+                       hrac2.pos.x = hrac1.rect.right + hrac2.rect.width / 2
+                if hrac2.rect.y > hrac1.rect.y + hrac1.rect.h - 1.45 and hrac1.rect.y + hrac1.rect.h - 1.45 < hrac2.rect.y:
+                       hrac2.pos.y = hrac1.rect.bottom + hrac2.rect.h / 2
+                       hrac1.pos.y = hrac2.rect.top - hrac1.rect.h / 2
+                if hrac1.rect.y > hrac2.rect.y + hrac2.rect.h - 1.45 and hrac2.rect.y + hrac2.rect.h - 1.45 < hrac1.rect.y:
+                       hrac1.pos.y = hrac2.rect.bottom + hrac1.rect.h / 2
+                       hrac2.pos.y = hrac1.rect.top - hrac2.rect.h / 2
             
         for zed in zdi:
             #kolize pro střely
@@ -607,26 +611,32 @@ class Strela(pygame.sprite.Sprite):
     def kolize_strely(self):
         for zed in zdi:
            #pro dolejšek zdi s hořejškem střely
-            if zed.rect.x + zed.rect.w - zed.rect.w/40 > self.rect.x and zed.rect.x + zed.rect.w/40 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/40 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/40 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/40 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/40 < self.rect.y:
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
                 self.pos.y = zed.rect.bottom + self.rect.h / 2
                 self.vel.y *= -1
             #pro hořejšek zdi s dolejškem střely
-            if zed.rect.x + zed.rect.w - zed.rect.w/40 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/40 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/40 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/40 > self.rect.x and zed.rect.x + zed.rect.w/40 < self.rect.x and zed.rect.y + zed.rect.h/40 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
                 self.pos.y = zed.rect.top - self.rect.h/2
                 self.vel.y *= -1
             #pro pravou stranu zdi a levou střely
-            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/40 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/40 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /40 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/40 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /40 > self.rect.y and zed.rect.y + zed.rect.h /40 < self.rect.y:
+            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
                 self.pos.x = zed.rect.right + self.rect.width / 2
                 self.vel.x *= -1
             #pro levou stranu zdi a pravou střely
-            if zed.rect.x + zed.rect.w/40 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/40 > self.rect.y and zed.rect.y + zed.rect.h/40 < self.rect.y or zed.rect.x + zed.rect.w/40 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/40 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/40 < self.rect.y + self.rect.h:
+            if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 self.vel.x *= -1
-                
+        
+        #kolize s hráčema
         for hrac in hraci:
             if pygame.Rect.colliderect(self.rect, hrac.rect):
-               if hrac.rect.left + hrac.rect.w/5 > self.rect.x and hrac.rect.left + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.left + hrac.rect.w/5 > self.rect.y and hrac.rect.left + hrac.rect.w/5 < self.rect.y + self.rect.h or hrac.rect.left + hrac.rect.w/5 > self.rect.x and hrac.rect.left + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.left + hrac.rect.w/5 > self.rect.y and hrac.rect.left + hrac.rect.w/5 < self.rect.y + self.rect.h :
-                   print("k")
+               if hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
+                   hrac.kill()
+                   hrac.povoleni = False
+                   hrac1.tanky_kolize = False
+                   hrac2.tanky_kolize = False
+                   if hrac == hrac1:
+                       print("kok")
             
     def update(self):
         self.kolize_strely()
@@ -877,7 +887,7 @@ while True:
     sprites.update()
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
-    sprites.draw(okno)
+    sprites.draw(okno) 
     
     if vyber == level:
         skore_sever(bila, cerna)
