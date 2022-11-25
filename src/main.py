@@ -7,6 +7,7 @@ vec = pygame.math.Vector2
 PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
+
 #střely
 strela_img = "bullet.png"
 strela_speed = 500
@@ -408,6 +409,7 @@ class Player(pygame.sprite.Sprite):
         
         #pro loop, kolizi apod#
         self.h = self.rect.h
+        self.kontrola = vec(0,0)
         
         self.otaceni = True
         self.kol_rect = self.player_img.get_rect()
@@ -419,9 +421,13 @@ class Player(pygame.sprite.Sprite):
         self.pos = vec(x, y)
         self.rot1 = 0
         self.rot2 = 180
-        self.last_shot = 0
+        self.last_shot = -strela_delay
     
     def kolize(self):
+        self.kontrola = self.pos + vec(0,hrac1.h/1.75 + 13).rotate(-self.rot2 - 180)
+        print(hrac1.kontrola)
+        #kolize pro střely:
+        
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
         if self.pos.x - self.rect.w/2 < 0:
@@ -489,7 +495,7 @@ class Player(pygame.sprite.Sprite):
                 now2 = pygame.time.get_ticks()
                 if now2 - hrac2.last_shot > strela_delay:
                     hrac2.last_shot = now2
-                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75 + 13).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
                     sprites.add(pal2)
                     
             if stisknuto[pygame.K_KP_ENTER]:
@@ -588,6 +594,8 @@ class Strela(pygame.sprite.Sprite):
         self.spawn_time = pygame.time.get_ticks()
         
     def kolize_strely(self):
+        
+        
         for zed in zdi:
            #pro dolejšek zdi s hořejškem střely
             if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
@@ -606,8 +614,10 @@ class Strela(pygame.sprite.Sprite):
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 self.vel.x *= -1
                 
-        if pygame.Rect.colliderect(self.rect, hrac1.rect):
-            print("kok")
+        for hrac in hraci:
+            if pygame.Rect.colliderect(self.rect, hrac.rect):
+               if hrac.rect.left + hrac.rect.w/5 > self.rect.x and hrac.rect.left + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.left + hrac.rect.w/5 > self.rect.y and hrac.rect.left + hrac.rect.w/5 < self.rect.y + self.rect.h or hrac.rect.left + hrac.rect.w/5 > self.rect.x and hrac.rect.left + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.left + hrac.rect.w/5 > self.rect.y and hrac.rect.left + hrac.rect.w/5 < self.rect.y + self.rect.h :
+                   print("k")
             
     def update(self):
         self.kolize_strely()
@@ -834,7 +844,7 @@ while True:
                 poloha = True 
             else: 
                 poloha = False
-            
+            hraci = [hrac1,hrac2]
         pygame.display.update()
         
 ########## herní logika ################################################################################################
