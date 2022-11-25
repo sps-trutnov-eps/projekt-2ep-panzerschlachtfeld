@@ -10,8 +10,8 @@ obr = "Tank.png"
 #střely
 strela_img = "bullet.png"
 strela_speed = 500
-strela_lifetime = 55000
-strela_delay = 1500
+strela_lifetime = 5500
+strela_delay = 3500
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
 RGB = R, G, B, = 100, 145, 84
@@ -590,7 +590,21 @@ class Strela(pygame.sprite.Sprite):
     def kolize_strely(self):
         for zed in zdi:
            #pro dolejšek zdi s hořejškem střely
-            
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
+                self.pos.y = zed.rect.bottom + self.rect.h / 2
+                self.vel.y *= -1
+            #pro hořejšek zdi s dolejškem střely
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+                self.pos.y = zed.rect.top - self.rect.h/2
+                self.vel.y *= -1
+            #pro pravou stranu zdi a levou střely
+            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
+                self.pos.x = zed.rect.right + self.rect.width / 2
+                self.vel.x *= -1
+            #pro levou stranu zdi a pravou střely
+            if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
+                self.pos.x = zed.rect.x - self.rect.width / 2
+                self.vel.x *= -1
                 
         if pygame.Rect.colliderect(self.rect, hrac1.rect):
             print("kok")
