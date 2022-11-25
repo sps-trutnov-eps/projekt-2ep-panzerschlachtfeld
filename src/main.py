@@ -410,6 +410,7 @@ class Player(pygame.sprite.Sprite):
         #pro loop, kolizi apod#
         self.h = self.rect.h
         self.kontrola = vec(0,0)
+        self.povoleni = True
         
         self.otaceni = True
         self.kol_rect = self.player_img.get_rect()
@@ -424,9 +425,12 @@ class Player(pygame.sprite.Sprite):
         self.last_shot = -strela_delay
     
     def kolize(self):
-        self.kontrola = self.pos + vec(0,hrac1.h/1.75 + 13).rotate(-self.rot2 - 180)
-        print(hrac1.kontrola)
-        #kolize pro střely:
+        if poloha == False:
+            hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 9).rotate(-self.rot2 - 180)
+            hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 9).rotate(-self.rot1 - 180)
+        else:
+            hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 9).rotate(-self.rot2 - 180)
+            hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 9).rotate(-self.rot1 - 180)
         
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
             self.pos.x = ROZLISENI_X - self.rect.w/2
@@ -457,6 +461,12 @@ class Player(pygame.sprite.Sprite):
                    hrac2.pos.y = hrac1.rect.top - hrac2.rect.h / 2
             
         for zed in zdi:
+            #kolize pro střely
+            if hrac1.kontrola.x > zed.rect.x and hrac1.kontrola.x < zed.rect.x + zed.rect.w and hrac1.kontrola.y > zed.rect.y and hrac1.kontrola.y < zed.rect.y + zed.rect.h:
+               hrac1.povoleni = False
+            if hrac2.kontrola.x > zed.rect.x and hrac2.kontrola.x < zed.rect.x + zed.rect.w and hrac2.kontrola.y > zed.rect.y and hrac2.kontrola.y < zed.rect.y + zed.rect.h:
+               hrac2.povoleni = False
+                
             if zed.rect.x + zed.rect.w > hrac1.rect.x + hrac1.rect.w and zed.rect.x - 0.1 < hrac1.rect.x + hrac1.rect.w  and zed.rect.y + zed.rect.h > hrac1.rect.y and zed.rect.y - 0.1 < hrac1.rect.y or zed.rect.x + zed.rect.w > hrac1.rect.x and zed.rect.x - 0.1 < hrac1.rect.x and zed.rect.y + zed.rect.h > hrac1.rect.y + hrac1.rect.h and zed.rect.y - 0.1 < hrac1.rect.y + hrac1.rect.h or zed.rect.x + zed.rect.w > hrac1.rect.x and zed.rect.x - 0.1 < hrac1.rect.x and zed.rect.y + zed.rect.h > hrac1.rect.y and zed.rect.y - 0.1 < hrac1.rect.y or zed.rect.x + zed.rect.w > hrac1.rect.x + hrac1.rect.w and zed.rect.x - 0.1 < hrac1.rect.x + hrac1.rect.w and zed.rect.y + zed.rect.h > hrac1.rect.y + hrac1.rect.h and zed.rect.y - 0.1 < hrac1.rect.y + hrac1.rect.h:
                 hrac1.otaceni = False
             if zed.rect.x + zed.rect.w > hrac2.rect.x + hrac2.rect.w and zed.rect.x - 0.1 < hrac2.rect.x + hrac2.rect.w  and zed.rect.y + zed.rect.h > hrac2.rect.y and zed.rect.y - 0.1 < hrac2.rect.y or zed.rect.x + zed.rect.w > hrac2.rect.x and zed.rect.x - 0.1 < hrac2.rect.x and zed.rect.y + zed.rect.h > hrac2.rect.y + hrac2.rect.h and zed.rect.y - 0.1 < hrac2.rect.y + hrac2.rect.h or zed.rect.x + zed.rect.w > hrac2.rect.x and zed.rect.x - 0.1 < hrac2.rect.x and zed.rect.y + zed.rect.h > hrac2.rect.y and zed.rect.y - 0.1 < hrac2.rect.y or zed.rect.x + zed.rect.w > hrac2.rect.x + hrac2.rect.w and zed.rect.x - 0.1 < hrac2.rect.x + hrac2.rect.w and zed.rect.y + zed.rect.h > hrac2.rect.y + hrac2.rect.h and zed.rect.y - 0.1 < hrac2.rect.y + hrac2.rect.h:
@@ -478,14 +488,14 @@ class Player(pygame.sprite.Sprite):
         if poloha:
             if stisknuto[pygame.K_SPACE]:
                 now1 = pygame.time.get_ticks()
-                if now1 - hrac1.last_shot > strela_delay:
+                if now1 - hrac1.last_shot > strela_delay and hrac1.povoleni == True:
                     hrac1.last_shot = now1
                     pal1 = Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
                     sprites.add(pal1)
                     
             if stisknuto[pygame.K_KP_ENTER]:
                 now2 = pygame.time.get_ticks()
-                if now2 - hrac2.last_shot > strela_delay:
+                if now2 - hrac2.last_shot > strela_delay and hrac2.povoleni == True:
                     hrac2.last_shot = now2
                     pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                     sprites.add(pal2)
@@ -493,19 +503,20 @@ class Player(pygame.sprite.Sprite):
         else:
             if stisknuto[pygame.K_SPACE]:
                 now2 = pygame.time.get_ticks()
-                if now2 - hrac2.last_shot > strela_delay:
+                if now2 - hrac2.last_shot > strela_delay and hrac2.povoleni == True:
                     hrac2.last_shot = now2
-                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75 + 13).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
                     sprites.add(pal2)
                     
             if stisknuto[pygame.K_KP_ENTER]:
                 now1 = pygame.time.get_ticks()
-                if now1 - hrac1.last_shot > strela_delay:
+                if now1 - hrac1.last_shot > strela_delay and hrac1.povoleni == True:
                     hrac1.last_shot = now1
                     pal1 = Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                     sprites.add(pal1)
                     
-                    
+        self.povoleni = True
+       
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
