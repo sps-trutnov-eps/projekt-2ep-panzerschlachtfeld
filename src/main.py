@@ -7,6 +7,7 @@ vec = pygame.math.Vector2
 PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
+nova_hra = False
 
 #střely
 strela_img = "bullet.png"
@@ -589,7 +590,12 @@ class Player(pygame.sprite.Sprite):
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
-                         
+    def nova_hra(self):
+        if self.tanky_kolize == False:
+           casovac_nova_hra = pygame.time.get_ticks()
+           if casovac_nova_hra > 5000:
+               print("kok")
+               
     def update(self):
         
         self.pohyb()
@@ -600,6 +606,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = self.pos
         self.kol_rect.center = self.rect.center
         self.palba()
+        self.nova_hra()
  
 class Strela(pygame.sprite.Sprite):
     def __init__(self, pos, direct, img):
@@ -643,11 +650,14 @@ class Strela(pygame.sprite.Sprite):
         for hrac in hraci:
             if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
                if hrac.rect.centerx + hrac.rect.w/6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/6 > self.rect.y and hrac.rect.centery - hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/6 > self.rect.y and hrac.rect.centery + hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/6 > self.rect.y and hrac.rect.centery + hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/6 > self.rect.y and hrac.rect.centery - hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
+                   #nastavení pro zmizení
+                   nova_hra = True
                    hrac.kill()
                    hrac.povoleni = False
                    hrac.strela_kolize = False
                    hrac1.tanky_kolize = False
                    hrac2.tanky_kolize = False
+                   #skóre
                    global skorovani_jih, skorovani_sever
                    if poloha == False:
                        if hrac == hrac1:
@@ -659,7 +669,7 @@ class Strela(pygame.sprite.Sprite):
                            skorovani_jih += 1
                        if hrac == hrac2:
                            skorovani_sever += 1
-                     
+               
     def update(self):
         self.kolize_strely()
         self.pos += self.vel * self.dt
