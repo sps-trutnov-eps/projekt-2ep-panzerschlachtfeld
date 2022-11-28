@@ -637,7 +637,8 @@ class Strela(pygame.sprite.Sprite):
                    hrac.strela_kolize = False
                    hrac1.tanky_kolize = False
                    hrac2.tanky_kolize = False
-                   if poloha:
+                   global skorovani_jih, skorovani_sever
+                   if poloha == False:
                        if hrac == hrac1:
                            skorovani_sever += 1
                        if hrac == hrac2:
