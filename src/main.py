@@ -58,6 +58,7 @@ typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_overovaci_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_pin_menu2 = pygame.font.SysFont('freesansbold.ttf', 50)
+typ_pisma_text_skore = pygame.font.Font('freesansbold.ttf', 30)
 
 # cudliky
 #hlavní menu
@@ -102,22 +103,32 @@ pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 menu_skore = [(170, 170, 170), "Panzerschlachtfeld", (cl_pokracovat,cl_exit3)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
-def skore_sever(bila, cerna):
+def skore_sever(bila, cerna, cervena):
     global skorovani_sever 
     text_skore_sever = typ_pisma_skore.render(str(skorovani_sever) + ':', True, bila, cerna)
     text_skore_severRect = text_skore_sever.get_rect()
-    text_skore_severRect.center = (400, 40)
+    text_skore_severRect.center = (300, 40)
     okno.blit(text_skore_sever, text_skore_severRect)
+    
+    text_sever = typ_pisma_text_skore.render('Sever', True, cervena, cerna)
+    text_severRect = text_sever.get_rect()
+    text_severRect.center = (200, 40)
+    okno.blit(text_sever,text_severRect)
     
     if stisknuto[pygame.K_k] and skorovani_sever <= 2:
         skorovani_sever += 1
     
-def skore_jih(bila, cerna):
+def skore_jih(bila, cerna, cervena):
     global skorovani_jih
     text_skore_jih = typ_pisma_skore.render(str(skorovani_jih) + ' ', True, bila, cerna)
     text_skore_jihRect = text_skore_jih.get_rect()
-    text_skore_jihRect.center = (445, 40)
+    text_skore_jihRect.center = (345, 40)
     okno.blit(text_skore_jih, text_skore_jihRect)
+    
+    text_jih = typ_pisma_text_skore.render('Jih', True, cervena, cerna)
+    text_jihRect = text_jih.get_rect()
+    text_jihRect.center = (410, 40)
+    okno.blit(text_jih,text_jihRect)
 
     if stisknuto[pygame.K_l] and skorovani_jih <= 2 :
         skorovani_jih += 1
@@ -901,16 +912,16 @@ while True:
     sprites.draw(okno) 
     
     if vyber == level:
-        skore_sever(bila, cerna)
-        skore_jih(bila, cerna)
+        skore_sever(bila, cerna, cervena)
+        skore_jih(bila, cerna, cervena)
         
     if vyber == level1:
-        skore_sever(bila, cerna)
-        skore_jih(bila, cerna)
+        skore_sever(bila, cerna, cervena)
+        skore_jih(bila, cerna, cervena)
         
     if vyber == level2:
-        skore_sever(bila, cerna)
-        skore_jih(bila, cerna)
+        skore_sever(bila, cerna, cervena)
+        skore_jih(bila, cerna, cervena)
     
     kontrola_skore(okno)
         
