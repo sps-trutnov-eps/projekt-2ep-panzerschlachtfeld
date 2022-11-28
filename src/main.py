@@ -11,7 +11,7 @@ obr = "Tank.png"
 #střely
 strela_img = "bullet.png"
 strela_speed = 500
-strela_lifetime = 5500
+strela_lifetime = 4500
 strela_delay = 3500
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
@@ -412,6 +412,7 @@ class Player(pygame.sprite.Sprite):
         self.kontrola = vec(0,0)
         self.povoleni = True
         self.tanky_kolize = True
+        self.strela_kolize = True
         
         self.otaceni = True
         self.kol_rect = self.player_img.get_rect()
@@ -629,15 +630,25 @@ class Strela(pygame.sprite.Sprite):
         
         #kolize s hráčema
         for hrac in hraci:
-            if pygame.Rect.colliderect(self.rect, hrac.rect):
+            if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
                if hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    hrac.kill()
                    hrac.povoleni = False
+                   hrac.strela_kolize = False
+                   self.kill()
                    hrac1.tanky_kolize = False
                    hrac2.tanky_kolize = False
-                   if hrac == hrac1:
-                       print("kok")
-            
+                   if poloha:
+                       if hrac == hrac1:
+                           skorovani_sever += 1
+                       if hrac == hrac2:
+                           skorovani_jih += 1
+                   else:
+                       if hrac == hrac1:
+                           skorovani_jih += 1
+                       if hrac == hrac2:
+                           skorovani_sever += 1
+                     
     def update(self):
         self.kolize_strely()
         self.pos += self.vel * self.dt
