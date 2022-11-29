@@ -9,6 +9,8 @@ PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 5000
+odpocet = 5
+odpocet_odpoctu = 0
 
 #střely
 strela_img = "bullet.png"
@@ -914,6 +916,10 @@ while True:
         cekat_do_nove = nova_hra
     if skorovani_jih == 3 or skorovani_sever == 3: 
         cekat_do_nove = nova_hra - znovu
+    if hrac1.tanky_kolize == False and nova_hra - odpocet_odpoctu > 1000 and skorovani_jih != 3 and skorovani_sever != 3 :
+        odpocet_odpoctu = nova_hra
+        odpocet -= 1
+        print(odpocet)
     if hrac1.tanky_kolize == False and nova_hra - cekat_do_nove > znovu:
         zdi = []
         mezery = ROZLISENI_X/len(vyber[0])
@@ -935,6 +941,7 @@ while True:
         else: 
             poloha = False
         hraci = [hrac1,hrac2]
+        odpocet = 5
 ########## herní logika ################################################################################################
         
     p_zmacknuto_ted = stisknuto[pygame.K_p]
