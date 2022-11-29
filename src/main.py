@@ -592,9 +592,11 @@ class Player(pygame.sprite.Sprite):
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
+        
     def nova_hra(self):
         if self.tanky_kolize == False:
            self.kill()
+           sprites.remove()
                
     def update(self):
         
@@ -647,12 +649,12 @@ class Strela(pygame.sprite.Sprite):
                 self.vel.x *= -1
         
         #kolize s hráčema
+        
         for hrac in hraci:
             if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
-               if hrac.rect.centerx + hrac.rect.w/6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/6 > self.rect.y and hrac.rect.centery - hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/6 > self.rect.y and hrac.rect.centery + hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/6 > self.rect.y and hrac.rect.centery + hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/6 > self.rect.y and hrac.rect.centery - hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
+               if hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    #nastavení pro zmizení
                    self.kill()
-                   nova_hra = True
                    hrac.kill()
                    hrac.povoleni = False
                    hrac.strela_kolize = False
@@ -660,24 +662,30 @@ class Strela(pygame.sprite.Sprite):
                    hrac2.tanky_kolize = False
                    #skóre
                    global skorovani_jih, skorovani_sever
-                   if poloha == False:
-                       if hrac == hrac1:
-                           skorovani_sever += 1
-                       if hrac == hrac2:
-                           skorovani_jih += 1
-                   else:
-                       if hrac == hrac1:
-                           skorovani_jih += 1
-                       if hrac == hrac2:
-                           skorovani_sever += 1
-               
+                   if skorovani_jih < 3 and skorovani_sever < 3:
+                       if poloha == False:
+                           if hrac == hrac1:
+                               skorovani_sever += 1
+                           if hrac == hrac2:
+                               skorovani_jih += 1
+                       else:
+                           if hrac == hrac1:
+                               skorovani_jih += 1
+                           if hrac == hrac2:
+                               skorovani_sever += 1
+                           
+                   
+         
+    def mazani(self):
+        if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
+            self.kill()
+            
     def update(self):
         self.kolize_strely()
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
-        if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
-            self.kill()
-
+        self.mazani()
+            
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
