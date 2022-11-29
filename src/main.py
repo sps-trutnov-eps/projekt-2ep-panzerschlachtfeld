@@ -442,11 +442,11 @@ class Player(pygame.sprite.Sprite):
     
     def kolize(self):
         if poloha == False:
-            hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 9).rotate(-self.rot2 - 180)
-            hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 9).rotate(-self.rot1 - 180)
+            hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 11).rotate(-self.rot2 - 180)
+            hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 11).rotate(-self.rot1 - 180)
         else:
-            hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 9).rotate(-self.rot2 - 180)
-            hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 9).rotate(-self.rot1 - 180)
+            hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 11).rotate(-self.rot2 - 180)
+            hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 11).rotate(-self.rot1 - 180)
             
         #se stranama
         if self.pos.x + self.rect.w/2 > ROZLISENI_X:
@@ -524,16 +524,14 @@ class Player(pygame.sprite.Sprite):
                 now2 = pygame.time.get_ticks()
                 if now2 - hrac2.last_shot > strela_delay and hrac2.povoleni == True:
                     hrac2.last_shot = now2
-                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
-                    sprites.add(pal2)
-                    
+                    Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
+                                       
             if stisknuto[pygame.K_KP_ENTER]:
                 now1 = pygame.time.get_ticks()
                 if now1 - hrac1.last_shot > strela_delay and hrac1.povoleni == True:
                     hrac1.last_shot = now1
-                    pal1 = Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
-                    sprites.add(pal1)
-                    
+                    Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
+                                        
         self.povoleni = True
        
     def pohyb(self):
@@ -619,6 +617,7 @@ class Strela(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.bullet_img = pygame.image.load(path.join(img_folder, img)).convert_alpha()
         self.image = self.bullet_img
+        sprites.add(self)
         
         #pro hru
         self.dt = 150/100000
@@ -655,7 +654,6 @@ class Strela(pygame.sprite.Sprite):
                if hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    #nastavení pro zmizení
                    self.kill()
-                   hrac.kill()
                    hrac.povoleni = False
                    hrac.strela_kolize = False
                    hrac1.tanky_kolize = False
@@ -685,7 +683,7 @@ class Strela(pygame.sprite.Sprite):
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
         self.mazani()
-            
+        
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
