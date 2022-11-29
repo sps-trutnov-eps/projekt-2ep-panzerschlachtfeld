@@ -137,7 +137,7 @@ def skore_jih(bila, cerna, cervena):
 def kontrola_skore(okno):
     global skorovani_jih, skorovani_sever, menu_skore, MENU, Done, hlavni_menu, in_game_menu, aktivni_obrazovka
     
-    if skorovani_jih == 3 and skorovani_sever <= 2:
+    if skorovani_jih == 3 and skorovani_sever <= 2 or skorovani_jih > 3 and skorovani_sever <= 2:
         pygame.draw.rect(okno, (200, 20, 20), ((280,140), (520,520)))
         pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
         
@@ -152,6 +152,8 @@ def kontrola_skore(okno):
         popisky_k_vyhernimu_oknu(okno, bila, cerna)
         
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
+            hrac1.tanky_kolize = False
+            hrac2.tanky_kolize = False
             skorovani_jih = 0
             skorovani_sever = 0
             
@@ -162,7 +164,7 @@ def kontrola_skore(okno):
             hrac2.kill()
             aktivni_obrazovka = hlavni_menu
             
-    if skorovani_sever == 3 and skorovani_jih <= 2:
+    if skorovani_sever == 3 and skorovani_jih <= 2 or skorovani_sever > 3 and skorovani_jih <= 2:
         pygame.draw.rect(okno, (200, 20, 20), ((280,140), (520,520)))
         pygame.draw.rect(okno, (180, 180, 180), ((290,150), (500,500)))
         
@@ -489,16 +491,16 @@ class Player(pygame.sprite.Sprite):
             if zed.rect.x + zed.rect.w > hrac2.rect.x + hrac2.rect.w and zed.rect.x - 0.1 < hrac2.rect.x + hrac2.rect.w  and zed.rect.y + zed.rect.h > hrac2.rect.y and zed.rect.y - 0.1 < hrac2.rect.y or zed.rect.x + zed.rect.w > hrac2.rect.x and zed.rect.x - 0.1 < hrac2.rect.x and zed.rect.y + zed.rect.h > hrac2.rect.y + hrac2.rect.h and zed.rect.y - 0.1 < hrac2.rect.y + hrac2.rect.h or zed.rect.x + zed.rect.w > hrac2.rect.x and zed.rect.x - 0.1 < hrac2.rect.x and zed.rect.y + zed.rect.h > hrac2.rect.y and zed.rect.y - 0.1 < hrac2.rect.y or zed.rect.x + zed.rect.w > hrac2.rect.x + hrac2.rect.w and zed.rect.x - 0.1 < hrac2.rect.x + hrac2.rect.w and zed.rect.y + zed.rect.h > hrac2.rect.y + hrac2.rect.h and zed.rect.y - 0.1 < hrac2.rect.y + hrac2.rect.h:
                 hrac2.otaceni = False
             #pro dolejšek zdi s hořejškem playera
-            if zed.rect.x + zed.rect.w - zed.rect.w/15 > self.rect.x and zed.rect.x + zed.rect.w/15 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/15 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/15 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/15 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/15 < self.rect.y:
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
                 self.pos.y = zed.rect.bottom + self.rect.h / 2
             #pro hořejšek zdi s dolejškem playera
-            if zed.rect.x + zed.rect.w - zed.rect.w/15 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/15 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/15 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/15 > self.rect.x and zed.rect.x + zed.rect.w/15 < self.rect.x and zed.rect.y + zed.rect.h/15 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
                 self.pos.y = zed.rect.top - self.rect.h/2
             #pro pravou stranu zdi a levou playera
-            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/15 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/15 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /15 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/15 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /15 > self.rect.y and zed.rect.y + zed.rect.h /15 < self.rect.y:
+            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
                 self.pos.x = zed.rect.right + self.rect.width / 2
             #pro levou stranu zdi a pravou playera
-            if zed.rect.x + zed.rect.w/15 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/15 > self.rect.y and zed.rect.y + zed.rect.h/15 < self.rect.y or zed.rect.x + zed.rect.w/15 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/15 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/15 < self.rect.y + self.rect.h:
+            if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 
     def palba(self):
@@ -592,9 +594,7 @@ class Player(pygame.sprite.Sprite):
             pass
     def nova_hra(self):
         if self.tanky_kolize == False:
-           casovac_nova_hra = pygame.time.get_ticks()
-           if casovac_nova_hra > 5000:
-               print("kok")
+           self.kill()
                
     def update(self):
         
@@ -651,6 +651,7 @@ class Strela(pygame.sprite.Sprite):
             if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
                if hrac.rect.centerx + hrac.rect.w/6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/6 > self.rect.y and hrac.rect.centery - hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/6 > self.rect.y and hrac.rect.centery + hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/6 > self.rect.y and hrac.rect.centery + hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/6 > self.rect.y and hrac.rect.centery - hrac.rect.h/6 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    #nastavení pro zmizení
+                   self.kill()
                    nova_hra = True
                    hrac.kill()
                    hrac.povoleni = False
@@ -897,7 +898,29 @@ while True:
                 poloha = False
             hraci = [hrac1,hrac2]
         pygame.display.update()
+    
+    if hrac1.tanky_kolize == False:
         
+        zdi = []
+        mezery = ROZLISENI_X/len(vyber[0])
+        mezery_y = ROZLISENI_Y/len(vyber)
+        x = y = 0
+        for radek in vyber:
+            for element in radek:
+                if element == "W":
+                    Zed((x, y))
+                if element == "H":
+                    hrac1 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
+                if element == "N":
+                    hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
+                x += mezery
+            y += mezery_y
+            x = 0               
+        if hrac1.rect.y < hrac2.rect.y: 
+            poloha = True 
+        else: 
+            poloha = False
+        hraci = [hrac1,hrac2]
 ########## herní logika ################################################################################################
         
     p_zmacknuto_ted = stisknuto[pygame.K_p]
