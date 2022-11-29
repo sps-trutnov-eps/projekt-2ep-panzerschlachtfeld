@@ -9,7 +9,7 @@ PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 5000
-odpocet = 5
+odpocet = int(znovu/1000) + 1
 odpocet_odpoctu = 0
 
 #střely
@@ -941,7 +941,7 @@ while True:
         else: 
             poloha = False
         hraci = [hrac1,hrac2]
-        odpocet = 5
+        odpocet = int(znovu/1000) + 1
 ########## herní logika ################################################################################################
         
     p_zmacknuto_ted = stisknuto[pygame.K_p]
