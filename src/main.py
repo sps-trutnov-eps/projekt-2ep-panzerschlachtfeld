@@ -7,12 +7,13 @@ vec = pygame.math.Vector2
 PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
-nova_hra = False
+cekat_do_nove = 0
+znovu = 5000
 
 #střely
 strela_img = "bullet.png"
 strela_speed = 500
-strela_lifetime = 4500
+strela_lifetime = 4000
 strela_delay = 3500
 ###
 ROZLISENI_OKNA = ROZLISENI_X, ROZLISENI_Y = 1080,800
@@ -153,7 +154,7 @@ def kontrola_skore(okno):
         
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
             hrac1.tanky_kolize = False
-            hrac2.tanky_kolize = False
+            hrac2.tanky_kolize = False 
             skorovani_jih = 0
             skorovani_sever = 0
             
@@ -179,6 +180,8 @@ def kontrola_skore(okno):
         popisky_k_vyhernimu_oknu(okno, bila, cerna)
         
         if cl_pokracovat[0][0] < pygame.mouse.get_pos()[0] < (cl_pokracovat[0][0] + cl_pokracovat[1][0]) and cl_pokracovat[0][1] < pygame.mouse.get_pos()[1] < (cl_pokracovat[0][1] + cl_pokracovat[1][1]) and pygame.mouse.get_pressed()[0]:
+            hrac1.tanky_kolize = False
+            hrac2.tanky_kolize = False
             skorovani_jih = 0
             skorovani_sever = 0
             
@@ -532,7 +535,8 @@ class Player(pygame.sprite.Sprite):
                     hrac1.last_shot = now1
                     Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                                         
-        self.povoleni = True
+        if self.tanky_kolize == True:
+            self.povoleni = True
        
     def pohyb(self):
         self.rychlost1 = 0
@@ -590,12 +594,10 @@ class Player(pygame.sprite.Sprite):
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
-        
+    
     def nova_hra(self):
-        if self.tanky_kolize == False:
-           self.kill()
-           sprites.remove()
-               
+        if hrac1.tanky_kolize == False and nova_hra - cekat_do_nove > znovu - 15:
+            self.kill()
     def update(self):
         
         self.pohyb()
@@ -653,8 +655,10 @@ class Strela(pygame.sprite.Sprite):
             if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
                if hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    #nastavení pro zmizení
+                   hrac.kill()
                    self.kill()
-                   hrac.povoleni = False
+                   hrac1.povoleni = False
+                   hrac2.povoleni = False
                    hrac.strela_kolize = False
                    hrac1.tanky_kolize = False
                    hrac2.tanky_kolize = False
@@ -747,6 +751,7 @@ okno = pygame.display.set_mode(ROZLISENI_OKNA)
 sprites = pygame.sprite.Group()
 
 while True:
+    nova_hra = pygame.time.get_ticks()
 # ovladani aplikace ########################################################################
     z = pygame.key.get_pressed()
     
@@ -904,9 +909,12 @@ while True:
                 poloha = False
             hraci = [hrac1,hrac2]
         pygame.display.update()
-    
-    if hrac1.tanky_kolize == False:
-        
+
+    if hrac1.tanky_kolize == True and nova_hra - cekat_do_nove > 0:
+        cekat_do_nove = nova_hra
+    if skorovani_jih == 3 or skorovani_sever == 3: 
+        cekat_do_nove = nova_hra - znovu
+    if hrac1.tanky_kolize == False and nova_hra - cekat_do_nove > znovu:
         zdi = []
         mezery = ROZLISENI_X/len(vyber[0])
         mezery_y = ROZLISENI_Y/len(vyber)
