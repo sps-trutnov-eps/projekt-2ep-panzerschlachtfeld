@@ -920,12 +920,16 @@ while True:
 
     if hrac1.tanky_kolize == True and nova_hra - cekat_do_nove > 0:
         cekat_do_nove = nova_hra
+        
     if skorovani_jih == 3 or skorovani_sever == 3: 
         cekat_do_nove = nova_hra - znovu
+        
     if hrac1.tanky_kolize == False and nova_hra - odpocet_odpoctu > 1000 and skorovani_jih != 3 and skorovani_sever != 3 :
         odpocet_odpoctu = nova_hra
         odpocet -= 1
-        print(odpocet)
+        odpocet_text = typ_pisma_overovaci_menu.render(str(odpocet), True, bila)
+        okno.blit(odpocet_text, (500, 400))
+    
     if hrac1.tanky_kolize == False and nova_hra - cekat_do_nove > znovu:
         zdi = []
         mezery = ROZLISENI_X/len(vyber[0])
@@ -948,6 +952,7 @@ while True:
             poloha = False
         hraci = [hrac1,hrac2]
         odpocet = int(znovu/1000) + 1
+        
 ########## herní logika ################################################################################################
         
     p_zmacknuto_ted = stisknuto[pygame.K_p]
@@ -969,7 +974,7 @@ while True:
     sprites.update()
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
-    sprites.draw(okno) 
+    sprites.draw(okno)
     
     if vyber == level:
         skore_sever(bila, cerna, cervena)
@@ -984,7 +989,6 @@ while True:
         skore_jih(bila, cerna, cervena)
     
     kontrola_skore(okno)
-        
 # cudliky v pause menu ################################################################################################ 
     
     if zpatky_do_menu == True:
