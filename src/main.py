@@ -109,14 +109,14 @@ aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 def skore_sever(bila, cerna, cervena):
     global skorovani_sever 
-    text_skore_sever = typ_pisma_skore.render(str(skorovani_sever) + ':', True, bila, cerna)
+    text_skore_sever = typ_pisma_skore.render(str(skorovani_sever) + ':', True, bila)
     text_skore_severRect = text_skore_sever.get_rect()
-    text_skore_severRect.center = (300, 40)
+    text_skore_severRect.center = (300, 36)
     okno.blit(text_skore_sever, text_skore_severRect)
     
     text_sever = typ_pisma_text_skore.render('Sever', True, cervena, cerna)
     text_severRect = text_sever.get_rect()
-    text_severRect.center = (200, 40)
+    text_severRect.center = (200, 36)
     okno.blit(text_sever,text_severRect)
     
     if stisknuto[pygame.K_k] and skorovani_sever <= 2:
@@ -124,14 +124,14 @@ def skore_sever(bila, cerna, cervena):
     
 def skore_jih(bila, cerna, cervena):
     global skorovani_jih
-    text_skore_jih = typ_pisma_skore.render(str(skorovani_jih) + ' ', True, bila, cerna)
+    text_skore_jih = typ_pisma_skore.render(str(skorovani_jih) + ' ', True, bila)
     text_skore_jihRect = text_skore_jih.get_rect()
-    text_skore_jihRect.center = (345, 40)
+    text_skore_jihRect.center = (345, 36)
     okno.blit(text_skore_jih, text_skore_jihRect)
     
     text_jih = typ_pisma_text_skore.render('Jih', True, cervena, cerna)
     text_jihRect = text_jih.get_rect()
-    text_jihRect.center = (410, 40)
+    text_jihRect.center = (410, 36)
     okno.blit(text_jih,text_jihRect)
 
     if stisknuto[pygame.K_l] and skorovani_jih <= 2 :
@@ -677,9 +677,7 @@ class Strela(pygame.sprite.Sprite):
                                skorovani_jih += 1
                            if hrac == hrac2:
                                skorovani_sever += 1
-                           
-                   
-         
+            
     def mazani(self):
         if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
             self.kill()
@@ -702,50 +700,49 @@ overovaci_pin_kod = []
 pin_kod = []
 zdi = []
 level = [
-"WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-"WWWW          H          WWW",
-"WWW          WW           WW",
-"W     WW   WWWWWW   WW     W",
-"W   WWW              WWW   W",
-"W   WWW              WWW   W",
-"W     WW   WWWWWW   WW     W",
-"WW           WW          WWW",
-"WWW          N          WWWW",
-"WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+"WWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+"WWWW          H          WWWW",
+"W            WW             W",
+"W     W    WWWWWW   WW      W",
+"W   WWW               WWW   W",
+"W   WWW               WWW   W",
+"W     W    WWWWWW   WW      W",
+"W            WW             W",
+"WWWW          N          WWWW",
+"WWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
 ]
 
 level1 = [
-"WWWWWWWWWWWWWWWWWWWWWWWWWWW",
-"WW        W  N  W         W",
-"W   W                 W   W",
-"W   W    WWWWWWWWW    W   W",
-"W   WW       W       WW   W",
-"W   WW               WW   W",
-"W   WW               WW   W",
-"W   WW       W       WW   W",
-"W   W    WWWWWWWWW    W   W",
-"W   W                 W   W",
-"WW        W  H  W         W",
-"WWWWWWWWWWWWWWWWWWWWWWWWWWW",
+"WWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+"WWWW     WW     WW       WWWW",
+"W            N              W",
+"W    W               W      W",
+"W    W   WWWWWWWWW   WWW    W",
+"W    W               WWW    W",
+"W    W               WWW    W",
+"W    W   WWWWWWWWW   WWW    W",
+"W    W               W      W",
+"W            H              W",
+"WWWW     WW     WW       WWWW",
+"WWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
 ]
 
 level2 = [
-"WWWWWWWWWWWWWWWWWWWWWWWWWW",
-"W           H            W",
-"W   W              W     W",
-"W   WWW    WW    WWWW    W",
-"W     W            W     W",
-"W                        W",
-"W       WWW   WWW        W",
-"WW    WWWW              WW",
-"WW              WWWW    WW",
-"W        WWW   WWW       W",
-"W                        W",
-"W     W            W     W",
-"W   WWW    WW    WWWW    W",
-"W   W              W     W",
-"W          N             W",
-"WWWWWWWWWWWWWWWWWWWWWWWWWW",
+"WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+"W             H            W",
+"W                          W",
+"W    WWW            WWW    W",
+"W    WWW     WW     WWW    W",
+"W    WWW     WW     WWW    W",
+"W                          W",
+"WWW                      WWW",
+"WWW                      WWW",
+"W                          W",
+"W    WWWW    WW    WWWW    W",
+"W    WWWW    WW    WWWW    W",
+"W                          W",
+"W            N             W",
+"WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
 ]
 
 # pro responzivitu s velikostí okna
