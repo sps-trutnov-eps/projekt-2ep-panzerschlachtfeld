@@ -8,7 +8,7 @@ PLAYER_SPEED = 300.0
 PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
 cekat_do_nove = 0
-znovu = 5000
+znovu = 3000
 odpocet = int(znovu/1000) + 1
 odpocet_odpoctu = 0
 
@@ -67,10 +67,10 @@ typ_pisma_text_skore = pygame.font.Font('freesansbold.ttf', 30)
 # cudliky
 #hlavní menu
 np1 = ((0,80), (1080,100), (0,0,0), "text" )
-cl_hl1 = ((375, 260), (375, 100), (0,0,0), "text")
-cl_hl2 = ((375, 440), (375, 100), (0,0,0), "text")
-cl_hl3 = ((375, 620), (375, 100), (0,0,0), "text")
-cl_exit1 = ((925, 725), (150, 50), (0,0,0), "text")
+cl_hl1 = ((375, 255), (375, 100), (0,0,0), "text")
+cl_hl2 = ((375, 435), (375, 100), (0,0,0), "text")
+cl_hl3 = ((375, 615), (375, 100), (0,0,0), "text")
+cl_exit1 = ((925, 720), (150, 50), (0,0,0), "text")
 
 #menu výběru
 np2 = ((0, 40), (1080,100), (0,0,0), "text" )
@@ -849,21 +849,21 @@ while True:
     
             nadpis_menu1 = typ_pisma_hlavni_menu.render('Vybrat mapu', True, bila, cerna)
             nadpis_menu1Rect = nadpis_menu1.get_rect()
-            nadpis_menu1Rect.center = (560, 308)
+            nadpis_menu1Rect.center = (560, 303)
             
             
             nadpis_menu2 = typ_pisma_hlavni_menu.render('Náhodná mapa', True, bila, cerna)
             nadpis_menu2Rect = nadpis_menu2.get_rect()
-            nadpis_menu2Rect.center = (560, 488)
+            nadpis_menu2Rect.center = (560, 483)
             
 
             nadpis_menu3 = typ_pisma_hlavni_menu.render('CREDITS', True, bila, cerna)
             nadpis_menu3Rect = nadpis_menu3.get_rect()
-            nadpis_menu3Rect.center = (560, 668)
+            nadpis_menu3Rect.center = (560, 663)
             
             nadpis_exit = typ_pisma_hlavni_menu.render('EXIT', True, bila, cerna)
             nadpis_exitRect = nadpis_exit.get_rect()
-            nadpis_exitRect.center = (1000, 750)
+            nadpis_exitRect.center = (1000, 747)
         
         if aktivni_obrazovka == menu_vyberu:
             hl_nadpis2 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
