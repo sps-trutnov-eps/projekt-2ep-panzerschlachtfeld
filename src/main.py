@@ -66,25 +66,25 @@ typ_pisma_text_skore = pygame.font.Font('freesansbold.ttf', 30)
 
 # cudliky
 #hlavní menu
-np1 = ((200,80), (700,100), (0,0,0), "text" )
+np1 = ((0,80), (1080,100), (0,0,0), "text" )
 cl_hl1 = ((375, 260), (375, 100), (0,0,0), "text")
 cl_hl2 = ((375, 440), (375, 100), (0,0,0), "text")
 cl_hl3 = ((375, 620), (375, 100), (0,0,0), "text")
 cl_exit1 = ((925, 725), (150, 50), (0,0,0), "text")
 
 #menu výběru
-np2 = ((200, 40), (700,100), (0,0,0), "text" )
+np2 = ((0, 40), (1080,100), (0,0,0), "text" )
 cl_close1 = ((25, 725), (150, 50), (0,0,0), "text")
 cl_v1 = ((155, 350), (150, 150), (0,0,0), "text")
 cl_v2 = ((460, 350), (150, 150), (0,0,0), "text")
 cl_v3 = ((765, 350), (150, 150), (0,0,0), "text")
 
 #menu credits
-np3 = ((200, 40), (700,100), (0,0,0), "text" )
+np3 = ((0, 40), (1080,100), (0,0,0), "text" )
 cl_close2 = ((25, 725), (150, 50), (0,0,0), "text")
  
 #ingame menu
-np4 = ((55, 20), (400, 75), (0,0,0), "text" )
+np4 = ((10, 20), (500, 75), (0,0,0), "text" )
 cl_exit2 = ((190, 250), (150, 50), (0,0,0), "text")
 cl_close3 = ((55, 420), (210, 50), (0,0,0), "text")
 cl_pin = ((190, 150), (150, 50), (0,0,0), "text")
@@ -213,6 +213,17 @@ def cekaci_menu_animation(animovany_tank, clock):
     clock.tick(80)
 
     return frame_textura_tanku
+
+def pipsiky_k_credits(okno, bila, cerna):
+    simon = typ_pisma_pin_menu2.render('Šimon - tvůrce map a všeho co se týče menu.', True, cerna)
+    sam = typ_pisma_pin_menu2.render('Samuel - fungování hry, kolize, střely, tanky, oitáčení', True, cerna) 
+    pavel = typ_pisma_pin_menu2.render('Pavel - pomoc s debuggingem a s vytvoření menu', True, cerna)
+    karel = typ_pisma_pin_menu2.render('Karel - texturář', True, cerna)
+    
+    okno.blit(simon, (50, 200))
+    okno.blit(sam, (50, 300))
+    okno.blit(pavel, (50, 400))
+    okno.blit(karel, (50, 500))
 
 def popisky_k_vyhernimu_oknu(okno, bila, cerna):
     popisek_exit = typ_pisma_pin_menu2.render('Exit', True, bila, cerna)
@@ -827,6 +838,7 @@ while True:
                 aktivni_obrazovka = hlavni_menu
         
         if aktivni_obrazovka == menu_CREDITS:
+            pipsiky_k_credits(okno, bila, cerna)
             if cl_close2[0][0] < pygame.mouse.get_pos()[0] < (cl_close2[0][0] + cl_close2[1][0]) and cl_close2[0][1] < pygame.mouse.get_pos()[1] < (cl_close2[0][1] + cl_close2[1][1]) and pygame.mouse.get_pressed()[0]:  
                 aktivni_obrazovka = hlavni_menu                                
         
