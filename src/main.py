@@ -914,9 +914,9 @@ while True:
                     if element == "W":
                         Zed((x, y))
                     if element == "H":
-                        hrac1 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
+                        hrac1 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                     if element == "N":
-                        hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
+                        hrac2 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                     x += mezery
                 y += mezery_y
                 x = 0               
@@ -949,9 +949,9 @@ while True:
                 if element == "W":
                     Zed((x, y))
                 if element == "H":
-                    hrac1 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
+                        hrac1 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                 if element == "N":
-                    hrac2 = Player(x + mezery/(h/15),y + mezery/(h/21.8), obr)
+                        hrac2 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                 x += mezery
             y += mezery_y
             x = 0               
