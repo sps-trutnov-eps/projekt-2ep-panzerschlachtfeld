@@ -666,7 +666,7 @@ class Strela(pygame.sprite.Sprite):
         
         for hrac in hraci:
             if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
-               if hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/5  > self.rect.x and hrac.rect.centerx + hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/5 > self.rect.y and hrac.rect.centery + hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/5  > self.rect.x and hrac.rect.centerx - hrac.rect.w/5 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/5 > self.rect.y and hrac.rect.centery - hrac.rect.h/5 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
+               if hrac.rect.centerx + hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery - hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery + hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery + hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery - hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    #nastavení pro zmizení
                    hrac.kill()
                    self.kill()
@@ -715,8 +715,8 @@ level = [
 "WWWW          H          WWWW",
 "W            WW             W",
 "W     W    WWWWWW   WW      W",
-"W   WWW               WWW   W",
-"W   WWW               WWW   W",
+"W A WWW               WWW   W",
+"W   WWW               WWW A W",
 "W     W    WWWWWW   WW      W",
 "W            WW             W",
 "WWWW          N          WWWW",
@@ -730,7 +730,7 @@ level1 = [
 "W    W               W      W",
 "W    W   WWWWWWWWW   WWW    W",
 "W    W               WWW    W",
-"W    W               WWW    W",
+"W    W       A       WWW    W",
 "W    W   WWWWWWWWW   WWW    W",
 "W    W               W      W",
 "W            H              W",
@@ -745,10 +745,10 @@ level2 = [
 "W    WWW            WWW    W",
 "W    WWW     WW     WWW    W",
 "W    WWW     WW     WWW    W",
-"W                          W",
+"W A                        W",
 "WWW                      WWW",
 "WWW                      WWW",
-"W                          W",
+"W                        A W",
 "W    WWWW    WW    WWWW    W",
 "W    WWWW    WW    WWWW    W",
 "W                          W",
