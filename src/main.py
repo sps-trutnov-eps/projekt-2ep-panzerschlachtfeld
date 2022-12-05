@@ -10,7 +10,7 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
-cas_na_spawn_abilitek = 1000
+cas_na_spawn_abilitek = 15000
 
 #nešahat
 odpocet_odpoctu = 0
@@ -450,8 +450,6 @@ class Player(pygame.sprite.Sprite):
         self.strela_kolize = True
         
         self.otaceni = True
-        self.kol_rect = self.player_img.get_rect()
-        self.kol_rect.center = self.rect.center
         self.rychlost1 = 0 
         self.rychlost2 = 0
         self.dt = 60/100000
@@ -627,7 +625,6 @@ class Player(pygame.sprite.Sprite):
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
-        self.kol_rect.center = self.rect.center
         self.palba()
         self.nova_hra()
         
@@ -702,6 +699,8 @@ class Strela(pygame.sprite.Sprite):
         if zpatky_do_menu == True:
            if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
                self.kill()
+        if hrac1.tanky_kolize == False and herni_casovac - cekat_do_nove > znovu - 15:
+            self.kill()
         if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
             self.kill()
             
@@ -724,15 +723,23 @@ class Abilita(pygame.sprite.Sprite):
         self.image = self.abilita_img
         self.rect = self.image.get_rect()
         self.image.set_colorkey(cerna)
+        
         #pro vykresleni
         sprites.add(self)
         
         #lokace
         self.rect.x = x
         self.rect.y = y
+        self.kol_rect = pygame.Rect(x,y,self.rect.w - 5, self.rect.h - 5)
         
     def kolize_abilitek(self):
-         pass
+         for hrac in hraci:
+            if pygame.Rect.colliderect(self.kol_rect, hrac.rect):
+                global spawn_bool
+                spawn_bool = True
+                self.kill()
+                
+                
         
     def reset(self):
         if zpatky_do_menu == True:
@@ -762,7 +769,7 @@ level = [
 "WWWW          H          WWWW",
 "W            WW             W",
 "W     W    WWWWWW   WW      W",
-"W A WWW               WWW   W",
+"W A WWW       A       WWW   W",
 "W   WWW               WWW A W",
 "W     W    WWWWWW   WW      W",
 "W            WW             W",
@@ -776,7 +783,7 @@ level1 = [
 "W            N              W",
 "W    W               W      W",
 "W    W   WWWWWWWWW   WWW    W",
-"W    W               WWW    W",
+"W    W    A     A    WWW    W",
 "W    W       A       WWW    W",
 "W    W   WWWWWWWWW   WWW    W",
 "W    W               W      W",
@@ -793,7 +800,7 @@ level2 = [
 "W    WWW     WW     WWW    W",
 "W    WWW     WW     WWW    W",
 "W A                        W",
-"WWW                      WWW",
+"WWW          A           WWW",
 "WWW                      WWW",
 "W                        A W",
 "W    WWWW    WW    WWWW    W",
@@ -986,11 +993,15 @@ while True:
         pygame.display.update()
 
     #logika spawnu abiitek
-    if hrac1.tanky_kolize == False and herni_casovac - abilitky_spawn > 0:
+    if hrac1.tanky_kolize == False and herni_casovac - abilitky_spawn > 0 or spawn_bool == False :
         abilitky_spawn = herni_casovac
     if hrac1.tanky_kolize == True and herni_casovac - abilitky_spawn > cas_na_spawn_abilitek and skorovani_jih != 3 and skorovani_sever != 3 and spawn_bool == True:
         if skorovani_jih > 0 and skorovani_jih < 3 or skorovani_sever > 0 and skorovani_sever < 3:
-            for pos in abilitky:
+            ab = []
+            a = random.choice(abilitky)
+            ab.append(a)
+            
+            for pos in ab:
                 Abilita(pos[0],pos[1])
             spawn_bool = False
         
@@ -1040,7 +1051,6 @@ while True:
     p_zmacknuto_pred_tim = p_zmacknuto_ted
           
 ######## vykreslovani ##############################################################################################
-
     okno.fill(RGB)
     sprites.update()
     for zed in zdi:
