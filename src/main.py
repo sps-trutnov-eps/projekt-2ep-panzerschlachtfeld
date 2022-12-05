@@ -10,7 +10,7 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
-cas_na_spawn_abilitek = 1000
+cas_na_spawn_abilitek = 18000
 
 #nesahat
 odpocet_odpoctu = 0
