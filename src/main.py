@@ -825,6 +825,7 @@ while True:
                 MENU = False
             if cl_v2[0][0] < pygame.mouse.get_pos()[0] < (cl_v2[0][0] + cl_v2[1][0]) and cl_v2[0][1] < pygame.mouse.get_pos()[1] < (cl_v2[0][1] + cl_v2[1][1]) and pygame.mouse.get_pressed()[0]:    
                 vyber = levely[1]
+                PLAYER_SPEED = 400.0
                 obr = "TankN.png"
                 Done = True
                 MENU = False
@@ -1080,4 +1081,4 @@ while True:
                 pin = True
             zadavani = True
     
-    pygame.display.update()
+    pygame.display.update() 
