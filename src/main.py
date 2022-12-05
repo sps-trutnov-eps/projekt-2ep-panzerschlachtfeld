@@ -11,6 +11,7 @@ cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
 odpocet_odpoctu = 0
+abilitky_spawn = 0
 
 #střely
 strela_img = "bullet.png"
@@ -609,7 +610,7 @@ class Player(pygame.sprite.Sprite):
             pass
     
     def nova_hra(self):
-        if hrac1.tanky_kolize == False and nova_hra - cekat_do_nove > znovu - 15:
+        if hrac1.tanky_kolize == False and herni_casovac - cekat_do_nove > znovu - 15:
             self.kill()
     def update(self):
         
@@ -698,7 +699,16 @@ class Strela(pygame.sprite.Sprite):
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
         self.mazani()
-        
+
+class Abilita(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        #základy
+        pygame.sprite.Sprite.__init__(self)
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, '../doc')
+        pygame.sprite.Sprite.__init__(self)
+        sprites.add(self)
+
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
     def __init__(self, pos):
@@ -710,6 +720,7 @@ class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEE
 overovaci_pin_kod = []
 pin_kod = []
 zdi = []
+abilitky = []
 level = [
 "WWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
 "WWWW          H          WWWW",
@@ -767,7 +778,7 @@ okno = pygame.display.set_mode(ROZLISENI_OKNA)
 sprites = pygame.sprite.Group()
 
 while True:
-    nova_hra = pygame.time.get_ticks()
+    herni_casovac = pygame.time.get_ticks()
 # ovladani aplikace ########################################################################
     z = pygame.key.get_pressed()
     
@@ -807,6 +818,9 @@ while True:
        
             if cl_hl2[0][0] < pygame.mouse.get_pos()[0] < (cl_hl2[0][0] + cl_hl2[1][0]) and cl_hl2[0][1] < pygame.mouse.get_pos()[1] < (cl_hl2[0][1] + cl_hl2[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = random.choice(levely)
+                if vyber == levely[1]:
+                    PLAYER_SPEED = 400.0
+                    obr = "TankN.png"
                 Done = True 
                 MENU = False
                 
@@ -907,6 +921,7 @@ while True:
         
         if Done == True:
             zdi = []
+            abilitky = []
             mezery = ROZLISENI_X/len(vyber[0])
             mezery_y = ROZLISENI_Y/len(vyber)
             x = y = 0
@@ -918,6 +933,9 @@ while True:
                         hrac1 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                     if element == "N":
                         hrac2 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
+                    if element == "A":
+                        abilitky.append([x,y])
+                        print(abilitky)
                     x += mezery
                 y += mezery_y
                 x = 0               
@@ -928,38 +946,36 @@ while True:
             hraci = [hrac1,hrac2]
         pygame.display.update()
 
-    if hrac1.tanky_kolize == True and nova_hra - cekat_do_nove > 0:
-        cekat_do_nove = nova_hra
+    #logika spawnu abiitek
+    if hrac1.tanky_kolize == False and herni_casovac - abilitky_spawn > 0:
+        abilitky_spawn = herni_casovac
+        
+    
+    
+    #logika respawnu, neboli nové hry
+    if hrac1.tanky_kolize == True and herni_casovac - cekat_do_nove > 0:
+        cekat_do_nove = herni_casovac
         
     if skorovani_jih == 3 or skorovani_sever == 3: 
-        cekat_do_nove = nova_hra - znovu
+        cekat_do_nove = herni_casovac - znovu
         
-    if hrac1.tanky_kolize == False and nova_hra - odpocet_odpoctu > 1000 and skorovani_jih != 3 and skorovani_sever != 3 :
-        odpocet_odpoctu = nova_hra
+    if hrac1.tanky_kolize == False and herni_casovac - odpocet_odpoctu > 1000 and skorovani_jih != 3 and skorovani_sever != 3 :
+        odpocet_odpoctu = herni_casovac
         odpocet -= 1
-        odpocet_text = typ_pisma_overovaci_menu.render(str(odpocet), True, bila)
-        okno.blit(odpocet_text, (500, 400))
     
-    if hrac1.tanky_kolize == False and nova_hra - cekat_do_nove > znovu:
-        zdi = []
+    if hrac1.tanky_kolize == False and herni_casovac - cekat_do_nove > znovu:
         mezery = ROZLISENI_X/len(vyber[0])
         mezery_y = ROZLISENI_Y/len(vyber)
         x = y = 0
         for radek in vyber:
             for element in radek:
-                if element == "W":
-                    Zed((x, y))
                 if element == "H":
                         hrac1 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                 if element == "N":
-                        hrac2 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
+                        hrac2 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr) 
                 x += mezery
             y += mezery_y
             x = 0               
-        if hrac1.rect.y < hrac2.rect.y: 
-            poloha = True 
-        else: 
-            poloha = False
         hraci = [hrac1,hrac2]
         odpocet = int(znovu/1000) + 1
         
@@ -985,7 +1001,10 @@ while True:
     for zed in zdi:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     sprites.draw(okno)
-    
+    if hrac1.tanky_kolize == False and skorovani_jih != 3 and skorovani_sever != 3 :
+        odpocet_text = typ_pisma_overovaci_menu.render(str(odpocet), True, bila)
+        okno.blit(odpocet_text, (ROZLISENI_X - 125, 0))
+        
     if vyber == level:
         skore_sever(bila, cerna, cervena)
         skore_jih(bila, cerna, cervena)
