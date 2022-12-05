@@ -444,7 +444,8 @@ class Player(pygame.sprite.Sprite):
         sprites.add(self)
         
         #pro loop, kolizi apod#
-        self.abilita_sebrana = False
+        self.abilita_freeze_sebrana = False
+        self.abilita_speed_sebrana = False
         self.h = self.rect.h
         self.kontrola = vec(0,0)
         self.povoleni = True
@@ -455,6 +456,7 @@ class Player(pygame.sprite.Sprite):
         self.rychlost1 = 0 
         self.rychlost2 = 0
         self.dt = 60/100000
+        self.zrychleni = 1
         self.vel = vec(0, 0)
         self.pos = vec(x, y)
         self.rot1 = 0
@@ -462,7 +464,8 @@ class Player(pygame.sprite.Sprite):
         self.last_shot = -strela_delay
         
         #freeze a abilitky
-        self.casovac = 0
+        self.casovac_freeze = 0
+        self.casovac_speed = 0
     def kolize(self):
         if poloha == False:
             hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 11).rotate(-self.rot2 - 180)
@@ -555,15 +558,26 @@ class Player(pygame.sprite.Sprite):
                     hrac1.last_shot = now1
                     Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                                         
-        if self.tanky_kolize == True and self.abilita_sebrana == False:
+        if self.tanky_kolize == True and self.abilita_freeze_sebrana == False:
             self.povoleni = True
+            
     def abilitky(self):
         global herni_casovac
-        if self.abilita_sebrana == False:
-            self.casovac = herni_casovac
-        if self.abilita_sebrana == True:
-            if herni_casovac - self.casovac > 7500:
-                self.abilita_sebrana = False
+        #freeze
+        if self.abilita_freeze_sebrana == False:
+            self.casovac_freeze = herni_casovac
+        if self.abilita_freeze_sebrana == True:
+            if herni_casovac - self.casovac_freeze > 7500:
+                self.abilita_freeze_sebrana = False
+       #speedup
+        if self.abilita_speed_sebrana == False:
+            self.casovac_speed = herni_casovac
+        if self.abilita_speed_sebrana == True:
+            self.zrychleni = 2
+            if herni_casovac - self.casovac_speed > 7500:
+                self.abilita_speed_sebrana = False
+                self.zrychleni = 1
+                
             
             
     def pohyb(self):
@@ -611,14 +625,14 @@ class Player(pygame.sprite.Sprite):
         
         if pohyb_tanku:
             if poloha == False:
-                hrac1.vel = vec(0, hrac1.rychlost1).rotate(-self.rot1)
+                hrac1.vel = vec(0, hrac1.rychlost1 * hrac1.zrychleni).rotate(-self.rot1)
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot1)
-                hrac2.vel = vec(0, hrac2.rychlost2).rotate(-self.rot2)
+                hrac2.vel = vec(0, hrac2.rychlost2 * hrac2.zrychleni).rotate(-self.rot2)
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot2)
             else:
-                hrac1.vel = vec(0, hrac1.rychlost2).rotate(-self.rot2)
+                hrac1.vel = vec(0, hrac1.rychlost2 * hrac2.zrychleni).rotate(-self.rot2)
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot2)
-                hrac2.vel = vec(0, hrac2.rychlost1).rotate(-self.rot1)
+                hrac2.vel = vec(0, hrac2.rychlost1 * hrac1.zrychleni).rotate(-self.rot1)
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
@@ -759,15 +773,17 @@ class Abilita(pygame.sprite.Sprite):
                 elif rozhodnuti == "Freeze":
                     print("freeze (7.5s)")
                     if hrac == hrac1:
-                        hrac2.casovac = herni_casovac
+                        hrac2.casovac_freeze  = herni_casovac
                         hrac2.povoleni = False
-                        hrac2.abilita_sebrana = True
+                        hrac2.abilita_freeze_sebrana = True
                     if hrac == hrac2:
-                        hrac1.casovac = herni_casovac
+                        hrac1.casovac_freeze = herni_casovac
                         hrac1.povoleni = False
-                        hrac1.abilita_sebrana = True
+                        hrac1.abilita_freeze_sebrana = True
                 elif rozhodnuti == "Speed_UP":
-                    pass
+                    print("Speed_UP (7.5s)")
+                    hrac.casovac_speed = herni_casovac
+                    hrac.abilita_speed_sebrana = True
                 
         
     def reset(self):
