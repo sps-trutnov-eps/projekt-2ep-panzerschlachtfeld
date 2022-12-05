@@ -996,7 +996,7 @@ while True:
     if hrac1.tanky_kolize == False and herni_casovac - abilitky_spawn > 0 or spawn_bool == False :
         abilitky_spawn = herni_casovac
     if hrac1.tanky_kolize == True and herni_casovac - abilitky_spawn > cas_na_spawn_abilitek and skorovani_jih != 3 and skorovani_sever != 3 and spawn_bool == True:
-        if skorovani_jih > 0 and skorovani_jih < 3 or skorovani_sever > 0 and skorovani_sever < 3:
+        if skorovani_jih < 3 and skorovani_sever < 3:
             ab = []
             a = random.choice(abilitky)
             ab.append(a)
