@@ -10,12 +10,13 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
-cas_na_spawn_abilitek = 18000
+cas_na_spawn_abilitek = 1000
 
-#nešahat
+#nesahat
 odpocet_odpoctu = 0
 abilitky_spawn = 0
 spawn_bool = True
+typy_abilitek = ["Freeze","Shotgun","Speed_UP"]
 
 #střely
 strela_img = "bullet.png"
@@ -443,6 +444,7 @@ class Player(pygame.sprite.Sprite):
         sprites.add(self)
         
         #pro loop, kolizi apod#
+        self.abilita_sebrana = False
         self.h = self.rect.h
         self.kontrola = vec(0,0)
         self.povoleni = True
@@ -458,7 +460,9 @@ class Player(pygame.sprite.Sprite):
         self.rot1 = 0
         self.rot2 = 180
         self.last_shot = -strela_delay
-    
+        
+        #freeze a abilitky
+        self.casovac = 0
     def kolize(self):
         if poloha == False:
             hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 11).rotate(-self.rot2 - 180)
@@ -551,9 +555,17 @@ class Player(pygame.sprite.Sprite):
                     hrac1.last_shot = now1
                     Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
                                         
-        if self.tanky_kolize == True:
+        if self.tanky_kolize == True and self.abilita_sebrana == False:
             self.povoleni = True
-       
+    def abilitky(self):
+        global herni_casovac
+        if self.abilita_sebrana == False:
+            self.casovac = herni_casovac
+        if self.abilita_sebrana == True:
+            if herni_casovac - self.casovac > 7500:
+                self.abilita_sebrana = False
+            
+            
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
@@ -625,6 +637,7 @@ class Player(pygame.sprite.Sprite):
         hrac2.image.set_colorkey(cerna)
         self.pos += self.vel * self.dt
         self.rect.center = self.pos
+        self.abilitky()
         self.palba()
         self.nova_hra()
         
@@ -735,10 +748,26 @@ class Abilita(pygame.sprite.Sprite):
     def kolize_abilitek(self):
          for hrac in hraci:
             if pygame.Rect.colliderect(self.kol_rect, hrac.rect):
-                global spawn_bool
+                global spawn_bool, herni_casovac
                 spawn_bool = True
                 self.kill()
                 
+                #abilitka
+                rozhodnuti = random.choice(typy_abilitek)
+                if rozhodnuti == "Shotgun":
+                    print("shotgun")
+                elif rozhodnuti == "Freeze":
+                    print("freeze (7.5s)")
+                    if hrac == hrac1:
+                        hrac2.casovac = herni_casovac
+                        hrac2.povoleni = False
+                        hrac2.abilita_sebrana = True
+                    if hrac == hrac2:
+                        hrac1.casovac = herni_casovac
+                        hrac1.povoleni = False
+                        hrac1.abilita_sebrana = True
+                elif rozhodnuti == "Speed_UP":
+                    pass
                 
         
     def reset(self):
@@ -752,7 +781,7 @@ class Abilita(pygame.sprite.Sprite):
          self.kolize_abilitek()
          self.reset()
 
-class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
+class Zed(object): 
     
     def __init__(self, pos):
         zdi.append(self)
