@@ -10,8 +10,12 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
+cas_na_spawn_abilitek = 1000
+
+#nešahat
 odpocet_odpoctu = 0
 abilitky_spawn = 0
+spawn_bool = True
 
 #střely
 strela_img = "bullet.png"
@@ -610,6 +614,9 @@ class Player(pygame.sprite.Sprite):
             pass
     
     def nova_hra(self):
+        if zpatky_do_menu == True:
+           if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+               self.kill()
         if hrac1.tanky_kolize == False and herni_casovac - cekat_do_nove > znovu - 15:
             self.kill()
     def update(self):
@@ -623,6 +630,7 @@ class Player(pygame.sprite.Sprite):
         self.kol_rect.center = self.rect.center
         self.palba()
         self.nova_hra()
+        
  
 class Strela(pygame.sprite.Sprite):
     def __init__(self, pos, direct, img):
@@ -691,6 +699,9 @@ class Strela(pygame.sprite.Sprite):
                                skorovani_sever += 1
             
     def mazani(self):
+        if zpatky_do_menu == True:
+           if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+               self.kill()
         if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
             self.kill()
             
@@ -704,10 +715,35 @@ class Abilita(pygame.sprite.Sprite):
     def __init__(self, x, y):
         #základy
         pygame.sprite.Sprite.__init__(self)
+        #načítání obrázku
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, '../doc')
         pygame.sprite.Sprite.__init__(self)
+        self.abilita_img = pygame.image.load(path.join(img_folder, "Ability.png")).convert_alpha()
+        #definování abilitky
+        self.image = self.abilita_img
+        self.rect = self.image.get_rect()
+        self.image.set_colorkey(cerna)
+        #pro vykresleni
         sprites.add(self)
+        
+        #lokace
+        self.rect.x = x
+        self.rect.y = y
+        
+    def kolize_abilitek(self):
+         pass
+        
+    def reset(self):
+        if zpatky_do_menu == True:
+           if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+               self.kill()
+        if hrac1.tanky_kolize == False and herni_casovac - cekat_do_nove > znovu - 15:
+            self.kill()
+            
+    def update(self):
+         self.kolize_abilitek()
+         self.reset()
 
 class Zed(object): #jakákoliv classa s VELKÝM počátčním písmenem SAMEEEEEEEEEEE!!!
     
@@ -934,8 +970,7 @@ while True:
                     if element == "N":
                         hrac2 = Player(x + (mezery+5)/2, y + mezery_y/2 , obr)
                     if element == "A":
-                        abilitky.append([x,y])
-                        print(abilitky)
+                        abilitky.append([x, y + 7])
                     x += mezery
                 y += mezery_y
                 x = 0               
@@ -943,12 +978,21 @@ while True:
                 poloha = True 
             else: 
                 poloha = False
+            
+            #deklarace věcí
+            abilitky_spawn = herni_casovac
+            spawn_bool = True
             hraci = [hrac1,hrac2]
         pygame.display.update()
 
     #logika spawnu abiitek
     if hrac1.tanky_kolize == False and herni_casovac - abilitky_spawn > 0:
         abilitky_spawn = herni_casovac
+    if hrac1.tanky_kolize == True and herni_casovac - abilitky_spawn > cas_na_spawn_abilitek and skorovani_jih != 3 and skorovani_sever != 3 and spawn_bool == True:
+        if skorovani_jih > 0 and skorovani_jih < 3 or skorovani_sever > 0 and skorovani_sever < 3:
+            for pos in abilitky:
+                Abilita(pos[0],pos[1])
+            spawn_bool = False
         
     
     
@@ -978,6 +1022,7 @@ while True:
             x = 0               
         hraci = [hrac1,hrac2]
         odpocet = int(znovu/1000) + 1
+        spawn_bool = True
         
 ########## herní logika ################################################################################################
         
@@ -1003,7 +1048,7 @@ while True:
     sprites.draw(okno)
     if hrac1.tanky_kolize == False and skorovani_jih != 3 and skorovani_sever != 3 :
         odpocet_text = typ_pisma_overovaci_menu.render(str(odpocet), True, bila)
-        okno.blit(odpocet_text, (ROZLISENI_X - 125, 0))
+        okno.blit(odpocet_text, (ROZLISENI_X - 125, -8))
         
     if vyber == level:
         skore_sever(bila, cerna, cervena)
@@ -1025,9 +1070,8 @@ while True:
             aktivni_obrazovka = hlavni_menu
             in_game_menu = False
             Done = False
-            hrac1.kill()
-            hrac2.kill()
             MENU = True
+           
             
     if odchod_ze_hry == True:
         if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
