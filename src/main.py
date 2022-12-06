@@ -4,7 +4,7 @@ from os import path
 vec = pygame.math.Vector2
 # proměnné ##################################################################################
 #hráč
-PLAYER_SPEED = 300.0
+speed = 250
 PLAYER_ROT_SPEED = 300.0
 obr = "Tank.png"
 cekat_do_nove = 0
@@ -13,11 +13,12 @@ odpocet = int(znovu/1000) + 1
 cas_na_spawn_abilitek = 17000
 
 #nesahat
+PLAYER_SPEED = 0
 odpocet_odpoctu = 0
 abilitky_spawn = 0
 spawn_bool = True
-typy_abilitek = ["Speed_UP","Shotgun","Freeze"]
-
+typy_abilitek = ["Speed_UP","Shotgun","Freeze","NIC"]
+uhly = [80,90,100]
 #střely
 strela_img = "bullet.png"
 strela_speed = 500
@@ -462,8 +463,10 @@ class Player(pygame.sprite.Sprite):
         self.rot1 = 0
         self.rot2 = 180
         self.last_shot = -strela_delay
+        global strela_lifetime
         
         #freeze a abilitky
+        self.shotgun = False
         self.casovac_freeze = 0
         self.casovac_speed = 0
     def kolize(self):
@@ -530,34 +533,53 @@ class Player(pygame.sprite.Sprite):
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 
     def palba(self):
+        
         if poloha:
             if stisknuto[pygame.K_SPACE]:
                 now1 = pygame.time.get_ticks()
                 if now1 - hrac1.last_shot > strela_delay and hrac1.povoleni == True:
                     hrac1.last_shot = now1
-                    pal1 = Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
-                    sprites.add(pal1)
+                    if hrac1.shotgun == False:
+                        Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img, strela_lifetime, False)
+                    if hrac1.shotgun == True:
+                        for uhel in uhly:
+                            Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot2 - 180), vec(1.5, 0).rotate(-self.rot2 - uhel), strela_img, strela_lifetime - 2000, True)
+                        hrac1.shotgun = False
                     
             if stisknuto[pygame.K_KP_ENTER]:
                 now2 = pygame.time.get_ticks()
                 if now2 - hrac2.last_shot > strela_delay and hrac2.povoleni == True:
                     hrac2.last_shot = now2
-                    pal2 = Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
-                    sprites.add(pal2)
+                    if hrac2.shotgun == False:
+                        Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img, strela_lifetime, False)
+                    if hrac2.shotgun == True:
+                        for uhel in uhly:
+                            Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot1 - 180), vec(1.5, 0).rotate(-self.rot1 - uhel), strela_img, strela_lifetime - 2000, True)
+                        hrac2.shotgun = False
                     
         else:
             if stisknuto[pygame.K_SPACE]:
                 now2 = pygame.time.get_ticks()
                 if now2 - hrac2.last_shot > strela_delay and hrac2.povoleni == True:
                     hrac2.last_shot = now2
-                    Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img)
-                                       
+                    if hrac2.shotgun == False:
+                        Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1, 0).rotate(-self.rot2 - 90), strela_img, strela_lifetime, False)
+                    if hrac2.shotgun == True:
+                        for uhel in uhly:
+                            Strela(hrac2.pos + vec(0,hrac2.h/1.75).rotate(-self.rot2 - 180), vec(1.5, 0).rotate(-self.rot2 - uhel), strela_img, strela_lifetime - 2000, True)
+                        hrac2.shotgun = False
+                        
             if stisknuto[pygame.K_KP_ENTER]:
                 now1 = pygame.time.get_ticks()
                 if now1 - hrac1.last_shot > strela_delay and hrac1.povoleni == True:
                     hrac1.last_shot = now1
-                    Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img)
-                                        
+                    if hrac1.shotgun == False:
+                        Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1, 0).rotate(-self.rot1 - 90), strela_img, strela_lifetime, False)
+                    if hrac1.shotgun == True:
+                        for uhel in uhly:
+                            Strela(hrac1.pos + vec(0,hrac1.h/1.75).rotate(-self.rot1 - 180), vec(1.5, 0).rotate(-self.rot1 - uhel), strela_img, strela_lifetime - 2000, True)
+                        hrac1.shotgun = False
+                        
         if self.tanky_kolize == True and self.abilita_freeze_sebrana == False:
             self.povoleni = True
             
@@ -630,9 +652,9 @@ class Player(pygame.sprite.Sprite):
                 hrac2.vel = vec(0, hrac2.rychlost2 * hrac2.zrychleni).rotate(-self.rot2)
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot2)
             else:
-                hrac1.vel = vec(0, hrac1.rychlost2 * hrac2.zrychleni).rotate(-self.rot2)
+                hrac1.vel = vec(0, hrac1.rychlost2 * hrac1.zrychleni).rotate(-self.rot2)
                 hrac1.image = pygame.transform.rotate(self.player_img, self.rot2)
-                hrac2.vel = vec(0, hrac2.rychlost1 * hrac1.zrychleni).rotate(-self.rot1)
+                hrac2.vel = vec(0, hrac2.rychlost1 * hrac2.zrychleni).rotate(-self.rot1)
                 hrac2.image = pygame.transform.rotate(self.player_img, self.rot1)
         else:
             pass
@@ -657,7 +679,7 @@ class Player(pygame.sprite.Sprite):
         
  
 class Strela(pygame.sprite.Sprite):
-    def __init__(self, pos, direct, img):
+    def __init__(self, pos, direct, img, cas, zabit):
         #základy
         pygame.sprite.Sprite.__init__(self)
         game_folder = path.dirname(__file__)
@@ -668,6 +690,9 @@ class Strela(pygame.sprite.Sprite):
         sprites.add(self)
         
         #pro hru
+        self.odraz = 0
+        self.sepuka = zabit
+        self.strela_lifetime = cas
         self.dt = 150/100000
         self.rect = self.image.get_rect()
         self.image.set_colorkey(cerna)
@@ -678,22 +703,28 @@ class Strela(pygame.sprite.Sprite):
         
     def kolize_strely(self):
         for zed in zdi:
+            if pygame.Rect.colliderect(self.rect, zed.rect) and self.sepuka == True and self.odraz == 1:
+                self.kill()
            #pro dolejšek zdi s hořejškem střely
-            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
+            if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y:
                 self.pos.y = zed.rect.bottom + self.rect.h / 2
                 self.vel.y *= -1
+                self.odraz += 1
             #pro hořejšek zdi s dolejškem střely
-            if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+            if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
                 self.pos.y = zed.rect.top - self.rect.h/2
                 self.vel.y *= -1
+                self.odraz += 1
             #pro pravou stranu zdi a levou střely
-            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
+            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /20 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /20 > self.rect.y and zed.rect.y + zed.rect.h /20 < self.rect.y:
                 self.pos.x = zed.rect.right + self.rect.width / 2
                 self.vel.x *= -1
+                self.odraz += 1
             #pro levou stranu zdi a pravou střely
-            if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
+            if zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y and zed.rect.y + zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/20 < self.rect.y + self.rect.h:
                 self.pos.x = zed.rect.x - self.rect.width / 2
                 self.vel.x *= -1
+                self.odraz += 1
         
         #kolize s hráčema
         
@@ -728,7 +759,7 @@ class Strela(pygame.sprite.Sprite):
                self.kill()
         if hrac1.tanky_kolize == False and herni_casovac - cekat_do_nove > znovu - 15:
             self.kill()
-        if pygame.time.get_ticks() - self.spawn_time > strela_lifetime:
+        if pygame.time.get_ticks() - self.spawn_time > self.strela_lifetime:
             self.kill()
             
     def update(self):
@@ -768,8 +799,11 @@ class Abilita(pygame.sprite.Sprite):
                 
                 #abilitka
                 rozhodnuti = random.choice(typy_abilitek)
+                if rozhodnuti == "NIC":
+                    print("prázdné")
                 if rozhodnuti == "Shotgun":
-                    print("shotgun")
+                    print(hrac," má shotgun")
+                    hrac.shotgun = True
                 elif rozhodnuti == "Freeze":
                     print("freeze (7.5s)")
                     if hrac == hrac1:
@@ -782,16 +816,8 @@ class Abilita(pygame.sprite.Sprite):
                         hrac1.abilita_freeze_sebrana = True
                 elif rozhodnuti == "Speed_UP":
                     print("Speed_UP (7.5s)")
-                    if poloha:
-                        if hrac == hrac1:
-                            hrac2.casovac_speed = herni_casovac
-                            hrac2.abilita_speed_sebrana = True
-                        if hrac == hrac2:
-                            hrac1.casovac_speed = herni_casovac
-                            hrac1.abilita_speed_sebrana = True
-                    else:
-                        hrac.casovac_speed = herni_casovac
-                        hrac.abilita_speed_sebrana = True
+                    hrac.casovac_speed = herni_casovac
+                    hrac.abilita_speed_sebrana = True
                 
         
     def reset(self):
@@ -914,11 +940,12 @@ while True:
        
             if cl_hl2[0][0] < pygame.mouse.get_pos()[0] < (cl_hl2[0][0] + cl_hl2[1][0]) and cl_hl2[0][1] < pygame.mouse.get_pos()[1] < (cl_hl2[0][1] + cl_hl2[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = random.choice(levely)
+                
                 if vyber == levely[1]:
-                    PLAYER_SPEED = 400.0
+                    PLAYER_SPEED = speed + 100
                     obr = "TankN.png"
                 else:
-                    LAYER_SPEED = 300.0
+                    PLAYER_SPEED = speed
                     obr = "Tank.png"
                 Done = True 
                 MENU = False
@@ -933,19 +960,19 @@ while True:
         if aktivni_obrazovka == menu_vyberu:
             if cl_v1[0][0] < pygame.mouse.get_pos()[0] < (cl_v1[0][0] + cl_v1[1][0]) and cl_v1[0][1] < pygame.mouse.get_pos()[1] < (cl_v1[0][1] + cl_v1[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[0]
-                PLAYER_SPEED = 300.0
+                PLAYER_SPEED = speed
                 obr = "Tank.png"
                 Done = True 
                 MENU = False
             if cl_v2[0][0] < pygame.mouse.get_pos()[0] < (cl_v2[0][0] + cl_v2[1][0]) and cl_v2[0][1] < pygame.mouse.get_pos()[1] < (cl_v2[0][1] + cl_v2[1][1]) and pygame.mouse.get_pressed()[0]:    
                 vyber = levely[1]
-                PLAYER_SPEED = 400.0
+                PLAYER_SPEED = speed + 100
                 obr = "TankN.png"
                 Done = True
                 MENU = False
             if cl_v3[0][0] < pygame.mouse.get_pos()[0] < (cl_v3[0][0] + cl_v3[1][0]) and cl_v3[0][1] < pygame.mouse.get_pos()[1] < (cl_v3[0][1] + cl_v3[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[2]
-                PLAYER_SPEED = 300.0
+                PLAYER_SPEED = speed
                 obr = "Tank.png"
                 Done = True
                 MENU = False
