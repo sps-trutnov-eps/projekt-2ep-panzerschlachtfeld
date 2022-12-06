@@ -63,7 +63,7 @@ animovany_tank = pygame.image.load("../doc/animation_tank.png")
 pygame.font.init()
 
 typ_pisma_skore = pygame.font.Font('freesansbold.ttf', 48)
-typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 25)
+typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 30)
 typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_overovaci_menu = pygame.font.SysFont('freesansbold.ttf', 250)
@@ -77,6 +77,7 @@ cl_hl1 = ((375, 255), (375, 100), (0,0,0), "text")
 cl_hl2 = ((375, 435), (375, 100), (0,0,0), "text")
 cl_hl3 = ((375, 615), (375, 100), (0,0,0), "text")
 cl_exit1 = ((925, 720), (150, 50), (0,0,0), "text")
+napoveda = ((20, 200), (50, 50), (180,0,0), "text")
 
 #menu výběru
 np2 = ((0, 40), (1080,100), (0,0,0), "text" )
@@ -105,12 +106,13 @@ cl_exit3 = ((330, 570), (150, 50), (0,0,0), "text")
 
 
 # obrazovky menu
-hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1)]
+hlavni_menu = [(190,190,190), "Panzerschlachtfeld", (cl_hl1, cl_hl2, cl_hl3, np1, cl_exit1, napoveda)]
 menu_vyberu = [(190,190,190), "Panzerschlachtfeld", (cl_v1, cl_v2, cl_v3, np2, cl_close1)]
 menu_CREDITS = [(190,190,190), "Panzerschlachtfeld", (np3, cl_close2)]
 pause_menu = [(190, 190, 0), "Panzerschlachtfeld", (np4, cl_exit2, cl_pin, cl_close3)]
 pin_menu = [(170, 170, 170), "Panzerschlachtfeld", (pindik,cl_close4)]
 menu_skore = [(170, 170, 170), "Panzerschlachtfeld", (cl_pokracovat,cl_exit3)]
+menu_napoveda = [(170, 170, 170), "Panzerschlachtfeld", (cl_close2, np3)]
 aktivni_obrazovka = hlavni_menu
 #  #################################################################################################
 def skore_sever(bila, cerna, cervena):
@@ -220,6 +222,9 @@ def cekaci_menu_animation(animovany_tank, clock):
 
     return frame_textura_tanku
 
+def text_k_napovede(okno, bila, cerna):
+    pass
+    
 def pipsiky_k_credits(okno, bila, cerna):
     simon = typ_pisma_pin_menu2.render('Šimon - tvůrce map a všeho co se týče menu.', True, cerna)
     sam = typ_pisma_pin_menu2.render('Samuel - fungování hry, kolize, střely, tanky, oitáčení', True, cerna) 
@@ -929,6 +934,13 @@ while True:
             
             if cl_hl3[0][0] < pygame.mouse.get_pos()[0] < (cl_hl3[0][0] + cl_hl3[1][0]) and cl_hl3[0][1] < pygame.mouse.get_pos()[1] < (cl_hl3[0][1] + cl_hl3[1][1]) and pygame.mouse.get_pressed()[0] and aktivni_obrazovka == hlavni_menu:
                 aktivni_obrazovka = menu_CREDITS
+            
+            if napoveda[0][0] < pygame.mouse.get_pos()[0] < (napoveda[0][0] + napoveda[1][0]) and napoveda[0][1] < pygame.mouse.get_pos()[1] < (napoveda[0][1] + napoveda[1][1]) and pygame.mouse.get_pressed()[0]:
+                aktivni_obrazovka = menu_napoveda
+        
+        if aktivni_obrazovka == menu_napoveda:
+            if cl_close2[0][0] < pygame.mouse.get_pos()[0] < (cl_close2[0][0] + cl_close2[1][0]) and cl_close2[0][1] < pygame.mouse.get_pos()[1] < (cl_close2[0][1] + cl_close2[1][1]) and pygame.mouse.get_pressed()[0]:
+                aktivni_obrazovka = hlavni_menu
              
         if aktivni_obrazovka == menu_vyberu:
             if cl_v1[0][0] < pygame.mouse.get_pos()[0] < (cl_v1[0][0] + cl_v1[1][0]) and cl_v1[0][1] < pygame.mouse.get_pos()[1] < (cl_v1[0][1] + cl_v1[1][1]) and pygame.mouse.get_pressed()[0]:
@@ -980,7 +992,18 @@ while True:
             nadpis_exit = typ_pisma_hlavni_menu.render('EXIT', True, bila, cerna)
             nadpis_exitRect = nadpis_exit.get_rect()
             nadpis_exitRect.center = (1000, 747)
-        
+            
+            otaznik = typ_pisma_hlavni_menu.render('??', True, bila, (180, 0, 0))
+            
+        if aktivni_obrazovka == menu_napoveda:
+            hl_nadpis1 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
+            hl_nadpis1Rect = hl_nadpis1.get_rect()
+            hl_nadpis1Rect.center = (550, 90)
+            
+            nadpis_close1 = typ_pisma_hlavni_menu.render('CLOSE', True, bila, cerna)
+            nadpis_close1Rect = nadpis_close1.get_rect()
+            nadpis_close1Rect.center = (100, 750)
+            
         if aktivni_obrazovka == menu_vyberu:
             hl_nadpis2 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
             hl_nadpis2Rect = hl_nadpis2.get_rect()
@@ -1007,7 +1030,12 @@ while True:
             okno.blit(nadpis_menu1, nadpis_menu1Rect)
             okno.blit(nadpis_menu2, nadpis_menu2Rect)
             okno.blit(nadpis_menu3, nadpis_menu3Rect)
+            okno.blit(otaznik, (26, 213))
             
+        if aktivni_obrazovka == menu_napoveda:
+            okno.blit(hl_nadpis1, hl_nadpis1Rect)
+            okno.blit(nadpis_close1, nadpis_close1Rect)
+        
         if aktivni_obrazovka == menu_vyberu:
             okno.blit(hl_nadpis2, hl_nadpis2Rect)
             okno.blit(nadpis_close1, nadpis_close1Rect)
