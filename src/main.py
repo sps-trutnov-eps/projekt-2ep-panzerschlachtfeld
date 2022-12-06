@@ -4,8 +4,8 @@ from os import path
 vec = pygame.math.Vector2
 # proměnné ##################################################################################
 #hráč
-speed = 250
-PLAYER_ROT_SPEED = 200.0
+speed = 300
+PLAYER_ROT_SPEED = 250.0
 obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
@@ -22,7 +22,7 @@ typy_abilitek = ["Speed_UP","Shotgun","Freeze","NIC"]
 uhly = [80,90,100]
 #střely
 strela_img = "bullet.png"
-strela_speed = 400
+strela_speed = 350
 strela_lifetime = 4000
 strela_delay = 3500
 ###
@@ -720,22 +720,22 @@ class Strela(pygame.sprite.Sprite):
                 self.kill()
             if pygame.Rect.colliderect(self.rect, zed.rect):
                #pro dolejšek zdi s hořejškem střely
-                if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y:
+                if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
                     self.pos.y = (zed.rect.bottom + self.rect.h / 2) + 1.5
                     self.vel.y *= -1
                     self.odraz += 1
                 #pro hořejšek zdi s dolejškem střely
-                if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+                if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
                     self.pos.y = (zed.rect.top - self.rect.h/2) - 1.5
                     self.vel.y *= -1
                     self.odraz += 1
                 #pro pravou stranu zdi a levou střely
-                if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /20 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /20 > self.rect.y and zed.rect.y + zed.rect.h /20 < self.rect.y:
+                if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
                     self.pos.x = (zed.rect.right + self.rect.width / 2) + 1.5
                     self.vel.x *= -1
                     self.odraz += 1
                 #pro levou stranu zdi a pravou střely
-                if zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y and zed.rect.y + zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/20 < self.rect.y + self.rect.h:
+                if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
                     self.pos.x = (zed.rect.x - self.rect.width / 2) - 1.5
                     self.vel.x *= -1
                     self.odraz += 1
@@ -862,8 +862,9 @@ level = [
 "WWWW          H          WWWW",
 "W            WW             W",
 "W     W    WWWWWW   WW      W",
-"W A WWW       A       WWW   W",
-"W   WWW               WWW A W",
+"W   WWW               WWW   W",
+"W A WWW       A       WWW A W",
+"W   WWW               WWW   W",
 "W     W    WWWWWW   WW      W",
 "W            WW             W",
 "WWWW          N          WWWW",
