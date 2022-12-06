@@ -10,13 +10,13 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
-cas_na_spawn_abilitek = 18000
+cas_na_spawn_abilitek = 1000
 
 #nesahat
 odpocet_odpoctu = 0
 abilitky_spawn = 0
 spawn_bool = True
-typy_abilitek = ["Freeze","Shotgun","Speed_UP"]
+typy_abilitek = ["Speed_UP","Shotgun","Freeze"]
 
 #střely
 strela_img = "bullet.png"
@@ -782,8 +782,16 @@ class Abilita(pygame.sprite.Sprite):
                         hrac1.abilita_freeze_sebrana = True
                 elif rozhodnuti == "Speed_UP":
                     print("Speed_UP (7.5s)")
-                    hrac.casovac_speed = herni_casovac
-                    hrac.abilita_speed_sebrana = True
+                    if poloha:
+                        if hrac == hrac1:
+                            hrac2.casovac_speed = herni_casovac
+                            hrac2.abilita_speed_sebrana = True
+                        if hrac == hrac2:
+                            hrac1.casovac_speed = herni_casovac
+                            hrac1.abilita_speed_sebrana = True
+                    else:
+                        hrac.casovac_speed = herni_casovac
+                        hrac.abilita_speed_sebrana = True
                 
         
     def reset(self):
@@ -909,6 +917,9 @@ while True:
                 if vyber == levely[1]:
                     PLAYER_SPEED = 400.0
                     obr = "TankN.png"
+                else:
+                    LAYER_SPEED = 300.0
+                    obr = "Tank.png"
                 Done = True 
                 MENU = False
                 
@@ -922,6 +933,7 @@ while True:
         if aktivni_obrazovka == menu_vyberu:
             if cl_v1[0][0] < pygame.mouse.get_pos()[0] < (cl_v1[0][0] + cl_v1[1][0]) and cl_v1[0][1] < pygame.mouse.get_pos()[1] < (cl_v1[0][1] + cl_v1[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[0]
+                PLAYER_SPEED = 300.0
                 obr = "Tank.png"
                 Done = True 
                 MENU = False
@@ -933,6 +945,7 @@ while True:
                 MENU = False
             if cl_v3[0][0] < pygame.mouse.get_pos()[0] < (cl_v3[0][0] + cl_v3[1][0]) and cl_v3[0][1] < pygame.mouse.get_pos()[1] < (cl_v3[0][1] + cl_v3[1][1]) and pygame.mouse.get_pressed()[0]:
                 vyber = levely[2]
+                PLAYER_SPEED = 300.0
                 obr = "Tank.png"
                 Done = True
                 MENU = False
@@ -1094,7 +1107,7 @@ while True:
             in_game_menu = not in_game_menu  
     
     p_zmacknuto_pred_tim = p_zmacknuto_ted
-          
+
 ######## vykreslovani ##############################################################################################
     okno.fill(RGB)
     sprites.update()
