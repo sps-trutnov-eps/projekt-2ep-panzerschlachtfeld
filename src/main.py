@@ -17,6 +17,7 @@ PLAYER_SPEED = 0
 odpocet_odpoctu = 0
 abilitky_spawn = 0
 spawn_bool = True
+#speed up, shotgun, freeze, síťová karta, z ničeho nic.
 typy_abilitek = ["Speed_UP","Shotgun","Freeze","NIC"]
 uhly = [80,90,100]
 #střely
