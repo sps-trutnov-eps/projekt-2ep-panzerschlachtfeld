@@ -4,8 +4,8 @@ from os import path
 vec = pygame.math.Vector2
 # proměnné ##################################################################################
 #hráč
-speed = 350
-PLAYER_ROT_SPEED = 300.0
+speed = 250
+PLAYER_ROT_SPEED = 200.0
 obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
@@ -22,7 +22,7 @@ typy_abilitek = ["Speed_UP","Shotgun","Freeze","NIC"]
 uhly = [80,90,100]
 #střely
 strela_img = "bullet.png"
-strela_speed = 500
+strela_speed = 400
 strela_lifetime = 4000
 strela_delay = 3500
 ###
@@ -477,8 +477,6 @@ class Player(pygame.sprite.Sprite):
         self.casovac_speed = 0
         
     def kolize(self):
-        seznam_delicu_y = [self.rect.h,1,2,1.5,4,5]
-        seznam_delicu_w = [self.rect.w,1,2,1.5,4,5]
         if poloha == False:
             hrac2.kontrola = hrac2.pos + vec(0,hrac2.h/1.75 + 11).rotate(-self.rot2 - 180)
             hrac1.kontrola = hrac1.pos + vec(0,hrac1.h/1.75 + 11).rotate(-self.rot1 - 180)
@@ -528,15 +526,22 @@ class Player(pygame.sprite.Sprite):
                 hrac1.otaceni = False
             if zed.rect.x + zed.rect.w > hrac2.rect.x + hrac2.rect.w and zed.rect.x - 0.5 < hrac2.rect.x + hrac2.rect.w  and zed.rect.y + zed.rect.h > hrac2.rect.y and zed.rect.y - 0.5 < hrac2.rect.y or zed.rect.x + zed.rect.w > hrac2.rect.x and zed.rect.x - 0.5 < hrac2.rect.x and zed.rect.y + zed.rect.h > hrac2.rect.y + hrac2.rect.h and zed.rect.y - 0.5 < hrac2.rect.y + hrac2.rect.h or zed.rect.x + zed.rect.w > hrac2.rect.x and zed.rect.x - 0.5 < hrac2.rect.x and zed.rect.y + zed.rect.h > hrac2.rect.y and zed.rect.y - 0.5 < hrac2.rect.y or zed.rect.x + zed.rect.w > hrac2.rect.x + hrac2.rect.w and zed.rect.x - 0.5 < hrac2.rect.x + hrac2.rect.w and zed.rect.y + zed.rect.h > hrac2.rect.y + hrac2.rect.h and zed.rect.y - 0.5 < hrac2.rect.y + hrac2.rect.h:
                 hrac2.otaceni = False
+                
             if pygame.Rect.colliderect(self.rect, zed.rect):
+                seznam_delicu_y = [self.rect.h,1,2,1.5,4,5]
+                seznam_delicu_w = [self.rect.w,1,2,1.5,4,5]
                 for delic_y in seznam_delicu_y:
                     for delic_w in seznam_delicu_w:
+                        #pravá strana zdi a levá playera
                         if self.rect.x < zed.rect.x + zed.rect.w and self.rect.x > zed.rect.x + zed.rect.w - zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
                             self.pos.x = zed.rect.right + self.rect.width / 2
+                        #levá strana zdi a pravá playera
                         if self.rect.x + self.rect.w > zed.rect.x and self.rect.x + self.rect.w < zed.rect.x + zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
                             self.pos.x = zed.rect.x - self.rect.width / 2
+                        #hořejšek playera a dolejšek zdi
                         if self.rect.y < zed.rect.y + zed.rect.h and self.rect.y > zed.rect.y + zed.rect.h - zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
                             self.pos.y = zed.rect.bottom + self.rect.h / 2
+                        #dolejšek playera a hořejšek zdi
                         if self.rect.y + self.rect.h > zed.rect.y and self.rect.y + self.rect.h < zed.rect.y + zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
                             self.pos.y = zed.rect.top - self.rect.h/2
                         
@@ -713,32 +718,33 @@ class Strela(pygame.sprite.Sprite):
         for zed in zdi:
             if pygame.Rect.colliderect(self.rect, zed.rect) and self.sepuka == True and self.odraz == 1:
                 self.kill()
-           #pro dolejšek zdi s hořejškem střely
-            if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y:
-                self.pos.y = zed.rect.bottom + self.rect.h / 2
-                self.vel.y *= -1
-                self.odraz += 1
-            #pro hořejšek zdi s dolejškem střely
-            if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
-                self.pos.y = zed.rect.top - self.rect.h/2
-                self.vel.y *= -1
-                self.odraz += 1
-            #pro pravou stranu zdi a levou střely
-            if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /20 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /20 > self.rect.y and zed.rect.y + zed.rect.h /20 < self.rect.y:
-                self.pos.x = zed.rect.right + self.rect.width / 2
-                self.vel.x *= -1
-                self.odraz += 1
-            #pro levou stranu zdi a pravou střely
-            if zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y and zed.rect.y + zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/20 < self.rect.y + self.rect.h:
-                self.pos.x = zed.rect.x - self.rect.width / 2
-                self.vel.x *= -1
-                self.odraz += 1
+            if pygame.Rect.colliderect(self.rect, zed.rect):
+               #pro dolejšek zdi s hořejškem střely
+                if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/20 < self.rect.y:
+                    self.pos.y = (zed.rect.bottom + self.rect.h / 2) + 1.5
+                    self.vel.y *= -1
+                    self.odraz += 1
+                #pro hořejšek zdi s dolejškem střely
+                if zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/20 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/20 > self.rect.x and zed.rect.x + zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
+                    self.pos.y = (zed.rect.top - self.rect.h/2) - 1.5
+                    self.vel.y *= -1
+                    self.odraz += 1
+                #pro pravou stranu zdi a levou střely
+                if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /20 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/20 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /20 > self.rect.y and zed.rect.y + zed.rect.h /20 < self.rect.y:
+                    self.pos.x = (zed.rect.right + self.rect.width / 2) + 1.5
+                    self.vel.x *= -1
+                    self.odraz += 1
+                #pro levou stranu zdi a pravou střely
+                if zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y and zed.rect.y + zed.rect.h/20 < self.rect.y or zed.rect.x + zed.rect.w/20 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/20 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/20 < self.rect.y + self.rect.h:
+                    self.pos.x = (zed.rect.x - self.rect.width / 2) - 1.5
+                    self.vel.x *= -1
+                    self.odraz += 1
         
         #kolize s hráčema
         
         for hrac in hraci:
             if pygame.Rect.colliderect(self.rect, hrac.rect) and hrac.strela_kolize == True:
-               if hrac.rect.centerx + hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery - hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery + hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx + hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery + hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4.6  > self.rect.x and hrac.rect.centerx - hrac.rect.w/4.6 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4.6 > self.rect.y and hrac.rect.centery - hrac.rect.h/4.6 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
+               if hrac.rect.centerx + hrac.rect.w/4  > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4  > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4  > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4  > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx > self.rect.x and hrac.rect.centerx < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery > self.rect.y and hrac.rect.centery < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery + hrac.rect.h/4 > self.rect.y and hrac.rect.centery + hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx + hrac.rect.w/4 > self.rect.x and hrac.rect.centerx + hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h or hrac.rect.centerx - hrac.rect.w/4 > self.rect.x and hrac.rect.centerx - hrac.rect.w/4 < self.rect.x + self.rect.w and hrac.rect.centery - hrac.rect.h/4 > self.rect.y and hrac.rect.centery - hrac.rect.h/4 < self.rect.y + self.rect.h:
                    #nastavení pro zmizení
                    hrac.kill()
                    self.kill()
