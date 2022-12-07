@@ -531,19 +531,19 @@ class Player(pygame.sprite.Sprite):
                 seznam_delicu_y = [self.rect.h,1,2,1.5,4,5]
                 seznam_delicu_w = [self.rect.w,1,2,1.5,4,5]
                 for delic_y in seznam_delicu_y:
-                    for delic_w in seznam_delicu_w:
-                        #pravá strana zdi a levá playera
-                        if self.rect.x < zed.rect.x + zed.rect.w and self.rect.x > zed.rect.x + zed.rect.w - zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
-                            self.pos.x = zed.rect.right + self.rect.width / 2
-                        #levá strana zdi a pravá playera
-                        if self.rect.x + self.rect.w > zed.rect.x and self.rect.x + self.rect.w < zed.rect.x + zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
-                            self.pos.x = zed.rect.x - self.rect.width / 2
-                        #hořejšek playera a dolejšek zdi
-                        if self.rect.y < zed.rect.y + zed.rect.h and self.rect.y > zed.rect.y + zed.rect.h - zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
-                            self.pos.y = zed.rect.bottom + self.rect.h / 2
-                        #dolejšek playera a hořejšek zdi
-                        if self.rect.y + self.rect.h > zed.rect.y and self.rect.y + self.rect.h < zed.rect.y + zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
-                            self.pos.y = zed.rect.top - self.rect.h/2
+                    #pravá strana zdi a levá playera
+                    if self.rect.x < zed.rect.x + zed.rect.w and self.rect.x > zed.rect.x + zed.rect.w - zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
+                        self.pos.x = zed.rect.right + self.rect.width / 2
+                    #levá strana zdi a pravá playera
+                    if self.rect.x + self.rect.w > zed.rect.x and self.rect.x + self.rect.w < zed.rect.x + zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
+                        self.pos.x = zed.rect.x - self.rect.width / 2
+                for delic_w in seznam_delicu_w:                    
+                    #hořejšek playera a dolejšek zdi
+                    if self.rect.y < zed.rect.y + zed.rect.h and self.rect.y > zed.rect.y + zed.rect.h - zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
+                        self.pos.y = zed.rect.bottom + self.rect.h / 2
+                    #dolejšek playera a hořejšek zdi
+                    if self.rect.y + self.rect.h > zed.rect.y and self.rect.y + self.rect.h < zed.rect.y + zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
+                        self.pos.y = zed.rect.top - self.rect.h/2
                         
     def palba(self):
         
