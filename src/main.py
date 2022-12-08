@@ -71,6 +71,7 @@ typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_overovaci_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_pin_menu2 = pygame.font.SysFont('freesansbold.ttf', 50)
 typ_pisma_text_skore = pygame.font.Font('freesansbold.ttf', 30)
+typ_pisma_odpocet = pygame.font.Font('freesansbold.ttf', 300)
 
 # cudliky
 #hlavní menu
@@ -531,19 +532,19 @@ class Player(pygame.sprite.Sprite):
                 seznam_delicu_y = [self.rect.h,1,2,1.5,4,5]
                 seznam_delicu_w = [self.rect.w,1,2,1.5,4,5]
                 for delic_y in seznam_delicu_y:
-                    #pravá strana zdi a levá playera
-                    if self.rect.x < zed.rect.x + zed.rect.w and self.rect.x > zed.rect.x + zed.rect.w - zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
-                        self.pos.x = zed.rect.right + self.rect.width / 2
-                    #levá strana zdi a pravá playera
-                    if self.rect.x + self.rect.w > zed.rect.x and self.rect.x + self.rect.w < zed.rect.x + zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
-                        self.pos.x = zed.rect.x - self.rect.width / 2
-                for delic_w in seznam_delicu_w:                    
-                    #hořejšek playera a dolejšek zdi
-                    if self.rect.y < zed.rect.y + zed.rect.h and self.rect.y > zed.rect.y + zed.rect.h - zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
-                        self.pos.y = zed.rect.bottom + self.rect.h / 2
-                    #dolejšek playera a hořejšek zdi
-                    if self.rect.y + self.rect.h > zed.rect.y and self.rect.y + self.rect.h < zed.rect.y + zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
-                        self.pos.y = zed.rect.top - self.rect.h/2
+                    for delic_w in seznam_delicu_w:
+                        #pravá strana zdi a levá playera
+                        if self.rect.x < zed.rect.x + zed.rect.w and self.rect.x > zed.rect.x + zed.rect.w - zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
+                            self.pos.x = zed.rect.right + self.rect.width / 2
+                        #levá strana zdi a pravá playera
+                        if self.rect.x + self.rect.w > zed.rect.x and self.rect.x + self.rect.w < zed.rect.x + zed.rect.w/4 and self.rect.y + (self.rect.h/delic_y) > zed.rect.y + zed.rect.h/25 and self.rect.y + (self.rect.h/delic_y) < zed.rect.y + zed.rect.h - zed.rect.h/25:
+                            self.pos.x = zed.rect.x - self.rect.width / 2
+                        #hořejšek playera a dolejšek zdi
+                        if self.rect.y < zed.rect.y + zed.rect.h and self.rect.y > zed.rect.y + zed.rect.h - zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
+                            self.pos.y = zed.rect.bottom + self.rect.h / 2
+                        #dolejšek playera a hořejšek zdi
+                        if self.rect.y + self.rect.h > zed.rect.y and self.rect.y + self.rect.h < zed.rect.y + zed.rect.h/5 and self.rect.x + (self.rect.w/delic_w) > zed.rect.x + zed.rect.w/25 and self.rect.x + (self.rect.w/delic_w) < zed.rect.x + zed.rect.w - zed.rect.w/25:
+                            self.pos.y = zed.rect.top - self.rect.h/2
                         
     def palba(self):
         
@@ -891,9 +892,9 @@ level2 = [
 "W             H            W",
 "W                          W",
 "W                          W",
+"W    WWW     WW     WWW    W",
+"W    WWW     WW     WWW    W",
 "W    WWW            WWW    W",
-"W    WWW     WW     WWW    W",
-"W    WWW     WW     WWW    W",
 "W A                        W",
 "WWW          A           WWW",
 "WWW                      WWW",
@@ -932,7 +933,7 @@ while True:
             
 # menu a pod. ###############################################################################
     while MENU:
-        herni_casovac = pygame.time.get_ticks()
+        
         skorovani_jih = 0
         skorovani_sever = 0
         
@@ -1181,8 +1182,9 @@ while True:
         pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
     sprites.draw(okno)
     if hrac1.tanky_kolize == False and skorovani_jih != 3 and skorovani_sever != 3 :
-        odpocet_text = typ_pisma_overovaci_menu.render(str(odpocet), True, bila)
-        okno.blit(odpocet_text, (ROZLISENI_X - 125, -8))
+        pygame.draw.rect(okno, (150,150,150), ((370,250), (300,300)))
+        odpocet_text = typ_pisma_odpocet.render(str(odpocet), True, (20,100,35))
+        okno.blit(odpocet_text, (435, 270))
         
     if vyber == level:
         skore_sever(bila, cerna, cervena)
