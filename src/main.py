@@ -933,7 +933,7 @@ while True:
             
 # menu a pod. ###############################################################################
     while MENU:
-        
+        herni_casovac = pygame.time.get_ticks()
         skorovani_jih = 0
         skorovani_sever = 0
         
