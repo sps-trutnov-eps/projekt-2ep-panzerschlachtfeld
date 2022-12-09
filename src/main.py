@@ -724,22 +724,22 @@ class Strela(pygame.sprite.Sprite):
                 if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
                     self.pos.y = (zed.rect.bottom + self.rect.h / 2) + 1.5
                     self.vel.y *= -1
-                    self.odraz += 1
+                    self.odraz += 2
                 #pro hořejšek zdi s dolejškem střely
                 if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
                     self.pos.y = (zed.rect.top - self.rect.h/2) - 1.5
                     self.vel.y *= -1
-                    self.odraz += 1
+                    self.odraz += 2
                 #pro pravou stranu zdi a levou střely
                 if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
                     self.pos.x = (zed.rect.right + self.rect.width / 2) + 1.5
                     self.vel.x *= -1
-                    self.odraz += 1
+                    self.odraz += 2
                 #pro levou stranu zdi a pravou střely
                 if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
                     self.pos.x = (zed.rect.x - self.rect.width / 2) - 1.5
                     self.vel.x *= -1
-                    self.odraz += 1
+                    self.odraz += 2
         
         #kolize s hráčema
         
