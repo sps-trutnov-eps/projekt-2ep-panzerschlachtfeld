@@ -68,10 +68,10 @@ typ_pisma_skore = pygame.font.Font('freesansbold.ttf', 48)
 typ_pisma_hlavni_menu = pygame.font.Font('freesansbold.ttf', 30)
 typ_pisma_in_game_menu = pygame.font.SysFont('freesansbold.ttf', 32)
 typ_pisma_pin_menu = pygame.font.SysFont('freesansbold.ttf', 250)
-typ_pisma_overovaci_menu = pygame.font.SysFont('freesansbold.ttf', 250)
 typ_pisma_pin_menu2 = pygame.font.SysFont('freesansbold.ttf', 50)
 typ_pisma_text_skore = pygame.font.Font('freesansbold.ttf', 30)
 typ_pisma_odpocet = pygame.font.Font('freesansbold.ttf', 300)
+typ_pisma_text_napoveda = pygame.font.Font('freesansbold.ttf', 30)
 
 # cudliky
 #hlavní menu
@@ -224,21 +224,45 @@ def cekaci_menu_animation(animovany_tank, clock):
     clock.tick(80)
 
     return frame_textura_tanku
-
-def text_k_napovede(okno, bila, cerna):
-    pass
     
 def pipsiky_k_credits(okno, bila, cerna):
     simon = typ_pisma_pin_menu2.render('Šimon - tvůrce map a všeho co se týče menu.', True, cerna)
-    sam = typ_pisma_pin_menu2.render('Samuel - fungování hry, kolize, střely, tanky, oitáčení', True, cerna) 
+    sam = typ_pisma_pin_menu2.render('Samuel - fungování hry, kolize, střely, tanky, otáčení', True, cerna) 
     pavel = typ_pisma_pin_menu2.render('Pavel - pomoc s debuggingem a s vytvoření menu', True, cerna)
     karel = typ_pisma_pin_menu2.render('Karel - texturář', True, cerna)
     
-    okno.blit(simon, (50, 200))
-    okno.blit(sam, (50, 300))
+    okno.blit(sam, (50, 200))
+    okno.blit(simon, (50, 300))
     okno.blit(pavel, (50, 400))
     okno.blit(karel, (50, 500))
 
+def text_napoveda(okno, bila, cerna):
+    prvni_radek = typ_pisma_text_napoveda.render('- Toto je hra pro 2 hráče. Tanky se ovládají pomocí WASD a střelba', True, cerna)
+    prvni_radek1 = typ_pisma_text_napoveda.render(' pomocí mezerníku, pro severní tank.', True, cerna)
+    druhy_radek = typ_pisma_text_napoveda.render('- Jižní tank se ovládá pomocí šipek a střelba pomocí enteru', True, cerna)
+    druhy_radek1 = typ_pisma_text_napoveda.render(' u numerické části klávesnice.', True, cerna)
+    treti_radek = typ_pisma_text_napoveda.render('- Střely se odrážejí od stěn.', True, cerna)
+    ctvrty_radek = typ_pisma_text_napoveda.render('- Na mapě se po časovém intervalu začnou objevovat abilities.', True, cerna)
+    ctvrty_radek1 = typ_pisma_text_napoveda.render(' Když je seberete tak neuvidíte co přesně jste sebrali.', True, cerna)
+    paty_radek = typ_pisma_text_napoveda.render('- Brokovnice- vystřelí 3 rány vedle sebe', True, cerna)
+    sesty_radek = typ_pisma_text_napoveda.render('- Speed- zrychlí tank na 7.5 sekundy', True, cerna)
+    sedmy_radek = typ_pisma_text_napoveda.render('- Freeze- zmrazí druhému hráči dělo na 7.5 sekundy', True, cerna)
+    devaty_radek = typ_pisma_text_napoveda.render('- Hra končí po 3 vyhraných kolech pro jednu stranu.', True, cerna)
+    desaty_radek = typ_pisma_text_napoveda.render('- Zmáčknutím p se dostanete do sekundárního menu hry.', True, cerna)
+    
+    okno.blit(prvni_radek, (15, 180))
+    okno.blit(prvni_radek1, (15, 215))
+    okno.blit(druhy_radek, (15, 270))
+    okno.blit(druhy_radek1,(15, 305))
+    okno.blit(desaty_radek, (15, 355))
+    okno.blit(treti_radek, (15, 405))
+    okno.blit(devaty_radek, (15, 455))
+    okno.blit(ctvrty_radek, (15, 505))
+    okno.blit(ctvrty_radek1, (15, 545))
+    okno.blit(paty_radek, (15, 595))
+    okno.blit(sesty_radek, (15, 635))
+    okno.blit(sedmy_radek, (15, 675))
+    
 def popisky_k_vyhernimu_oknu(okno, bila, cerna):
     popisek_exit = typ_pisma_pin_menu2.render('Exit', True, bila, cerna)
     popisek_exitRect = popisek_exit.get_rect()
@@ -346,7 +370,6 @@ def zapis():
             zadavani = False
             cekat = True
             zadavani_overovaciho_pinu = True
-            print(pin_kod)
                 
 def zobraz_okno(okno):
     pygame.draw.rect(okno, (200, 20, 20), ((365,195), (610,410)))
@@ -422,7 +445,6 @@ def zapis_pro_overovaci_pin():#načtení dat
                 
         if len(overovaci_pin_kod) == 4:
             zadavani_overovaciho_pinu = False
-            print(overovaci_pin_kod)
             if pin_kod == overovaci_pin_kod:
                 overovaci_pin_kod = []
                 varovani = False
@@ -614,8 +636,6 @@ class Player(pygame.sprite.Sprite):
                 self.abilita_speed_sebrana = False
                 self.zrychleni = 1
                 
-            
-            
     def pohyb(self):
         self.rychlost1 = 0
         self.rychlost2 = 0
@@ -1038,6 +1058,7 @@ while True:
             hl_nadpis1 = typ_pisma_hlavni_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
             hl_nadpis1Rect = hl_nadpis1.get_rect()
             hl_nadpis1Rect.center = (550, 90)
+            text_napoveda(okno, bila, cerna)
             
             nadpis_close1 = typ_pisma_hlavni_menu.render('CLOSE', True, bila, cerna)
             nadpis_close1Rect = nadpis_close1.get_rect()
