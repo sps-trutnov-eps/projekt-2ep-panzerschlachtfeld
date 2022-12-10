@@ -1184,15 +1184,10 @@ while True:
 ########## herní logika ################################################################################################
         
     p_zmacknuto_ted = stisknuto[pygame.K_p]
-
-    if in_game_menu == False:
-        pohyb_tanku = True 
-    else:
-        pohyb_tanku = False
     
     if p_zmacknuto_pred_tim !=  p_zmacknuto_ted:
         if p_zmacknuto_ted:
-            in_game_menu = not in_game_menu  
+            in_game_menu = True  
     
     p_zmacknuto_pred_tim = p_zmacknuto_ted
 
@@ -1221,84 +1216,103 @@ while True:
     
     kontrola_skore(okno)
 # cudliky v pause menu ################################################################################################ 
+    while in_game_menu == True:
+        z = pygame.key.get_pressed()
     
-    if zpatky_do_menu == True:
-        if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
-            aktivni_obrazovka = hlavni_menu
-            in_game_menu = False
-            Done = False
-            MENU = True
-           
-            
-    if odchod_ze_hry == True:
-        if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
+        udalosti = pygame.event.get()
+        for u in udalosti:
+            if u.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        stisknuto = pygame.key.get_pressed()
+        if stisknuto[pygame.K_ESCAPE]:
             pygame.quit()
             sys.exit()
+        p_zmacknuto_ted = stisknuto[pygame.K_p]
     
-    if in_game_menu == True:
-        aktivni_obrazovka = pause_menu
-        pygame.draw.rect(okno, (200, 0, 0), ((0,0), (520,520)))
-        pygame.draw.rect(okno, (190, 190, 190), ((10,10), (500,500))) 
+        if p_zmacknuto_pred_tim !=  p_zmacknuto_ted:
+            if p_zmacknuto_ted:
+                in_game_menu = False 
         
-        for cudlik in pause_menu[2]:
-            pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+        p_zmacknuto_pred_tim = p_zmacknuto_ted
+        if zpatky_do_menu == True:
+            if cl_close3[0][0] < pygame.mouse.get_pos()[0] < (cl_close3[0][0] + cl_close3[1][0]) and cl_close3[0][1] < pygame.mouse.get_pos()[1] < (cl_close3[0][1] + cl_close3[1][1]) and pygame.mouse.get_pressed()[0]:
+                aktivni_obrazovka = hlavni_menu
+                in_game_menu = False
+                Done = False
+                MENU = True
+                sprites.update()
+               
+                
+        if odchod_ze_hry == True:
+            if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
+                pygame.quit()
+                sys.exit()
+        
+        if in_game_menu == True:
+            aktivni_obrazovka = pause_menu
+            pygame.draw.rect(okno, (200, 0, 0), ((0,0), (520,520)))
+            pygame.draw.rect(okno, (190, 190, 190), ((10,10), (500,500))) 
             
-        odchod_ze_hry = True
-        zpatky_do_menu = True   
-        
-        hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
-        hl_nadpis4Rect = hl_nadpis4.get_rect()
-        hl_nadpis4Rect.center = (255, 55)
-        
-        nadpis_exit1 = typ_pisma_in_game_menu.render('Exit', True, bila, cerna)
-        nadpis_exit1Rect = nadpis_exit1.get_rect()
-        nadpis_exit1Rect.center = (265, 275)
-        
-        nadpis_close3 = typ_pisma_in_game_menu.render('Zpátky do menu', True, bila, cerna)
-        nadpis_close3Rect = nadpis_close3.get_rect()
-        nadpis_close3Rect.center = (160, 445)
-        
-        nadpis_pin = typ_pisma_in_game_menu.render('Pauza', True, bila, cerna)
-        nadpis_pinRect =  nadpis_pin.get_rect()
-        nadpis_pinRect.center = (265, 175)
-        
-        okno.blit(nadpis_pin, nadpis_pinRect)
-        okno.blit(nadpis_exit1, nadpis_exit1Rect)
-        okno.blit(nadpis_close3, nadpis_close3Rect)
-        okno.blit(hl_nadpis4, hl_nadpis4Rect)
-              
-########################
-        
-        mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
-        if pin == True:
-            odchod_ze_hry = False
-            zpatky_do_menu = False
-            zobraz_okno(okno) 
-            aktivni_obrazovka = pin_menu
-            for cudlik in pin_menu[2]:
-                pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
-            vykreslovani_policek_v_pinu(okno)
-            zapis()
-            popisky_k_pin_menu(bila, okno, cerna)
+            for cudlik in pause_menu[2]:
+                pygame.draw.rect(okno, cudlik[2], (cudlik[0], cudlik[1]))
+                
+            odchod_ze_hry = True
+            zpatky_do_menu = True   
             
-            if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
-                pin = False
-                pin_kod = []
-##########################
-        
-        if cekat == True:
-            odchod_ze_hry = False
-            zpatky_do_menu = False
-            pygame.draw.rect(okno, (200, 20, 20), ((0, 0), (1080, 800)))
-            cekaci_obrazovka(okno)
-            okno.blit(cekaci_menu_animation(animovany_tank,clock), (80, 80))
-            vykreslovani_policek_v_cekacim_menu(okno)
-            zapis_pro_overovaci_pin()
-            popisky_k_cekacimu_menu(bila, cerna, okno)
-        
-        if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
-            if mys_zmacknuta_ted:
-                pin = True
-            zadavani = True
-    
+            hl_nadpis4 = typ_pisma_in_game_menu.render('Panzerschlachtfeld im Labyrinth:', True, bila, cerna)
+            hl_nadpis4Rect = hl_nadpis4.get_rect()
+            hl_nadpis4Rect.center = (255, 55)
+            
+            nadpis_exit1 = typ_pisma_in_game_menu.render('Exit', True, bila, cerna)
+            nadpis_exit1Rect = nadpis_exit1.get_rect()
+            nadpis_exit1Rect.center = (265, 275)
+            
+            nadpis_close3 = typ_pisma_in_game_menu.render('Zpátky do menu', True, bila, cerna)
+            nadpis_close3Rect = nadpis_close3.get_rect()
+            nadpis_close3Rect.center = (160, 445)
+            
+            nadpis_pin = typ_pisma_in_game_menu.render('Pauza', True, bila, cerna)
+            nadpis_pinRect =  nadpis_pin.get_rect()
+            nadpis_pinRect.center = (265, 175)
+            
+            okno.blit(nadpis_pin, nadpis_pinRect)
+            okno.blit(nadpis_exit1, nadpis_exit1Rect)
+            okno.blit(nadpis_close3, nadpis_close3Rect)
+            okno.blit(hl_nadpis4, hl_nadpis4Rect)
+                  
+    ########################
+            
+            mys_zmacknuta_ted = pygame.mouse.get_pressed()[0]   
+            if pin == True:
+                odchod_ze_hry = False
+                zpatky_do_menu = False
+                zobraz_okno(okno) 
+                aktivni_obrazovka = pin_menu
+                for cudlik in pin_menu[2]:
+                    pygame.draw.rect(okno, cudlik[2], ((cudlik[0]), (cudlik[1])))
+                vykreslovani_policek_v_pinu(okno)
+                zapis()
+                popisky_k_pin_menu(bila, okno, cerna)
+                
+                if cl_close4[0][0] < pygame.mouse.get_pos()[0] < (cl_close4[0][0] + cl_close4[1][0]) and cl_close4[0][1] < pygame.mouse.get_pos()[1] < (cl_close4[0][1] + cl_close4[1][1]) and pygame.mouse.get_pressed()[0]:
+                    pin = False
+                    pin_kod = []
+    ##########################
+            
+            if cekat == True:
+                odchod_ze_hry = False
+                zpatky_do_menu = False
+                pygame.draw.rect(okno, (200, 20, 20), ((0, 0), (1080, 800)))
+                cekaci_obrazovka(okno)
+                okno.blit(cekaci_menu_animation(animovany_tank,clock), (80, 80))
+                vykreslovani_policek_v_cekacim_menu(okno)
+                zapis_pro_overovaci_pin()
+                popisky_k_cekacimu_menu(bila, cerna, okno)
+            
+            if cl_pin[0][0] < pygame.mouse.get_pos()[0] < (cl_pin[0][0] + cl_pin[1][0]) and cl_pin[0][1] < pygame.mouse.get_pos()[1] < (cl_pin[0][1] + cl_pin[1][1]) and pygame.mouse.get_pressed()[0]:
+                if mys_zmacknuta_ted:
+                    pin = True
+                zadavani = True
+        pygame.display.update()
     pygame.display.update() 
