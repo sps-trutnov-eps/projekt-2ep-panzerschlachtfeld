@@ -17,6 +17,7 @@ PLAYER_SPEED = 0
 odpocet_odpoctu = 0
 abilitky_spawn = 0
 spawn_bool = True
+time_p = False
 #speed up, shotgun, freeze, síťová karta, z ničeho nic.
 typy_abilitek = ["Speed_UP","Shotgun","Freeze","NIC"]
 uhly = [80,90,100]
@@ -498,6 +499,7 @@ class Player(pygame.sprite.Sprite):
         self.shotgun = False
         self.casovac_freeze = 0
         self.casovac_speed = 0
+        self.cas = 0
         
     def kolize(self):
         if poloha == False:
@@ -742,24 +744,24 @@ class Strela(pygame.sprite.Sprite):
             if pygame.Rect.colliderect(self.rect, zed.rect):
                #pro dolejšek zdi s hořejškem střely
                 if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w  and zed.rect.y + zed.rect.h > self.rect.y and zed.rect.y + zed.rect.h - zed.rect.h/25 < self.rect.y:
-                    self.pos.y = (zed.rect.bottom + self.rect.h / 2) + 1.5
+                    self.pos.y = (zed.rect.bottom + self.rect.h / 2) + 1.8
                     self.vel.y *= -1
-                    self.odraz += 2
+                    self.odraz += 1
                 #pro hořejšek zdi s dolejškem střely
                 if zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x + zed.rect.w/25 < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w - zed.rect.w/25 > self.rect.x and zed.rect.x + zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y < self.rect.y + self.rect.h:
-                    self.pos.y = (zed.rect.top - self.rect.h/2) - 1.5
+                    self.pos.y = (zed.rect.top - self.rect.h/2) - 1.8
                     self.vel.y *= -1
-                    self.odraz += 2
+                    self.odraz += 1
                 #pro pravou stranu zdi a levou střely
                 if zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h /25 < self.rect.y + self.rect.h or zed.rect.x + zed.rect.w > self.rect.x and zed.rect.x + zed.rect.w - zed.rect.w/25 < self.rect.x and zed.rect.y + zed.rect.h - zed.rect.h /25 > self.rect.y and zed.rect.y + zed.rect.h /25 < self.rect.y:
-                    self.pos.x = (zed.rect.right + self.rect.width / 2) + 1.5
+                    self.pos.x = (zed.rect.right + self.rect.width / 2) + 1.8
                     self.vel.x *= -1
-                    self.odraz += 2
+                    self.odraz += 1
                 #pro levou stranu zdi a pravou střely
                 if zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y and zed.rect.y + zed.rect.h/25 < self.rect.y or zed.rect.x + zed.rect.w/25 > self.rect.x + self.rect.w and zed.rect.x < self.rect.x + self.rect.w and zed.rect.y + zed.rect.h - zed.rect.h/25 > self.rect.y + self.rect.h and zed.rect.y + zed.rect.h/25 < self.rect.y + self.rect.h:
-                    self.pos.x = (zed.rect.x - self.rect.width / 2) - 1.5
+                    self.pos.x = (zed.rect.x - self.rect.width / 2) - 1.8
                     self.vel.x *= -1
-                    self.odraz += 2
+                    self.odraz += 1
         
         #kolize s hráčema
         
@@ -1217,6 +1219,23 @@ while True:
     kontrola_skore(okno)
 # cudliky v pause menu ################################################################################################ 
     while in_game_menu == True:
+        if time_p == False:
+            cas = herni_casovac - abilitky_spawn
+            for hrac in hraci:
+                if hrac.abilita_freeze_sebrana == True:
+                    hrac.cas = herni_casovac - hrac.casovac_freeze
+                if hrac.abilita_speed_sebrana == True:
+                    hrac.cas = herni_casovac - hrac.casovac_speed
+            time_p = True
+        herni_casovac = pygame.time.get_ticks()
+        #abilitky spawn
+        for hrac in hraci:
+            if hrac.abilita_freeze_sebrana == True:
+                hrac.casovac_freeze = herni_casovac- hrac.cas
+            if hrac.abilita_speed_sebrana == True:
+                hrac.casovac_speed = herni_casovac- hrac.cas
+        abilitky_spawn = herni_casovac-cas
+        
         z = pygame.key.get_pressed()
     
         udalosti = pygame.event.get()
@@ -1232,7 +1251,8 @@ while True:
     
         if p_zmacknuto_pred_tim !=  p_zmacknuto_ted:
             if p_zmacknuto_ted:
-                in_game_menu = False 
+                in_game_menu = False
+                time_p = False
         
         p_zmacknuto_pred_tim = p_zmacknuto_ted
         if zpatky_do_menu == True:
@@ -1243,12 +1263,15 @@ while True:
                 MENU = True
                 sprites.update()
                
-                
         if odchod_ze_hry == True:
             if cl_exit2[0][0] < pygame.mouse.get_pos()[0] < (cl_exit2[0][0] + cl_exit2[1][0]) and cl_exit2[0][1] < pygame.mouse.get_pos()[1] < (cl_exit2[0][1] + cl_exit2[1][1]) and pygame.mouse.get_pressed()[0]:
                 pygame.quit()
                 sys.exit()
         
+        okno.fill(RGB)
+        for zed in zdi:
+            pygame.draw.rect(okno, (0, 0, 0), zed.rect)   
+        sprites.draw(okno)
         if in_game_menu == True:
             aktivni_obrazovka = pause_menu
             pygame.draw.rect(okno, (200, 0, 0), ((0,0), (520,520)))
