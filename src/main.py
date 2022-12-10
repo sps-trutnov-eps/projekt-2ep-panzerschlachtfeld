@@ -10,7 +10,7 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
-cas_na_spawn_abilitek = 5000
+cas_na_spawn_abilitek = 17500
 
 #nesahat
 PLAYER_SPEED = 0
@@ -123,12 +123,12 @@ def skore_sever(bila, cerna, cervena):
     global skorovani_sever 
     text_skore_sever = typ_pisma_skore.render(str(skorovani_sever) + ':', True, bila)
     text_skore_severRect = text_skore_sever.get_rect()
-    text_skore_severRect.center = (300, 36)
+    text_skore_severRect.center = (510, 30)
     okno.blit(text_skore_sever, text_skore_severRect)
     
     text_sever = typ_pisma_text_skore.render('Sever', True, cervena, cerna)
     text_severRect = text_sever.get_rect()
-    text_severRect.center = (200, 36)
+    text_severRect.center = (420, 36)
     okno.blit(text_sever,text_severRect)
     
     if stisknuto[pygame.K_k] and skorovani_sever <= 2:
@@ -138,12 +138,12 @@ def skore_jih(bila, cerna, cervena):
     global skorovani_jih
     text_skore_jih = typ_pisma_skore.render(str(skorovani_jih) + ' ', True, bila)
     text_skore_jihRect = text_skore_jih.get_rect()
-    text_skore_jihRect.center = (345, 36)
+    text_skore_jihRect.center = (555, 30)
     okno.blit(text_skore_jih, text_skore_jihRect)
     
     text_jih = typ_pisma_text_skore.render('Jih', True, cervena, cerna)
     text_jihRect = text_jih.get_rect()
-    text_jihRect.center = (410, 36)
+    text_jihRect.center = (610, 36)
     okno.blit(text_jih,text_jihRect)
 
     if stisknuto[pygame.K_l] and skorovani_jih <= 2 :
@@ -911,8 +911,8 @@ level1 = [
 
 level2 = [
 "WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-"W             H            W",
 "W                          W",
+"W             H            W",
 "W                          W",
 "W    WWW     WW     WWW    W",
 "W    WWW     WW     WWW    W",
