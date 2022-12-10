@@ -10,7 +10,7 @@ obr = "Tank.png"
 cekat_do_nove = 0
 znovu = 3000
 odpocet = int(znovu/1000) + 1
-cas_na_spawn_abilitek = 17000
+cas_na_spawn_abilitek = 5000
 
 #nesahat
 PLAYER_SPEED = 0
@@ -634,7 +634,7 @@ class Player(pygame.sprite.Sprite):
             self.casovac_speed = herni_casovac
         if self.abilita_speed_sebrana == True:
             self.zrychleni = 2
-            if herni_casovac - self.casovac_speed > 7500:
+            if herni_casovac - self.casovac_speed > 6500:
                 self.abilita_speed_sebrana = False
                 self.zrychleni = 1
                 
