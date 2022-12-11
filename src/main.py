@@ -912,7 +912,7 @@ level1 = [
 level2 = [
 "WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
 "W                          W",
-"W             H            W",
+"W     H                    W",
 "W                          W",
 "W    WWW     WW     WWW    W",
 "W    WWW     WW     WWW    W",
@@ -924,7 +924,7 @@ level2 = [
 "W    WWWW    WW    WWWW    W",
 "W    WWWW    WW    WWWW    W",
 "W                          W",
-"W            N             W",
+"W                    N     W",
 "WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
 ]
 
